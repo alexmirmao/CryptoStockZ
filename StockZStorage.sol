@@ -21,7 +21,7 @@ contract StockZStorage {
     
     //keep the products by address
     mapping(address => Product) productStorage;
-    Product[] product;
+    Product[] products;
     
     //given a product address maps the owner of that product
     mapping(Product => User)productOwnedByUser;
@@ -124,7 +124,7 @@ contract StockZStorage {
     @param _key the Product owned by the User
     @param _value the User to save
     */
-    function setUser(Product _key, User _value) external onlyLatestVersion {
+    function setProductOwnedByUser(Product _key, User _value) external onlyLatestVersion {
         productOwnedByUser[_key] = _value;
 
     }
