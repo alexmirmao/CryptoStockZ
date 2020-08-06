@@ -7,14 +7,14 @@ pragma solidity >=0.4.21;
 /**
 @title The interface of the logic behind the lotteries
 @notice This contract only defines the functions needed and implemented in LotteryLogic
-*/
+
 interface LogicInterface {
     function addParticipant(Lottery _ml, address _participant, uint _cost) external;
     function checkLotteryParticipation(Lottery _ml) external returns (bool);
     function rafflePrize(Lottery _ml, uint _seed) external;
     function withdrawParticipation(Lottery _ml, address _receiver) external;
 }
-
+*/
 /**
 @title The lotteries created by the users
 @notice This contract saves the participations of the users and the information relative to each created lottery
@@ -38,18 +38,17 @@ contract User {
         RetailerUser
     }
 
-    LogicInterface logicContract;
+    //LogicInterface logicContract;
 
-    constructor(address _id, Rol _rol, string _name) public {
+    constructor(address _id, Rol _rol, string memory _name) public {
         id = _id;
         level = 0;
         bought = 0;
         sold = 0;
         number_products = 0;
-        stage = Stages.LotteryActive;
         rol = _rol;
         nick_name = _name;
-        logicContract = LogicInterface(_lotteryLogic);
+        //logicContract = LogicInterface(_lotteryLogic);
         
     }
 
@@ -64,20 +63,20 @@ contract User {
     @notice sets the address of the logic
     @param _address address of the interface
     @param _sender address that wants to set the interface address
-    */
+    
     function setLogicInterfaceAddress(address _address, address _sender) external  {
         require(_sender == owner, "Solo el dueño de la loteria");
         logicContract = LogicInterface(_address);
     }
-
+    */
     /**
     @notice gets the address where the logic contract is set
     @return logicContract
-    */
+    
     function getLogicContract() public view returns (LogicInterface) {
         return logicContract;
     }
-
+    */
    
 
     /**
