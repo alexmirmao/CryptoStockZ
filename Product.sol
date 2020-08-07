@@ -1,58 +1,48 @@
-pragma solidity ^0.6.3;
-import 'https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol';
+//SPDX-License-Identifier: None
+// solium-disable linebreak-style
+pragma solidity >=0.4.21;
 
-contract ProductToken is ERC721{
-    /**
-    implementados en el ERC721 
-     mapping (address => EnumerableSet.UintSet) private _holderTokens;
+/**
+@title The product
+@notice This contract contains the smart contract associated to the product
+*/
+contract Product {
+    uint id;
+    uint ean;
+    uint sku;
+    uint number_transactions;
+    string name;
+    // no hace falta owner porque esta en los tokens
 
-    // Enumerable mapping from token ids to their owners
-    EnumerableMap.UintToAddressMap private _tokenOwners;
+    constructor(uint _id, uint _ean, uint _sku, string memory _name) public{
+        id = _id;
+        ean = _ean;
+        sku = _sku;
+        number_transactions = 0;
+        name = _name;
+    }
+    //GETTERS y SETTEERS
 
-    // Mapping from token ID to approved address
-    mapping (uint256 => address) private _tokenApprovals;
-
-    // Mapping from owner to operator approvals
-    mapping (address => mapping (address => bool)) private _operatorApprovals;
-    */
-
-
-
-    // Diferencia entre transfer y approved
-    /**
-    Transfer transfiere directamente el token de from a to
-    function transferFrom(address from, address to, uint256 tokenId)
-
-    envía la misma información que el caso anterior. Después, el contrato almacena quién está 
-    autorizado para tomar un token, generalmente en un mapping (uint256 => address). Entonces, cuando alguien
-    llame a takeOwnership, el contrato comprueba si ese msg.sender está autorizado por el propietario para
-    tomar ese token y si es así, le transfiere el token.
-    function approve(address to, uint256 tokenId)
-
-    La función mint es por la que se crea un token (https://www.youtube.com/watch?v=7TiXsOLiIrc)
-    _safeMint(address to, uint256 tokenId)
-    */
-
-    constructor() ERC721("StockZ Products", "SZP") public{}
-
-    struct Product{
-        string name;
-        uint ean;
+    //getters
+    function getId() public view returns(uint){
+        return id;
+    }
+    function getEan() public view returns(uint){
+        return ean;
+    }
+    function getSku() public view returns(uint){
+        return sku;
+    }
+    function getTransactions() public view returns(uint){
+        return number_transactions;
+    }
+    function getName() public view returns(string memory){
+        return name;
+    }
+    function getAddress() public view returns(address){
+        return address(this);
     }
 
-    Product[] products;
+    //setters
 
-    function mint(/**address _to, address _productId*/) public {
-        //productId = uint256(_productId);
-        Product memory _product = Product("air force",327);
-        products.push(_product);
-        uint _id = products.length;
-        _mint(msg.sender, _id);
-    }
-
-    function getProductFromId(uint _id) public view returns(string memory,uint){
-        return(products[_id].name,products[_id].ean);
-    }
-    
- 
 }

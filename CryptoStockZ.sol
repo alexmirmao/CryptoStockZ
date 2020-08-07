@@ -12,7 +12,7 @@ import "./libs/Ownable.sol";
 @notice This contract contains all the functions and events that will be called from the front-end
 @dev This contract should always be up as its logic is derived to LotteryLogic.sol
 */
-contract LotteryService is Ownable {
+contract CryptoStockZ is Ownable {
 
     uint private numberOfLotteries;
 
