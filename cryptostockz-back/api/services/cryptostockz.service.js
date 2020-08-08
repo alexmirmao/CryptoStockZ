@@ -19,44 +19,16 @@ const web3 = new Web3(ethereumUrl);
 const contract = new web3.eth.Contract(JSON.parse(ContractAbi), ContractAddress);
 
 
-const { Test, User } = require('../sequelize')
-
 /**
- * Return a list of registered lotteries.
+ * Return a list of registered .
  */
 async function getTest() {
-  tests = Test.findAll();
-  return tests;
-}
-
-async function createUser(userData) {
-  
-  // Lottery data
-  const {
-    userName,
-    userPass,
-  } = userData;
-  res = User.create({username: userName, password: userPass});
-  console.log(res);
-  return res;
+  return { msg: "ok"};
 }
 
 
-async function getUserId(userData) {
-  
-  // Lottery data
-  const {
-    userName,
-    userPass,
-  } = userData;
-  console.log(userData);
-  res = User.findOne({ where: {username: userName, password: userPass}});
-  return res;
-}
 
 
 module.exports = {
   getTest,
-  createUser,
-  getUserId,
-};
+}

@@ -3,17 +3,30 @@
 const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
 const config = require('../../config/config');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const cors = require("cors");
 
-app.use(bodyParser.json())
+var corsOptions = {
+  origin: config.env.WEBAPP_URL+":"+config.env.WEBAPP_PORT
+};
 
 
+app.use(cors(corsOptions));
 
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// routes
+require('../routes/auth.routes')(app);
+require('../routes/user.routes')(app);
+
+
+// WEB API
 const DEFAULT_PORT = config.env.WEBAPP_PORT;
-
-
-
-
 
 function run(appRoot, port) {
   return new Promise((resolve, reject) => {
@@ -38,6 +51,9 @@ function run(appRoot, port) {
 }
 
 
+
 module.exports = {
   run
 };
+
+
