@@ -18,150 +18,55 @@ consumes:
 produces:
   - application/json
 paths:
-
-  /lotteries:
-    x-swagger-router-controller: lotteries.controller
+  /user:
+    x-swagger-router-controller: cryptostockz.controller
     get:
-      description: Returns a list of lotteries
+      description: Returns a user by name, password
       tags:
-        - lotteries
-      operationId: getLotteries
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-    post:
-      description: Creates a new lottery
-      tags:
-        - lotteries
-      operationId: createLottery
+        - users
+      operationId: getUserId
       produces:
         - application/json
       parameters:
-        - name: private_key
-          in: header
-          required: true
-          description: Private key of the wallet
-          type: string
-        - name: lotteryData
+        - name: userData
           in: body
           required: true
-          description: Lottery data in JSON format.
+          description: Users data in JSON format.
           schema:
             type: object
             required:
-              - maxNumberParticipants
-              - participationPrice
-              - participationPot
-              - prize
+              - userName
+              - userPass
             properties:
-              maxNumberParticipants:
-                type: integer
-              participationPrice:
-                type: number
-              participationPot:
-                type: number
-              prize:
-                type: number
+              userName:
+                type: string
+              userPass:
+                type: string
       responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /lotteries/{lottery_address}:
-    x-swagger-router-controller: lotteries.controller
-    get:
-      description: Return a lottery from a given id
-      tags:
-        - lotteries
-      operationId: getLottery
-      produces:
-        - application/json
-      parameters:
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-    put:
-      description: Raffle the prize of the lottery
-      tags:
-        - lotteries
-      operationId: raffle
-      produces:
-        - application/json
-      parameters:
-        - name: private_key
-          in: header
-          required: true
-          description: Private key of the wallet
-          type: string
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /lotteries/{lottery_address}/participants:
-    x-swagger-router-controller: lotteries.controller
-    get:
-      description: Return the participants of a lottery
-      tags:
-        - lotteries
-      operationId: getParticipants
-      produces:
-        - application/json
-      parameters:
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
+        '200':
+          description: OK
     post:
-      description: Add a participant to the lottery
+      description: Creates a new user
       tags:
-        - lotteries
-      operationId: addParticipant
+        - users
+      operationId: createUser
       produces:
         - application/json
       parameters:
-        - name: private_key
-          in: header
+        - name: userData
+          in: body
           required: true
-          description: Private key of the wallet
-          type: string
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
+          description: Users data in JSON format.
+          schema:
+            type: object
+            required:
+              - userName
+              - userPass
+            properties:
+              userName:
+                type: string
+              userPass:
+                type: string
       responses:
         "200":
           description: Success
@@ -169,112 +74,16 @@ paths:
         default:
           description: Error
           schema: {}
-    put:
-      description: Withdraw the participation of the lottery
-      tags:
-        - lotteries
-      operationId: withdrawParticipation
-      produces:
-        - application/json
-      parameters:
-        - name: private_key
-          in: header
-          required: true
-          description: Private key of the wallet
-          type: string
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /lotteries/{lottery_address}/winner:
-    x-swagger-router-controller: lotteries.controller
+
+  /test:
+    x-swagger-router-controller: cryptostockz.controller
     get:
-      description: Return the winner of a lottery
+      description: Returns a test message
       tags:
-        - lotteries
-      operationId: getWinner
+        - test
+      operationId: getTest
       produces:
         - application/json
-      parameters:
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /lotteries/{lottery_address}/prize:
-    x-swagger-router-controller: lotteries.controller
-    get:
-      description: Return the actual prize of a lottery
-      tags:
-        - lotteries
-      operationId: getPrize
-      produces:
-        - application/json
-      parameters:
-        - name: lottery_address
-          in: path
-          required: true
-          description: The lottery id
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /setLotteryStorage/{lottery_storage_addr}:
-    x-swagger-router-controller: lotteries.controller
-    put:
-      description: sets the address of eternal storage
-      tags:
-        - lotteries
-      operationId: setLotteryStorage
-      produces:
-        - application/json
-      parameters:
-        - name: lottery_storage_addr
-          in: path
-          required: true
-          description: Address of the contract
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-        default:
-          description: Error
-          schema: {}
-  /setLotteryInterface/{lottery_interface_addr}:
-    x-swagger-router-controller: lotteries.controller
-    put:
-      description: sets the address of lottery logic
-      tags:
-        - lotteries
-      operationId: setLotteryInterface
-      produces:
-        - application/json
-      parameters:
-        - name: lottery_interface_addr
-          in: path
-          required: true
-          description: Address of the contract
-          type: string
       responses:
         "200":
           description: Success

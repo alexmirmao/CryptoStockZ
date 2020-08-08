@@ -4,6 +4,39 @@
 
 // TODO: Make your own configuration
 module.exports = {
+  env: {
+    WEBAPP_PORT: '10010',
+    db: {
+        development: {
+            username: "cryptostockz", // your sql username
+            password: "cryptostockz", // your sql password (may be null)
+            database: "cryptostockz", // db name
+            host: "127.0.0.1", // local host
+            port: "5434",
+            dialect: "postgres",
+            pool: {
+              max: 10,
+              min: 0,
+              acquire: 30000,
+              idle: 10000
+            }
+            
+          },
+        production: {
+            username: "UNDEFINED", // your sql username
+            password: "UNDEFINED", // your sql password (may be null)
+            database: "UNDEFINED", // db name
+            host: "127.0.0.1", // local host
+            port: "5434", // local host
+            dialect: "postgres"
+          }
+      // DB_DATABASE: 'cryptostockz',
+      // DB_USERNAME: 'cryptostockz',
+      // DB_PASSWORD: 'cryptostockz',
+      // DB_HOST: 'localhost',
+      // DB_PORT: '5434',
+    }
+  },
   eth: {
     nodeUrl: 'localhost',
     nodePort: '8545',

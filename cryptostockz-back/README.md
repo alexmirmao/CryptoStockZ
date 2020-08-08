@@ -1,6 +1,12 @@
 # cryptostockz-back
 
 
+## EJECUTAR EN MODO PRODUCCIÓN
+
+``` bash
+NODE_ENV='production' npm star
+```
+
 ## CONEXION BASE DE DATOS
 
 
@@ -37,16 +43,27 @@ sudo nano /etc/postgresql/12/main/postgresql.conf
 Asegurarnos que el puerto es `5434` y que escucha en `localhost`
 
 
-### CONFIGURACIÓN DEL ARCHIVO .ENV
-Podemos establecer otros parámetros en el archivo `.env`
+### CONFIGURACIÓN
+Podemos establecer otros parámetros en el archivo `config.js`
 
-Hay un apartado donde podemos dejar configurado el .env
+``` js
+    development: {
+        username: "cryptostockz", // your sql username
+        password: "cryptostockz", // your sql password (may be null)
+        database: "cryptostockz", // db name
+        host: "127.0.0.1", // local host
+        port: "5434",
+        dialect: "postgres"
+        },
+    production: {
+        username: "UNDEFINED", // your sql username
+        password: "UNDEFINED", // your sql password (may be null)
+        database: "UNDEFINED", // db name
+        host: "127.0.0.1", // local host
+        port: "5434", // local host
+        dialect: "postgres"
+        }
+```
 
-```
-# sequelize orm
-DB_DATABASE="DB_DATABASE"
-DB_USERNAME="cryptostockz"
-DB_PASSWORD="DB_PASSWORD"
-DB_HOST="localhost"
-DB_PORT="5434"
-```
+
+

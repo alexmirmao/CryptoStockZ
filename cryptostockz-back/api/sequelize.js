@@ -1,20 +1,29 @@
 const Sequelize = require('sequelize')
-const UserModel = require('./models/test')
-require('dotenv').config();
+const TestModel = require('./models/test')
+const UserModel = require('./models/user_login')
+// const config = require('../config/config');
+
+
+var env = process.env.NODE_ENV || 'development';
+
+const config = require('../config/config').env.db[env];
 
 
 
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres',
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-})
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(
+    process.env.db[config.use_env_variable], config
+  );
+} else {
+  
+  // otherwise we use the config object to initialize our sequelize
+  // instance
+  var sequelize = new Sequelize(
+    config.database, config.username, config.password, config
+  );
+}
 
+const Test = TestModel(sequelize, Sequelize)
 const User = UserModel(sequelize, Sequelize)
 // BlogTag will be our way of tracking relationship between Blog and Tag models
 // each Blog can have multiple tags and each Tag can have multiple blogs
@@ -26,17 +35,17 @@ const User = UserModel(sequelize, Sequelize)
 // Tag.belongsToMany(Blog, { through: BlogTag, unique: false })
 // Blog.belongsTo(User);
 
-sequelize.sync({ force: true })
-  .then(() => {
-    console.log(`Database & tables created!`)
-  })
+// sequelize.sync({ force: true })
+//   .then(() => {
+//     console.log(`Database sync!`)
+//   })
 
 module.exports = {
-    Test
+    Test,
+    User
 }
 
-// module.exports = {
-//   User,
-//   Blog,
-//   Tag
-// }
+
+
+
+

@@ -1,10 +1,12 @@
 // lotteries.controller.js
 
-const lotteriesService = require('../services/lotteries.service');
+const cryptostockzService = require('../services/cryptostockz.service');
 
 
-function getLotteries(req, res) {
-  lotteriesService.getLotteries().then((result) => {
+
+
+function getTest(req, res) {
+  cryptostockzService.getTest().then((result) => {
     return res.status(200).json(result);
   }).catch((err) => {
     console.log(err);
@@ -12,25 +14,12 @@ function getLotteries(req, res) {
   });
 }
 
-function getLottery(req, res) {
-  const lotteryAddress = req.swagger.params.lottery_address.value;
-  lotteriesService.getLottery(lotteryAddress).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function createLottery(req, res) {
-  const lotteryData = {
-    maxNumberParticipants: req.body.maxNumberParticipants,
-    participationPrice: req.body.participationPrice,
-    participationPot: req.body.participationPot,
-    prize: req.body.prize,
+function createUser(req, res) {
+  const userData = {
+    userName: req.body.userName,
+    userPass: req.body.userPass,
   };
-  const privateKey = req.headers.private_key;
-  lotteriesService.createLottery(privateKey, lotteryData).then((result) => {
+  cryptostockzService.createUser(userData).then((result) => {
     return res.status(200).json(result);
   }).catch((err) => {
     console.log(err);
@@ -38,63 +27,12 @@ function createLottery(req, res) {
   });
 }
 
-function getParticipants(req, res) {
-  const lotteryAddress = req.swagger.params.lottery_address.value;
-  lotteriesService.getParticipants(lotteryAddress).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function addParticipant(req, res) {
-  const lotteryAddress = req.swagger.params.lottery_address.value;
-  const privateKey = req.headers.private_key;
-  lotteriesService.addParticipant(privateKey, lotteryAddress).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function withdrawParticipation(req, res) {
-  const lotteryAddress = req.swagger.params.lottery_address.value;
-  const privateKey = req.headers.private_key;
-  lotteriesService.withdrawParticipation(privateKey, lotteryAddress).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function raffle(req, res) {
-  const lotteryAddress = req.swagger.params.lottery_address.value;
-  const privateKey = req.headers.private_key;
-  lotteriesService.raffle(privateKey, lotteryAddress).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function setLotteryStorage(req, res) {
-  const lotteryStorageAddr = req.swagger.params.lottery_storage_addr.value;
-  lotteriesService.setLotteryStorage(lotteryStorageAddr).then((result) => {
-    return res.status(200).json(result);
-  }).catch((err) => {
-    console.log("Error");
-    console.log(err);
-    return res.status(400).json(err.toString());
-  });
-}
-
-function setLotteryInterface(req, res) {
-  const lotteryInterfaceAddr = req.swagger.params.lottery_interface_addr.value;
-  lotteriesService.setLotteryInterface(lotteryInterfaceAddr).then((result) => {
+function getUserId(req, res) {
+  const userData = {
+    userName: req.body.userName,
+    userPass: req.body.userPass,
+  };
+  cryptostockzService.getUserId(userData).then((result) => {
     return res.status(200).json(result);
   }).catch((err) => {
     console.log(err);
@@ -104,13 +42,7 @@ function setLotteryInterface(req, res) {
 
 
 module.exports = {
-  getLotteries,
-  getLottery,
-  createLottery,
-  getParticipants,
-  addParticipant,
-  withdrawParticipation,
-  raffle,
-  setLotteryStorage,
-  setLotteryInterface,
+  getTest,
+  createUser,
+  getUserId,
 };

@@ -2,10 +2,17 @@
 
 const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
-require('dotenv').config();
+const config = require('../../config/config');
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 
-const DEFAULT_PORT = process.env.WEBAPP_PORT;
+
+const DEFAULT_PORT = config.env.WEBAPP_PORT;
+
+
+
 
 
 function run(appRoot, port) {
@@ -32,19 +39,5 @@ function run(appRoot, port) {
 
 
 module.exports = {
-  run,
-  "production": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_DATABASE,
-    "host": process.env.DB_HOST,
-    "dialect": "mysql"
-},
-"test": {
-    "username": "root",
-    "password": "test",
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-},
+  run
 };
