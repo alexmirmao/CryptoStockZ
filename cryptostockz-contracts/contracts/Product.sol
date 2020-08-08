@@ -3,7 +3,7 @@
 pragma solidity >=0.4.21;
 
 /**
-@title The product
+@title Product
 @notice This contract contains the smart contract associated to the product
 */
 contract Product {
@@ -44,5 +44,8 @@ contract Product {
     }
 
     //setters
+    function setTransactions() internal{
+        number_transactions++;
+    }
 
 }

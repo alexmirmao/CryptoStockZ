@@ -2,90 +2,46 @@
 // solium-disable linebreak-style
 pragma solidity >=0.4.21;
 
-
+import './Product.sol';
 
 /**
-@title The interface of the logic behind the lotteries
-@notice This contract only defines the functions needed and implemented in LotteryLogic
-
+@title Interface of the logic behind the Users
+@notice This contract only defines the functions needed and implemented in UserLogic
+*/
 interface LogicInterface {
-    function addParticipant(Lottery _ml, address _participant, uint _cost) external;
-    function checkLotteryParticipation(Lottery _ml) external returns (bool);
-    function rafflePrize(Lottery _ml, uint _seed) external;
-    function withdrawParticipation(Lottery _ml, address _receiver) external;
+    function addProduct(User _user, address _product) external;
+    function removeProduct(User _user, address _product) external;
 }
-*/
+
 /**
-@title The lotteries created by the users
-@notice This contract saves the participations of the users and the information relative to each created lottery
+@title User
+@notice This contract saves the info related to the user.
 */
-contract User {
-    
-    address id;
-    address[] public products;
-    uint bought;
-    uint sold;
-    uint number_products;
+contract User{
+    address id;    
+    uint purchase;
+    uint sales;
     uint level;
+    uint create_date;
     
-    string nick_name;
-    
-    Rol rol;
-    
-    enum Rol {
-        NormalUser,
-        CompanyUser,
-        RetailerUser
+    mapping (address => bool) public ownArticles;
+    address[] internal ownArticlesList;
+
+    LogicInterface userLogicContract;
+    function setLogicInterfaceAddress(address _address) external  {
+        userLogicContract = LogicInterface(_address);
     }
 
-    //LogicInterface logicContract;
-
-    constructor(address _id, Rol _rol, string memory _name) public {
-        id = _id;
-        level = 0;
-        bought = 0;
-        sold = 0;
-        number_products = 0;
-        rol = _rol;
-        nick_name = _name;
-        //logicContract = LogicInterface(_lotteryLogic);
-        
-    }
-
-    /**
-    @notice fallback function to receive the participations
-    */
-    receive() external payable {
-
-    }
-
-    /**
-    @notice sets the address of the logic
-    @param _address address of the interface
-    @param _sender address that wants to set the interface address
-    
-    function setLogicInterfaceAddress(address _address, address _sender) external  {
-        require(_sender == owner, "Solo el dueño de la loteria");
-        logicContract = LogicInterface(_address);
-    }
-    */
-    /**
-    @notice gets the address where the logic contract is set
-    @return logicContract
-    
     function getLogicContract() public view returns (LogicInterface) {
-        return logicContract;
+        return userLogicContract;
     }
-    */
-   
 
-    /**
-    @notice adds a product to the User
-    @param _product the address of the product
-    */
-    function addProduct(address _product) public {
-        products.push(_product);
-        number_products = number_products + 1;
+    constructor(address _id, uint _purchase, uint _sales, uint _level) public {
+        id = _id;
+        purchase = _purchase;
+        sales = _sales;
+        level = _level;
+        create_date = block.timestamp;
     }
 
     // getters/setters USER
@@ -99,11 +55,37 @@ contract User {
     }
 
     /**
-    @notice gets all the products of the USER
+    @notice gets all the articles belong to the USER
     @return the address of all the products
     */
-    function getProducts() public view returns(address[] memory){
-        return products;
+    function getOwnArticles() public view returns(address[] memory){
+        return ownArticlesList;
+    }
+    
+    /**
+     @notice Add the product to the array and set true to the mapping of ownArticles.
+     @param _product address of the product.
+     */
+    function setOwnArticles(address _product) external {
+        ownArticlesList.push(_product);
+        ownArticles[_product]=true;
+    }
+    
+    /**
+     @notice Look for a product and return true or false if the product exists.
+     @param _product address of the product.
+     */
+    function articleExists(address _product) external view returns(bool){
+        return ownArticles[_product];
+    }
+
+    /**
+     @notice Remove the product to the array and set false to the mapping of ownArticles.
+     @param _product address of the product.
+     */
+    function unsetOwnArticles(address _product) external {
+        ownArticlesList.pop();
+        ownArticles[_product]=false;
     }
 
     // getters setters level
@@ -114,111 +96,78 @@ contract User {
     function getUserLevel() public view returns(uint){
         return level;
     }
+
+    function setLevel(uint _level) external {
+        level = _level;
+    }
     
      /**
     @notice adds 1 to the level of a USER
     */
-     function addLevel() private {
-        level = level + 1;
-    }
-    
-    // getters setters number_products
-    /**
-    @notice gets the pot of the lottery
-    @return pot of the lottery
-    */
-    function getNumberProducts() public view returns(uint){
-        return number_products;
+    function addLevel() external {
+        level++;
     }
 
-    // getters/setters sold
+    // getters/setters sales
     /**
     @notice gets the number of products sold from a USER
-    @return sold
+    @return sales
     */
-    function getSold() public view returns(uint){
-        return sold;
+    function getSales() public view returns(uint){
+        return sales;
+    }
+
+    function setSales(uint _sales) external {
+        sales = _sales;
     }
     
     /**
     @notice adds 1 to the number of products sold of an USER
     */
-    function addSold() private{
-        sold = sold + 1;
+    function addSales() external{
+        sales++;
     }
     
-    // getters/setters bought
+    // getters/setters purchase
     /**
-    @notice gets the number of products brought for a USER
-    @return bought
+    @notice gets the number of products purchased for a USER
+    @return purchase
     */
-    function getBought() public view returns(uint){
-        return bought;
+    function getPurchase() public view returns(uint){
+        return purchase;
+    }
+
+    function setPurchase(uint _purchase) external {
+        purchase = _purchase;
     }
     
     /**
-    @notice adds 1 to the number of products bought of an USER
+    @notice adds 1 to the number of products purchased of an USER
     */
-    function addBought() private{
-        bought = bought + 1;
+    function addPurchase() external {
+        purchase++;
     }
     
-    //getter/setter nick_name
-    function getNickName() public view returns(string memory){
-        return nick_name;
-    }
-
-    // getters/setters stage
     /**
-    @notice gets the rol of the USER
-    @return rol of the USER as a string
-    */
-    function getRol() public view returns(string memory){
-        if (Rol.NormalUser == rol ) return "NormalUser";
-        if (Rol.CompanyUser == rol ) return "CompanyUser";
-        if (Rol.RetailerUser == rol ) return "RetailerUser";
+     * @notice get the date where the account was created. It must be parsed to YYYY-mm-dd.
+     */
+    function getCreateDate() public view returns(uint){
+        return create_date;
     }
-
-    /**
-    @notice gets the rol by its string
-    @param _value the rol as a string
-    @return rol of the User as a Rol
-    */
-    function getRolByValue(string memory _value) public pure returns (Rol) {
-        if (keccak256(abi.encodePacked(_value)) == keccak256(abi.encodePacked("NormalUser"))) return Rol.NormalUser;
-        else if (keccak256(abi.encodePacked(_value)) == keccak256(abi.encodePacked("CompanyUser"))) return Rol.CompanyUser;
-        else if (keccak256(abi.encodePacked(_value)) == keccak256(abi.encodePacked("RetailerUser"))) return Rol.RetailerUser;
-        
-    }
-
-    /**
-    @notice sets the rol of the User
-    @param _rol the rol to be set
-    */
-    function setRol(Rol _rol) internal {
-        rol = _rol;
-    }
-
-    /**
-    @notice sets the rol of the USER by a string
-    @param _value the rol string to be set
-    */
-    function setStageByValue(string calldata _value) external {
-        setRol(getRolByValue(_value));
-    }
-
-    /**
-    @notice checks if the user is an specified Rol
-    @param _value the rol string to compare to
-    */
-    function isCurrentStageByValue(string memory _value) public view returns (bool) {
-        if (getRolByValue(_value) == rol) {
-            return true;
-        }
-        return false;
-    }
-
     
-
+    /**
+     @notice add a product to an user
+     @param _product address of the product.
+     */
+    function addProductToUser(address _product) public {
+        userLogicContract.addProduct(this, _product);
+    }
     
+    /**
+     @notice remove a product to an user
+     @param _product address of the product.
+     */
+    function removeProductToUser(address _product) public {
+        userLogicContract.removeProduct(this, _product);
+    }
 }

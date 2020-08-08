@@ -1,6 +1,8 @@
 pragma solidity ^0.6.3;
 import 'https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol';
 import './Product.sol';
+import './User.sol';
+
 contract ProductToken is ERC721{
     /**
     implementados en el ERC721 
@@ -32,10 +34,8 @@ contract ProductToken is ERC721{
     La función mint es por la que se crea un token (https://www.youtube.com/watch?v=7TiXsOLiIrc)
     _safeMint(address to, uint256 tokenId)
     */
-
     Product[] products;
     constructor() ERC721("Stock Z Products", "SZP") public{}
-
 
 
     //This function initialize the token associated to a Product
@@ -54,6 +54,4 @@ contract ProductToken is ERC721{
         address id = address(_id);
         return(Product(id).getName(), Product(id).getId(), Product(id).getEan(),Product(id).getSku(),Product(id).getTransactions());
     }
-    
- 
 }
