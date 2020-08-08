@@ -23,9 +23,28 @@ contract UserLogic {
      @param _product Address of the product
      */
     function removeProduct(User _user, address _product) public {
-        require(_user.articleExists(_product), "This user has not this product.");
+        require(_user.ownArticleExists(_product), "This user has not this product.");
         _user.unsetOwnArticles(_product);
         _user.addSales();
         _user.addLevel();
+    }
+
+    /**
+     @notice adds a product to the User's wishlist.
+     @param _user User contract
+     @param _product Address of the product
+     */
+    function addToWishlist(User _user, address _product) public {
+        _user.setFavArticles(_product);
+    }
+
+    /**
+     @notice remove a product to the User's wishlist.
+     @param _user User contract
+     @param _product Address of the product
+     */
+    function removeToWishlist(User _user, address _product) public {
+        require(_user.favArticleExists(_product), "This user has not this product.");
+        _user.unsetFavArticles(_product);
     }
 }
