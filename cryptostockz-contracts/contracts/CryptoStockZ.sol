@@ -5,7 +5,7 @@ pragma solidity >=0.4.21;
 import "./User.sol";
 import "./ProductToken.sol";
 import "./stockZStorage.sol";
-import "./libs/Ownable.sol";
+import "./Ownable.sol";
 
 /**
 @title The main service
@@ -19,7 +19,9 @@ contract CryptoStockZ is Ownable {
 
     function createProduct(uint _id, uint _ean, uint _sku, string memory _name) public {
         productToken.mint(msg.sender, _id, _ean, _sku, _name);
-
-        emit createProduct(msg.sender);
+        emit createProduct(msg.sender,_name,_id,_ean,_sku,0,0);
+    }
+    function getProducts() public view returns(Product[] memory){
+        return productToken.getProducts();
     }
 }

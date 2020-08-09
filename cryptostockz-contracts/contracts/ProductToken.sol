@@ -29,16 +29,18 @@ contract ProductToken is ERC721{
     _safeMint(address to, uint256 tokenId)
     */
     Product[] products;
-    mapping(address => uint256) internal mapPosition;
+
+    //mapping que pasa del id del producto a la posicion donde esta guardados(tokenId)
+    mapping(uint256 => uint256) internal mapPosition;
     constructor() ERC721("Stock Z Products", "SZP") public{}
 
 
     //This function initialize the token associated to a Product
-    function mint(address _to, uint _id, uint _ean, uint _sku, string memory _name ) public {
+    function mint(address _to, uint _idProduct, uint _ean, uint _sku, string memory _name ) public {
         Product product = new Product(_id,_ean,_sku,_name);  
         uint256 tokenId = products.length;
         products.push(product);
-        mapPosition[address(product)] = tokenId;
+        mapPosition[_idProduct] = tokenId;
         _mint(_to, tokenId);
     }
     
@@ -47,23 +49,23 @@ contract ProductToken is ERC721{
     }
     
     // returns the token(position of the product list)
-    function getProductToken(address _product) internal view returns(uint256){
-        return mapPosition[_product];
+    function getProductToken(uint256 _idProduct) internal view returns(uint256){
+        return mapPosition[_idProduct];
     }
     
-    function getProductFromAddress(address _product) public view returns(string memory,uint,uint,uint,uint){
-        uint256 tokenId = getProductToken(_product)
+    function getProductFromId(uint256 _idProduct) public view returns(string memory,uint,uint,uint,uint){
+        uint256 tokenId = getProductToken(_idProduct);
         return(products[tokenId].getName(), products[tokenId].getId(), products[tokenId].getEan(),products[tokenId].getSku(),products[tokenId].getTransactions(), products[tokenId].getLevel());
     }
 
     //return the product´s owner
-    function getOwner(address _product)public view returns(address){
-        uint256 tokenId = getProductToken(_product);
+    function getOwner(uint256 _idProduct)public view returns(address){
+        uint256 tokenId = getProductToken(_idProduct);
         return super.ownerOf(tokenId);
     }
 
-    function setProductLevel(uint8 _level, address _product){
-        uint256 tokenId = getProductToken(_product);
+    function setProductLevel(uint8 _level, uint256 _idProduct){
+        uint256 tokenId = getProductToken(_idProduct);
         products[tokenId].setLevel(_level);
     }
 
