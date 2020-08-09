@@ -2,11 +2,16 @@
 
 /* eslint-disable max-len */
 
+
+
 // TODO: Make your own configuration
 module.exports = {
   env: {
     WEBAPP_URL: "http://127.0.0.1",
     WEBAPP_PORT: '10010',
+    WEBAPP_SECRET: 'cryptostockz',
+    WEBAPP_STATIC_FILES_UPLOAD_PATH: __dirname + '/../resources/static/assets/uploads/',
+    WEBAPP_STATIC_FILES_TEMP_PATH: __dirname + '/../resources/static/assets/temp/',
   },
   eth: {
     nodeUrl: 'localhost',

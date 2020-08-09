@@ -1,5 +1,6 @@
 const db = require("../models");
 const config = require("../../config/auth.config");
+const { session } = require("../middleware");
 const User = db.user;
 const Role = db.role;
 
@@ -30,7 +31,7 @@ exports.signup = (req, res) => {
         });
       } else {
         // user role = 1
-        user.setRoles([1]).then(() => {
+        user.setRoles([1]).setPermissions([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
         });
       }
@@ -72,6 +73,9 @@ exports.signin = (req, res) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
+
+        // GENERATE COOKIE
+        session.sendUserIdCookie(user.id, res) 
         res.status(200).send({
           id: user.id,
           username: user.username,

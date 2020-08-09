@@ -13,7 +13,22 @@ module.exports = (sequelize, Sequelize) => {
       password: {
         type: Sequelize.STRING
       },
-      instagram_account: {
+      name: {
+        type: Sequelize.STRING
+      },
+      manufacturerName: {
+        type: Sequelize.STRING
+      },
+      purchases: {
+        type: Sequelize.FLOAT
+      },
+      sales: {
+        type: Sequelize.FLOAT
+      },
+      level: {
+        type: Sequelize.BIGINT
+      },
+      remixAccount: {
         type: Sequelize.STRING
       }
     });
