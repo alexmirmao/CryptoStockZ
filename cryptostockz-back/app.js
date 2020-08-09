@@ -8,7 +8,7 @@ const appRoot = __dirname;
 
 // Restore the database if is needed
 const config = require('./config/db.config');
-if (config.RESTORE_DB) {
+if (process.env.RECREATE_DB || config.RECREATE_DB) {
   require('./api/bootstraps/db.bootstrap');
 }
 

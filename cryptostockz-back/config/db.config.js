@@ -2,7 +2,7 @@
 
 module.exports = {
 
-  RESTORE_DB: false, 
+  RECREATE_DB: false, 
   db: {
       development: {
           username: "cryptostockz", // your sql username

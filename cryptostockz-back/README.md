@@ -5,6 +5,7 @@
    * [Ejecución](#ejecución)
       * [Desarrollo](#desarrollo)
       * [Producción](#producción)
+      * [Generar tablas base de datos](#generar-base-de-datos)
    * [Conexion con la base de datos](#conexion-con-la-base-de-datos)
       * [Base de datos](#base-de-datos)
       * [Usuario](#usuario)
@@ -24,9 +25,21 @@ npm start
 
 ### PRODUCCIÓN
 
+Ejecutar así hará que los parámetros de la base de datos sean los de producción.
+
 ``` bash
 NODE_ENV='production' npm start
 ```
+
+
+### GENERAR BASE DE DATOS
+
+La primera vez que ejecutamos no tenemos base de datos creada, ejecutando con el servidor con el siguiente comando regeneraremos la base de datos.
+
+``` bash
+RECREATE_DB=true npm start
+```
+
 
 ## CONEXION BASE DE DATOS
 
