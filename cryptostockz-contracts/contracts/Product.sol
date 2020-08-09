@@ -7,16 +7,16 @@ pragma solidity >=0.4.21;
 @notice This contract contains the smart contract associated to the product
 */
 contract Product {
-    uint id;
-    uint ean;
-    uint sku;
+    // address id;
+    string ean;
+    string sku;
     uint number_transactions;
     uint8 level;
     string name;
     // no hace falta owner porque esta en los tokens
 
-    constructor(uint _id, uint _ean, uint _sku, string memory _name) public{
-        id = _id;
+    constructor(/**address _id*/ string memory _ean, string memory _sku, string memory _name) public{
+        // id = _id;
         ean = _ean;
         sku = _sku;
         number_transactions = 0;
@@ -26,13 +26,15 @@ contract Product {
     //GETTERS y SETTEERS
 
     //getters
-    function getId() public view returns(uint){
+    /*
+    function getId() public view returns(address){
         return id;
     }
-    function getEan() public view returns(uint){
+    */
+    function getEan() public view returns(string memory){
         return ean;
     }
-    function getSku() public view returns(uint){
+    function getSku() public view returns(string memory){
         return sku;
     }
     function getTransactions() public view returns(uint){
