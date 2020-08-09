@@ -1,0 +1,47 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: CryptoStockZ Service
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /test:
+    x-swagger-router-controller: cryptostockz.controller
+    get:
+      description: Returns a test message
+      tags:
+        - test
+      operationId: getTest
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+# complex objects have schema definitions
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
