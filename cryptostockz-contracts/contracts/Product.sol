@@ -3,6 +3,13 @@
 pragma solidity >=0.4.21;
 
 /**
+@title Interface of the logic behind the Products.
+@notice This contract only defines the functions needed and implemented in ProductLogic.
+*/
+interface LogicInterface {
+}
+
+/**
 @title Product
 @notice This contract contains the smart contract associated to the product
 */
@@ -13,6 +20,15 @@ contract Product {
     uint number_transactions;
     string name;
     // no hace falta owner porque esta en los tokens
+
+    LogicInterface productLogicContract;
+    function setLogicInterfaceAddress(address _address) external  {
+        productLogicContract = LogicInterface(_address);
+    }
+
+    function getLogicContract() public view returns (LogicInterface) {
+        return productLogicContract;
+    }
 
     constructor(uint _id, uint _ean, uint _sku, string memory _name) public{
         id = _id;

@@ -11,8 +11,8 @@ import './Product.sol';
 interface LogicInterface {
     function addProduct(User _user, address _product) external;
     function removeProduct(User _user, address _product) external;
-    function addToWishlist(User _user, address _product) external;
-    function removeToWishlist(User _user, address _product) external;
+    // function addToWishlist(User _user, address _product) external;
+    // function removeToWishlist(User _user, address _product) external;
 }
 
 /**
@@ -29,8 +29,8 @@ contract User{
     mapping (address => bool) public ownArticles;
     address[] internal ownArticlesList;
 
-    mapping (address => bool) public favArticles;
-    address[] internal favArticlesList;
+    // mapping (address => bool) public favArticles;
+    // address[] internal favArticlesList;
 
     LogicInterface userLogicContract;
     function setLogicInterfaceAddress(address _address) external  {
@@ -49,7 +49,7 @@ contract User{
         create_date = block.timestamp;
     }
 
-    // getters/setters USER
+    // Getter USER
 
     /**
     @notice gets id of the USER
@@ -59,75 +59,7 @@ contract User{
         return id;
     }
 
-    /**
-    @notice Get all the articles belong to the USER
-    @return the address of all the products
-    */
-    function getOwnArticles() public view returns(address[] memory){
-        return ownArticlesList;
-    }
-
-    /**
-    @notice Get favorite articles belong to the USER
-    @return the address of all the products
-    */
-    function getFavArticles() public view returns(address[] memory){
-        return favArticlesList;
-    }
-    
-    /**
-     @notice Add the product to the array and set true to the mapping of ownArticles.
-     @param _product address of the product.
-     */
-    function setOwnArticles(address _product) external {
-        ownArticlesList.push(_product);
-        ownArticles[_product]=true;
-    }
-
-    /**
-     @notice Add the product to the array and set true to the mapping of favArticles.
-     @param _product address of the product.
-     */
-    function setFavArticles(address _product) external {
-        favArticlesList.push(_product);
-        favArticles[_product]=true;
-    }
-    
-    /**
-     @notice Look for a product and return true or false if the product exists.
-     @param _product address of the product.
-     */
-    function ownArticleExists(address _product) external view returns(bool){
-        return ownArticles[_product];
-    }
-
-    /**
-     @notice Look for a product and return true or false if the product exists.
-     @param _product address of the product.
-     */
-    function favArticleExists(address _product) external view returns(bool){
-        return favArticles[_product];
-    }
-
-    /**
-     @notice Remove the product to the array and set false to the mapping of ownArticles.
-     @param _product address of the product.
-     */
-    function unsetOwnArticles(address _product) external {
-        ownArticlesList.pop();
-        ownArticles[_product]=false;
-    }
-
-    /**
-     @notice Remove the product to the array and set false to the mapping of favArticles.
-     @param _product address of the product.
-     */
-    function unsetFavArticles(address _product) external {
-        favArticlesList.pop();
-        favArticles[_product]=false;
-    }
-
-    // getters setters level
+    // Getter & Setter level
     /**
     @notice gets the level of the USER
     @return the level
@@ -147,7 +79,7 @@ contract User{
         level++;
     }
 
-    // getters/setters sales
+    // Getter & Setter sales
     /**
     @notice gets the number of products sold from a USER
     @return sales
@@ -167,7 +99,7 @@ contract User{
         sales++;
     }
     
-    // getters/setters purchase
+    // Getter & Setter purchase
     /**
     @notice gets the number of products purchased for a USER
     @return purchase
@@ -186,14 +118,51 @@ contract User{
     function addPurchase() external {
         purchase++;
     }
-    
+
+    // Getter create_date
     /**
      * @notice get the date where the account was created. It must be parsed to YYYY-mm-dd.
      */
     function getCreateDate() public view returns(uint){
         return create_date;
     }
-    
+
+    // Getter & Setter ownArticles
+    /**
+    @notice Get all the articles belong to the USER
+    @return the address of all the products
+    */
+    function getOwnArticles() public view returns(address[] memory){
+        return ownArticlesList;
+    }
+
+    /**
+     @notice Add the product to the array and set true to the mapping of ownArticles.
+     @param _product address of the product.
+     */
+    function setOwnArticles(address _product) external {
+        ownArticlesList.push(_product);
+        ownArticles[_product]=true;
+    }
+
+    /**
+     @notice Remove the product to the array and set false to the mapping of ownArticles.
+     @param _product address of the product.
+     */
+    function unsetOwnArticles(address _product) external {
+        ownArticlesList.pop();
+        ownArticles[_product]=false;
+    }
+
+    // Aditional functions
+    /**
+     @notice Look for a product and return true or false if the product exists.
+     @param _product address of the product.
+     */
+    function ownArticleExists(address _product) external view returns(bool){
+        return ownArticles[_product];
+    }
+
     /**
      @notice add a product to an user
      @param _product address of the product.
@@ -211,18 +180,53 @@ contract User{
     }
 
     /**
+    @notice Get favorite articles belong to the USER
+    @return the address of all the products
+    
+    function getFavArticles() public view returns(address[] memory){
+        return favArticlesList;
+    }
+    */
+
+    /**
+     @notice Add the product to the array and set true to the mapping of favArticles.
+     @param _product address of the product.
+    function setFavArticles(address _product) external {
+        favArticlesList.push(_product);
+        favArticles[_product]=true;
+    }
+    */
+
+    /**
+     @notice Look for a product and return true or false if the product exists.
+     @param _product address of the product.
+    function favArticleExists(address _product) external view returns(bool){
+        return favArticles[_product];
+    }
+    */
+
+    /**
+     @notice Remove the product to the array and set false to the mapping of favArticles.
+     @param _product address of the product.
+    function unsetFavArticles(address _product) external {
+        favArticlesList.pop();
+        favArticles[_product]=false;
+    }
+    */
+
+    /**
      @notice add a product to an user's wishlist.
      @param _product address of the product.
-     */
     function addToWishlist(address _product) public {
         userLogicContract.addToWishlist(this, _product);
     }
+    */
     
     /**
-     @notice remove a product to an user
+     @notice remove a product to an user.
      @param _product address of the product.
-     */
     function removeToWishlist(address _product) public {
         userLogicContract.removeToWishlist(this, _product);
     }
+    */
 }
