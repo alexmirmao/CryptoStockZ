@@ -142,7 +142,7 @@ contract User{
      */
     function setOwnArticles(address _product) external {
         ownArticlesList.push(_product);
-        ownArticles[_product]=true;
+        // ownArticles[_product]=true;
     }
 
     /**
@@ -151,7 +151,7 @@ contract User{
      */
     function unsetOwnArticles(address _product) external {
         ownArticlesList.pop();
-        ownArticles[_product]=false;
+        // ownArticles[_product]=false;
     }
 
     // Aditional functions
