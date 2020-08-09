@@ -53,7 +53,8 @@ function run(appRoot, port) {
 
 
 module.exports = {
-  run
+  run, 
+  app
 };
 
 

@@ -22,7 +22,8 @@ const contract = new web3.eth.Contract(JSON.parse(ContractAbi), ContractAddress)
 /**
  * Return a list of registered .
  */
-async function getTest() {
+async function buscarProducto(_address) {
+
   return { msg: "ok"};
 }
 
