@@ -18,21 +18,18 @@ contract ProductToken is ERC721{
     La función mint es por la que se crea un token (https://www.youtube.com/watch?v=7TiXsOLiIrc)
     _safeMint(address to, uint256 tokenId)
     */
-    StockZStorage stockZStorage = new StockZStorage(msg.sender);
+    //StockZStorage stockZStorage = new StockZStorage(msg.sender);
     constructor() ERC721("Stock Z Products", "SZP") public{}
 
 
     //This function initialize the token associated to a Product
-    function mint(address _to, string memory _ean, string memory _sku, string memory _name) public {
-        Product product = new Product(_ean,_sku,_name);  
+    function mint(address _to, uint256 tokenId /**string memory _ean, string memory _sku, string memory _name*/) public {
+        /** Product product = new Product(_ean,_sku,_name);  
         uint256 tokenId = stockZStorage.getProducts().length;
         stockZStorage.setProduct(_to, product);
         stockZStorage.setPositionProduct(product.getAddress(), tokenId);
+        */
         _mint(_to, tokenId);
-    }
-    
-    function getProducts()public view returns(Product[] memory ){
-        return stockZStorage.getProducts();
     }
     
     function getProductFromAddress(address _idProduct) public view returns(string memory, string memory, string memory, uint, uint8){

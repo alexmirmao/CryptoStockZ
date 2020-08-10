@@ -15,9 +15,6 @@ contract StockZStorage {
 
     // mapping que pasa del id del producto a la posicion donde esta guardados(tokenId)
     mapping(address => uint256) internal mapPosition;
-    
-    // Mapping where Products are saved.
-    mapping(address => Product) productStorage;
     Product[] products;
     
     // Given a product address maps the owner of that product
@@ -57,11 +54,9 @@ contract StockZStorage {
     /**
      @notice adds a new Product to the storage mapping and array
      @dev can only be executed by the latest version contract
-     @param _key Address of the Product
      @param _value Product to save
     */
-    function setProduct(address _key, Product _value) external onlyLatestVersion {
-        productStorage[_key] = _value;
+    function setProduct(Product _value) external onlyLatestVersion {
         products.push(_value);
     }
     
