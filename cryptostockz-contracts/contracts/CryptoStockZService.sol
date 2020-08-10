@@ -16,6 +16,16 @@ contract CryptoStockZ is Ownable, ERC721 {
     event createProductEvent(address _owner, string _name, string _ean, string _sku, uint256 _numberTransactions, uint8 _level);
     event transferTokenEvent(address _from, address _to, address _idProduct);
 
+    // StockZStorage Storage
+    /**
+    @notice sets the address of the Storage contract
+    @dev Storage has all products saved in order to have an eternal storage
+    @param _StockZStorageAddr address of the Storage contract
+    */
+    function setLotteryStorage(address _StockZStorageAddr) public onlyOwner {
+        stockZStorage = StockZStorage(address(_StockZStorageAddr));
+    }
+
     function createProduct(string memory _ean, string memory  _sku, string memory _name) public {
         Product product = new Product(_ean,_sku,_name);
         uint256 tokenId = stockZStorage.getProducts().length;
@@ -44,6 +54,13 @@ contract CryptoStockZ is Ownable, ERC721 {
     function getOwnerOfProduct(address _idProduct) public view returns(address){
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
         return super.ownerOf(tokenId);
+    }
+    function getStorageAddress() public returns(address) onlyOwner{
+        return address(stockZStorage);
+    }
+    function getOwnerOfProduct(address _idProduct) public view returns(address){
+        uint256 tokenId = stockZStorage.getProductToken(_idProduct);
+        return super().ownerOf();
     }
 }
 
