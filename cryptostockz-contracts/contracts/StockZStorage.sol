@@ -37,10 +37,10 @@ contract StockZStorage {
     @notice gets a Product by its address
     @param _key address of the Product
     @return the Product
-    */
     function getProduct(address _key) external view returns(Product){
         return productStorage[_key];
     }
+    */
 
     /**
     @notice gets all the Products saved
