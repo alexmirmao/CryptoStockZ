@@ -35,7 +35,7 @@ contract ProductToken is ERC721{
 
 //     //return the product´s owner
     function getOwner(uint256 _tokenId) public view returns(address){
-        return super.ownerOf(tokenId);
+        return super.ownerOf(_tokenId);
     }
 
 
