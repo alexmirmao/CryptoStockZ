@@ -51,7 +51,7 @@ contract CryptoStockZ is Ownable {
     function transferProduct(address _to, address _idProduct) public {
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
         productToken.transferToken(msg.sender, _to, tokenId);
-        stockZStorage.setProduct(stockZStorage.getProducts()[tokenId]);
+        // stockZStorage.setProduct(stockZStorage.getProducts()[tokenId]); // No es necesario volver a añadirlo al array de productos, únicamente debemos actualizar su adn.
         stockZStorage.getProducts()[tokenId].mixDna(_to);
         emit transferTokenEvent(msg.sender, _to, _idProduct);
     }

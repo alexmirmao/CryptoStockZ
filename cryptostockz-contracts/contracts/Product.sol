@@ -79,7 +79,7 @@ contract Product {
     }
 
     // Logic functions
-    function mixDna(address _user) public view{
+    function mixDna(address _user) public {
         productLogicContract.mixDna(this,_user);
     }
 
