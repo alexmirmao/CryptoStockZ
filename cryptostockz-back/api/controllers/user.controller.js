@@ -1,9 +1,12 @@
-  exports.allAccess = (req, res) => {
+ const { session } = require("../middleware")
+
+exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
   
   exports.userBoard = (req, res) => {
-    res.status(200).send("User Content.");
+
+    res.status(200).send("User Content." + session.getUserId(req, res));
   };
   
   exports.adminBoard = (req, res) => {

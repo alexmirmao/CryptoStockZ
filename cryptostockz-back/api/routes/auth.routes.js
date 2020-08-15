@@ -1,5 +1,7 @@
 const { verifySignUp } = require("../middleware");
 const controller = require("../controllers/auth.controller");
+const uploadController = require("../controllers/image.controller");
+const upload = require("../middleware/images");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -11,7 +13,7 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/api/auth/signup",
+    "/signup",
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
       verifySignUp.checkRolesExisted
@@ -19,5 +21,7 @@ module.exports = function(app) {
     controller.signup
   );
 
-  app.post("/api/auth/signin", controller.signin);
+  app.post("/signin", controller.signin);
+
+  app.post("/upload", upload.single("file"), uploadController.uploadFiles);
 };

@@ -92,3 +92,7 @@ config/runtime.yaml
 # Temporary folders
 tmp/
 temp/
+
+# files
+resources/static/assets/uploads/*
+resources/static/assets/temp/*

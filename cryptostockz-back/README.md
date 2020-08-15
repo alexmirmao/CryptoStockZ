@@ -1,23 +1,56 @@
-# cryptostockz-back
+# CryptoStockZ - BACKEND NODE + EXPRESS
 
+## TABLA DE CONTENIDO
+<!--ts-->
+   * [Ejecución](#ejecución)
+      * [Desarrollo](#desarrollo)
+      * [Producción](#producción)
+      * [Generar tablas base de datos](#generar-base-de-datos)
+   * [Conexion con la base de datos](#conexion-con-la-base-de-datos)
+      * [Base de datos](#base-de-datos)
+      * [Usuario](#usuario)
+      * [Configruación postgresql](#configuración-postgresql)
+      * [Entornos](#entornos)
+   * [Cookies y Tokens](#cookies-y-tokens)
+      * [Token](#token)
+      * [Cookie](#cookie)
+<!--te-->
 
-## EJECUTAR EN MODO PRODUCCIÓN
+## EJECUCIÓN
+### DESARROLLO
 
 ``` bash
-NODE_ENV='production' npm star
+npm start
 ```
+
+### PRODUCCIÓN
+
+Ejecutar así hará que los parámetros de la base de datos sean los de producción.
+
+``` bash
+NODE_ENV='production' npm start
+```
+
+
+### GENERAR BASE DE DATOS
+
+La primera vez que ejecutamos no tenemos base de datos creada, ejecutando con el servidor con el siguiente comando regeneraremos la base de datos.
+
+``` bash
+RECREATE_DB=true npm start
+```
+
 
 ## CONEXION BASE DE DATOS
 
-
-Instalar servidor postgresql 12
+Instalar servidor postgresql 12 (googlear)
 
 ### BASE DE DATOS
 Crear una base de datos con nombre -> "cryptostockz"
 
 ### USUARIO
-Crear un usuario -> "root"
-Darle una contraseña -> "password"
+Crear un usuario -> "cryptostockz"
+Darle una contraseña -> "cryptostockz"
 Darle permisos -> ALL
 
 
@@ -25,11 +58,11 @@ Ejemplo:
 ``` sql
 CREATE DATABASE cryptostockz
     WITH 
-    OWNER = root
+    OWNER = cryptostockz
     ENCODING = 'UTF8'
     CONNECTION LIMIT = -1;
 
-GRANT ALL ON DATABASE cryptostockz TO sergio;
+GRANT ALL ON DATABASE cryptostockz TO cryptostockz;
 ```
 
 ### CONFIGURACIÓN POSTGRESQL
@@ -43,7 +76,7 @@ sudo nano /etc/postgresql/12/main/postgresql.conf
 Asegurarnos que el puerto es `5434` y que escucha en `localhost`
 
 
-### CONFIGURACIÓN
+### ENTORNOS 
 Podemos establecer otros parámetros en el archivo `config.js`
 
 ``` js
@@ -66,4 +99,30 @@ Podemos establecer otros parámetros en el archivo `config.js`
 ```
 
 
+## COOKIES Y TOKENS
+
+Para dar seguridad al sistema he incluido en el servidor la gestión de sesiones mediante cookie y una gestión de roles mediante token.
+
+Cuando un usuario se logea se le dá automáticamente una cookie y un token. 
+
+### TOKEN
+Con el token comprobamos el rol que tiene el usuario, nunca podrá hacer peticiones al sisitema que no sean publicas sin uno de estos.
+
+Habrá peticiones "seguras" como la creación de producto que únicamente las podrán generar aquellas cuentas de manufacturers.
+
+En esta ocasión es indiferente el usuario en sí que las genere. Las cuentas de manufacturer siempre pueden generar productos asociados a su cuenta.
+
+### COOKIE
+Habrá transacciones que a diferencia de las anteriores "seguras" implican que sólo puedan ser realizadas por un usuario. Por ejemplo la transacción de la propiedad de un artículo.
+
+Para ello tendremos que comprobar siempre que el owner es el mismo que el que se encuentra en la cookie.
+
+Ej:
+``` js
+const { session } = require("../middleware")
+
+let user_id = session.getUserId(req, res) //Devuelve el user_id logeado
+```
+
+Metiendo este trozo de código en las transacciones "no seguras" podremos comprobar que el ejecutor es el correcto. (Ej: Propietario del producto es user_id)
 

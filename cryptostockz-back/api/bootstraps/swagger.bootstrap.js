@@ -20,11 +20,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// routes
-require('../routes/auth.routes')(app);
-require('../routes/user.routes')(app);
-
-
 // WEB API
 const DEFAULT_PORT = config.env.WEBAPP_PORT;
 
