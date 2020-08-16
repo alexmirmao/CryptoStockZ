@@ -1,7 +1,4 @@
 
-var bcrypt = require('bcrypt');
-
-
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("users", {
       username: {
@@ -28,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       level: {
         type: Sequelize.BIGINT
       },
-      remixAccount: {
+      metamaskAccount: {
         type: Sequelize.STRING
       }
     });

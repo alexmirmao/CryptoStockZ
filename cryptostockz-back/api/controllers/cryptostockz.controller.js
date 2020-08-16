@@ -1,8 +1,6 @@
-// lotteries.controller.js
+// cryptostockz.controller.js
 
 const cryptostockzService = require('../services/cryptostockz.service');
-
-
 
 
 function getTest(req, res) {

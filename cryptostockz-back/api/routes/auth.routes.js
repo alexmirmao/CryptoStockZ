@@ -12,16 +12,21 @@ module.exports = function(app) {
     next();
   });
 
-  app.post(
-    "/signup",
-    [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
-    ],
-    controller.signup
-  );
+app.post(
+  "/signup",
+  [
+  verifySignUp.checkDuplicateUsernameOrEmail,
+  verifySignUp.checkRolesExisted
+  ],
+  controller.signup
+);
 
-  app.post("/signin", controller.signin);
+app.post('/profile', function (req, res, next) {
+  console.log(req.body)
+  res.json(req.body)
+})
 
-  app.post("/upload", upload.single("file"), uploadController.uploadFiles);
+app.post("/signin", controller.signin);
+
+app.post("/upload", upload.single("file"), uploadController.uploadFiles);
 };
