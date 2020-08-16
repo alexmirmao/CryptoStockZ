@@ -19,14 +19,20 @@ module.exports = function(app) {
   );
 
   app.get(
+    "/api/test/admin",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.adminBoard
+  );
+
+  app.get(
     "/api/test/man",
     [authJwt.verifyToken, authJwt.isManufacturer],
     controller.manufacturerBoard
   );
 
   app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+    "/api/test/seller",
+    [authJwt.verifyToken, authJwt.isSeller],
+    controller.sellerBoard
   );
 };
