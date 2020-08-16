@@ -19,11 +19,8 @@ contract Ownable {
    * @dev Throws if called by any account other than the owner.
    */
   modifier onlyOwner() {
-    require(msg.sender == owner, "Funcion reservada para el propietario de la loteria");
+    require(msg.sender == owner, "Funcion reservada para el propietario del producto");
     _;
-  }
-  function getOwner() public view returns (address){
-      return owner;
   }
   /**
    * @dev Allows the current owner to transfer control of the contract to a newOwner.

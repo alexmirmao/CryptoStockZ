@@ -25,7 +25,7 @@ contract CryptoStockZ is Ownable {
     @dev Storage has all products saved in order to have an eternal storage
     @param _StockZStorageAddr address of the Storage contract
     */
-    function setLotteryStorage(address _StockZStorageAddr) public onlyOwner {
+    function setStockZStorage(address _StockZStorageAddr) public onlyOwner {
         stockZStorage = StockZStorage(address(_StockZStorageAddr));
     }
 
@@ -51,7 +51,7 @@ contract CryptoStockZ is Ownable {
     function transferProduct(address _to, address _idProduct) public {
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
         productToken.transferToken(msg.sender, _to, tokenId);
-        // stockZStorage.setProduct(stockZStorage.getProducts()[tokenId]); // No es necesario volver a añadirlo al array de productos, únicamente debemos actualizar su adn.
+        // stockZStorage.setProduct(stockZStorage.getProducts()[tokenId]);
         stockZStorage.getProducts()[tokenId].mixDna(_to);
         emit transferTokenEvent(msg.sender, _to, _idProduct);
     }
@@ -69,13 +69,37 @@ contract CryptoStockZ is Ownable {
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
         return productToken.getOwner(tokenId);
     }
+    
     function getStorageAddress() public view onlyOwner returns(address) {
         return address(stockZStorage);
     }
+    
     function getProductTokenAddress() public view onlyOwner returns(address) {
         return address(productToken);
     }
-   
+    
+    function getTotalTokens() public view returns(uint256) {
+        return productToken.totalTokens();
+    }
+    
+    function getCredentials() public view returns(string memory, string memory){
+        return(productToken.name(), productToken.symbol());
+    }
+    
+    function getBalanceOwner(address _owner) public view returns(uint256) {
+        return productToken.balanceOf(_owner);
+    }
+    
+    // En el caso que el propietario anterior siga con el token y no quiera transferirlo, el siguiente propietario debería
+    // tener la posibilidad de reclamar el token. Pudiendo nosotros quitarle el token al propietario A y enviarselo al 
+    // propietario B.
+    // Para ver si la persona que ha comprado el producto, pueda solicitarlo al propietario anterior.
+    /*
+    function getApprove(address _to, address _idProduct) public onlyOwner {
+        uint256 tokenId = stockZStorage.getProductToken(_idProduct);
+        return productToken.approve(_to, tokenId);
+    }
+    */
 }
 
 

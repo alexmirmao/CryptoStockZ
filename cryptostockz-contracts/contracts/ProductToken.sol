@@ -21,30 +21,22 @@ contract ProductToken is ERC721{
     constructor() ERC721("Stock Z Products", "SZP") public{}
 
 
-//     //This function initialize the token associated to a Product
+    //This function initialize the token associated to a Product
     function mint(address _to, uint256 tokenId ) public {
-//         /** Product product = new Product(_ean,_sku,_name);  
-//         uint256 tokenId = stockZStorage.getProducts().length;
-//         stockZStorage.setProduct(_to, product);
-//         stockZStorage.setPositionProduct(product.getAddress(), tokenId);
-//         */
         _mint(_to, tokenId);
     }
     
-//    
-
-//     //return the product´s owner
+    //return the product´s owner
     function getOwner(uint256 _tokenId) public view returns(address){
         return super.ownerOf(_tokenId);
     }
-
-
     
+    // Transfer token (_tokenId) from msg.sender to another address.
     function transferToken(address _from, address _to, uint256 _tokenId) public{
         _transfer(_from, _to, _tokenId);
-//         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
-//         
-//         stockZStorage.setProduct(_to, stockZStorage.getProducts()[_tokenId]);
     }
-
+    
+    function totalTokens() public view returns (uint256) {
+        return super.totalSupply();
+    }
 }
