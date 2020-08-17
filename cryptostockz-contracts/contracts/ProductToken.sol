@@ -1,7 +1,5 @@
 pragma solidity ^0.6.3;
 import 'https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol';
-import './Product.sol';
-import './StockZStorage.sol';
 contract ProductToken is ERC721{
 //      // Diferencia entre transfer y approved
 //     /**

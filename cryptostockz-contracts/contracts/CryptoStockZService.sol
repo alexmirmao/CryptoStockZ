@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: None
 // solium-disable linebreak-style
 pragma solidity >=0.4.21;
-
-import "./ProductToken.sol";
 import "./ProductLogic.sol";
+import "./ProductToken.sol";
+
 import "./StockZStorage.sol";
 import "./Ownable.sol";
 import "./Product.sol";
-import 'https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol';
+
 
 contract CryptoStockZ is Ownable {
     
@@ -100,6 +100,11 @@ contract CryptoStockZ is Ownable {
         return productToken.approve(_to, tokenId);
     }
     */
+
+    function transferByRequest(address _from, address _to, address _product)public onlyOwner{
+        uint256 tokenId = stockZStorage.getProductToken(_idProduct);
+        productToken.transferToken(_from, _to, tokenId);
+    }
 }
 
 
