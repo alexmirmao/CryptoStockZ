@@ -102,7 +102,7 @@ contract CryptoStockZ is Ownable {
     */
 
     function transferByRequest(address _from, address _to, address _product)public onlyOwner{
-        uint256 tokenId = stockZStorage.getProductToken(_idProduct);
+        uint256 tokenId = stockZStorage.getProductToken(_product);
         productToken.transferToken(_from, _to, tokenId);
     }
 }

@@ -3,7 +3,7 @@
 pragma solidity >=0.4.21;
 
 import './Product.sol';
-import './SafeMath.sol';
+import 'https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/math/SafeMath.sol';
 contract ProductLogic {
     using SafeMath for uint256;
     function getLastDigits(uint256 _mixedDna) internal pure returns(uint256){
