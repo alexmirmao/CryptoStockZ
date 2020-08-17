@@ -25,7 +25,7 @@ paths:
       x-swagger-router-controller: "product.controller"
       tags:
       - "product"
-      summary: "Add a new pet to the store"
+      summary: "Add a new product to the store"
       description: ""
       operationId: "createProduct"
       consumes:
@@ -76,9 +76,9 @@ paths:
       x-swagger-router-controller: "product.controller"
       tags:
       - "product"
-      summary: "Find pet by ID"
-      description: "Returns a single pet"
-      operationId: "getPetById"
+      summary: "Find product by ID"
+      description: "Returns a single product"
+      operationId: "getProductById"
       produces:
       - "application/xml"
       - "application/json"
@@ -102,9 +102,9 @@ paths:
       x-swagger-router-controller: "product.controller"
       tags:
       - "product"
-      summary: "Updates a pet in the store with form data"
+      summary: "Updates a product with form data"
       description: ""
-      operationId: "updatePetWithForm"
+      operationId: "updateProductWithForm"
       consumes:
       - "application/x-www-form-urlencoded"
       produces:
@@ -198,8 +198,8 @@ paths:
       tags:
       - "user"
       summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
+      description: "This can be done by any new user."
+      operationId: "signup"
       produces:
       - "application/xml"
       - "application/json"
@@ -220,7 +220,7 @@ paths:
       - "user"
       summary: "Logs user into the system"
       description: ""
-      operationId: "loginUser"
+      operationId: "signin"
       produces:
       - "application/xml"
       - "application/json"
@@ -258,7 +258,7 @@ paths:
       - "user"
       summary: "Logs out current logged in user session"
       description: ""
-      operationId: "logoutUser"
+      operationId: "signout"
       produces:
       - "application/xml"
       - "application/json"
@@ -347,7 +347,7 @@ paths:
       - "product"
       summary: "Finds user owned Products"
       description: ""
-      operationId: "userProducts"
+      operationId: "getUserProducts"
       produces:
       - "application/xml"
       - "application/json"
@@ -367,7 +367,7 @@ paths:
       - "product"
       summary: "Finds user wishlist Products"
       description: ""
-      operationId: "userWishProducts"
+      operationId: "getUserWishProducts"
       produces:
       - "application/xml"
       - "application/json"
