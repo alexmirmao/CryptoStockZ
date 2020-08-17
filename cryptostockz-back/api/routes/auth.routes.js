@@ -28,5 +28,7 @@ app.post('/profile', function (req, res, next) {
 
 app.post("/signin", controller.signin);
 
+app.post("/signout", controller.signout);
+
 app.post("/upload", upload.single("file"), uploadController.uploadFiles);
 };

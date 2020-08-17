@@ -192,9 +192,9 @@ paths:
             $ref: "#/definitions/ApiResponse"
 
   #Operaciones de usuarios
-  /user:
+  /user/signup:
     post:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "auth.controller"
       tags:
       - "user"
       summary: "Create user"
@@ -215,7 +215,7 @@ paths:
           description: "successful operation"
   /user/signin:
     get:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "auth.controller"
       tags:
       - "user"
       summary: "Logs user into the system"
@@ -253,7 +253,7 @@ paths:
           description: "Invalid username/password supplied"
   /user/signgout:
     get:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "auth.controller"
       tags:
       - "user"
       summary: "Logs out current logged in user session"

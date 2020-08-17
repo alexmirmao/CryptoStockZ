@@ -91,3 +91,10 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+exports.signout = (req, res) => {
+  req.logout();
+  res.clearCookie('');
+  req.session.destroy();
+  res.redirect('/');
+};
