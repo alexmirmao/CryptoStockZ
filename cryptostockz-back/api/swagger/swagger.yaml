@@ -413,11 +413,11 @@ definitions:
         type: "number"
       level:
         type: "integer"
-      visualization:
-        type: "string"
+      permisions:
+        type: "integer"
         enum:
-          - "private"
-          - "public"
+          - 1
+          - 2
       metamaskAccount:
         type: "string"
     xml:

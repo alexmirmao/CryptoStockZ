@@ -9,12 +9,18 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+
 exports.signup = (req, res) => {
   // Save User to Database
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    name: req.body.name,
+    purchases: 0,
+    sales: 0,
+    level: 0,
+    password: bcrypt.hashSync(req.body.password, 8),
+    metamaskAccount: "0x" + req.body.username, //Habrá que cogerla directamente desde el front con web3
   })
     .then(user => {
       if (req.body.roles) {
@@ -25,13 +31,15 @@ exports.signup = (req, res) => {
             }
           }
         }).then(roles => {
+          //Seteo de los roles recibidos en el body
+          //y publico por defecto
           user.setRoles(roles)
           user.setPermissions([1]).then(() => {
             res.send({ message: "User was registered successfully!" });
           });
         });
       } else {
-        // user role = 1
+        //Rol de usuario base y perfil publico, ambos por defecto
         user.setRoles([1])
         user.setPermissions([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
