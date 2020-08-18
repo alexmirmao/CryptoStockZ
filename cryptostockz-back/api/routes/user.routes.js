@@ -17,11 +17,26 @@ module.exports = function(app) {
 
   app.put(
     "/user/:username",
+    [authJwt.verifyToken],
     controller.updateUser
   )
 
   app.delete(
     "/user/:username",
+    [authJwt.verifyToken],
     controller.deleteUser
   )
+
+  app.get(
+    "/user/:username/products/all",
+    [authJwt.verifyToken],
+    controller.getUserProducts
+  )
+
+  app.get(
+    "/user/:username/products/wish",
+    [authJwt.verifyToken],
+    controller.getUserProducts
+  )
+
 };
