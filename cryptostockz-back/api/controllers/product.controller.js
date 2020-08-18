@@ -5,13 +5,22 @@ const { session } = require("../middleware");
 const Product = db.product;
 
 /**
- * Ejemplo de creacion de un producto 
+ * Ejemplo de creacion de un producto
+ * 
+ * En la practica, esto llama a createProduct de sercives.
  */
 exports.createProduct = (req, res) => {
-    Product.create({
-        owner_address: req.body.owner,
-        level: 0
+    var products = req.boy;
+    Product.bulkCreate({
+        products
     })
+    .then(() => {
+        return res.status(200).send({ message: "Product(s) Created" });
+    })
+    .catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+
 };
 
 /**
