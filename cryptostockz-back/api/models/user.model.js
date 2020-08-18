@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
       level: {
         type: Sequelize.BIGINT
       },
-      remixAccount: {
+      metamaskAccount: {
         type: Sequelize.STRING
       }
     });
