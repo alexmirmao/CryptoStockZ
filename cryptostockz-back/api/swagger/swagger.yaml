@@ -192,6 +192,7 @@ paths:
             $ref: "#/definitions/ApiResponse"
 
   #Operaciones de usuarios
+  ## auth.controller.js
   /user/signup:
     post:
       x-swagger-router-controller: "auth.controller"
@@ -213,6 +214,7 @@ paths:
       responses:
         default:
           description: "successful operation"
+  ## auth.controller.js
   /user/signin:
     get:
       x-swagger-router-controller: "auth.controller"
@@ -251,6 +253,7 @@ paths:
               description: "date in UTC when token expires"
         "400":
           description: "Invalid username/password supplied"
+  ## auth.controller.js
   /user/signgout:
     get:
       x-swagger-router-controller: "auth.controller"

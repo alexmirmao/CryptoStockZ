@@ -11,7 +11,17 @@ module.exports = function(app) {
   });
 
   app.get(
-    "/user/{username}", 
+    "/user/:username", 
     controller.getUserByUserName
   );
+
+  app.put(
+    "/user/:username",
+    controller.updateUser
+  )
+
+  app.delete(
+    "/user/:username",
+    controller.deleteUser
+  )
 };

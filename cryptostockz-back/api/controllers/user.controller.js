@@ -5,27 +5,18 @@ const User = db.user;
 exports.getUserByUserName = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username
+      username: req.params.username
     }
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "User Not Found." });
       }
 
-      user.getRoles().then(roles => {
-        for (let i = 0; i < roles.length; i++) {
-          authorities.push("ROLE_" + roles[i].name.toUpperCase());
-        }
-
-        // GENERATE COOKIE
-        session.sendUserIdCookie(user.id, res) 
-        res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          roles: authorities
-        });
+      return res.status(200).send({
+        id: user.id,
+        username: user.username,
+        email: user.email
       });
     })
     .catch(err => {
@@ -34,11 +25,39 @@ exports.getUserByUserName = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
+  User.findOne({
+    where: {
+      username: req.params.username
+    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not Found." });
+      }
 
+      return res.status(200).send({ message: "User Succesfully Updated." });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
 exports.deleteUser = (req, res) => {
+  User.destroy({
+    where: {
+      username: req.params.username
+    }
+  })
+    .then(rowDeleted => { // rowDeleted will return number of rows deleted
+      if (rowDeleted !== 1) {
+        return res.status(404).send({ message: "User Not Found." });
+      }
 
+      return res.status(200).send({ message: "User Succesfully Deleted." });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
 exports.getUserProducts = (req, res) => {
