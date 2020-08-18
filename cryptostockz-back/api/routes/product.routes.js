@@ -1,4 +1,4 @@
-const { verifySignUp } = require("../middleware");
+const { authJwt } = require("../middleware");
 const controller = require("../controllers/product.controller");
 
 module.exports = function (app) {
@@ -17,9 +17,7 @@ module.exports = function (app) {
      */
     app.post(
         "/product",
-        [
-            
-        ],
+        [authJwt.verifyToken, authJwt.isManufacturer],
         controller.createProduct
     );
 
@@ -33,4 +31,6 @@ module.exports = function (app) {
         [],
         controller.updateProduct
     )
+
+    app.get("/product", controller.getAllProducts)
 };

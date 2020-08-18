@@ -40,3 +40,10 @@ exports.updateProduct = (req, res) => {
         }
     })
 };
+
+exports.getAllProducts = (req, res) => {
+    Product.findAll()
+    .then(products => {
+        return res.status(200).send({products: products});
+    });
+};

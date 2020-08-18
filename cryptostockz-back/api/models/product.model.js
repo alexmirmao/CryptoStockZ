@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
       level: {
         type: Sequelize.BIGINT
       },
-      uniqueIdentificator: {
+      uniqueId: {
         type: Sequelize.STRING
       }
     });
