@@ -18,32 +18,14 @@ exports.createProduct = (req, res) => {
  * Ejemplo de actualizacion de un producto (revisar)
  */
 exports.updateProduct = (req, res) => {
-    Product.findOne({
-        where: {
-            uniqueIdentificator: req.body.id
-        }
-    })
-    .then(product => {
-        if (product){
-            Product.update({
-                level: 1
-            })
-            .success(() => {
-                return res.status(400).send({ message: "Product Updated." });
-            })
-            .error((err) => {
-                console.log(err);
-                return res.status(404).send({ message: "Something went wrong." });
-            })
-        } else {
-            return res.status(404).send({ message: "Product Not found." });
-        }
-    })
 };
 
 exports.getAllProducts = (req, res) => {
     Product.findAll()
-    .then(products => {
-        return res.status(200).send({products: products});
-    });
+        .then(products => {
+            return res.status(200).send({ products: products });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
 };

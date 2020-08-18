@@ -14,10 +14,14 @@ exports.getUserByUserName = (req, res) => {
         return res.status(404).send({ message: "User Not Found." });
       }
 
+      var permission = user.getPermissions();
+
       return res.status(200).send({
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        name: user.name,
+        permission: permission
       });
     })
     .catch(err => {
@@ -25,8 +29,12 @@ exports.getUserByUserName = (req, res) => {
     });
 };
 
+// Que informacion es actualizable por un usuario?
+// - nombre
+// - password
+// - permisos
 exports.updateUser = (req, res) => {
-  User.findOne({
+  User.update({ name: req.body.name },{
     where: {
       username: req.params.username
     }
@@ -35,7 +43,9 @@ exports.updateUser = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not Found." });
       }
-
+      
+      //user.setPermissions([2]);
+      
       return res.status(200).send({ message: "User Succesfully Updated." });
     })
     .catch(err => {

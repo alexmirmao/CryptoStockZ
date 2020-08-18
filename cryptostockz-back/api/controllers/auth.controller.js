@@ -35,14 +35,14 @@ exports.signup = (req, res) => {
           //y publico por defecto
           user.setRoles(roles)
           user.setPermissions([1]).then(() => {
-            res.send({ message: "User was registered successfully!" });
+            res.status(200).send({ message: "User was registered successfully!" });
           });
         });
       } else {
         //Rol de usuario base y perfil publico, ambos por defecto
         user.setRoles([1])
         user.setPermissions([1]).then(() => {
-          res.send({ message: "User was registered successfully!" });
+          res.status(200).send({ message: "User was registered successfully!" });
         });
       }
     })
