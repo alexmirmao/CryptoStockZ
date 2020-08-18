@@ -3,6 +3,7 @@
 const db = require("../models");
 const Role = db.role;
 const Permissions = db.permissions;
+const Product = db.product;
 
 db.sequelize.sync({force: true}).then(() => {
   console.log('Drop and Resync Db');
@@ -42,4 +43,11 @@ function initial() {
       id: 4,
       name: "admin"
     });
+
+    Product.create({
+      addrees: "0x13131",
+      owner_address: "0xuser2",
+      level: 1,
+      uniqueId: "0xfqfe"
+    })
   }
