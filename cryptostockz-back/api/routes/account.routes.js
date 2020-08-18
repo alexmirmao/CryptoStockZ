@@ -1,5 +1,13 @@
+/**
+ * Rutas para las operaciones de las cuentas:
+ *  - Actualizar su informacion
+ *  - Borrar su perfil (?)
+ *  - Obtener sus productos
+ *  - Obtener su lista de deseos
+ */
+
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
+const controller = require("../controllers/account.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -11,30 +19,30 @@ module.exports = function(app) {
   });
 
   app.get(
-    "/user/:username", 
+    "/account/:username", 
     controller.getUserByUserName
   );
 
   app.put(
-    "/user/:username",
+    "/account/:username",
     [authJwt.verifyToken],
     controller.updateUser
   )
 
   app.delete(
-    "/user/:username",
+    "/account/:username",
     [authJwt.verifyToken],
     controller.deleteUser
   )
 
   app.get(
-    "/user/:username/products/all",
+    "/account/:username/products/all",
     [authJwt.verifyToken],
     controller.getUserProducts
   )
 
   app.get(
-    "/user/:username/products/wish",
+    "/account/:username/products/wish",
     [authJwt.verifyToken],
     controller.getUserProducts
   )

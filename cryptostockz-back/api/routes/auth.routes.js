@@ -1,7 +1,10 @@
+/**
+ * Rutas para el registro, inicio de sesion y terminacion de sesion
+ * de los usuarios del sistema.
+ */
+
 const { verifySignUp } = require("../middleware");
 const controller = require("../controllers/auth.controller");
-const uploadController = require("../controllers/image.controller");
-const upload = require("../middleware/images");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -21,14 +24,7 @@ app.post(
   controller.signup
 );
 
-app.post('/profile', function (req, res, next) {
-  console.log(req.body)
-  res.json(req.body)
-})
-
 app.post("/signin", controller.signin);
 
 app.post("/signout", controller.signout);
-
-app.post("/upload", upload.single("file"), uploadController.uploadFiles);
 };

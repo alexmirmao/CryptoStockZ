@@ -1,3 +1,11 @@
+/**
+ * Rutas para operaciones de los productos:
+ *  - Registro de productos (solo manufacturers)
+ *  - Modificacion de productos (solo manufacturers)
+ *  - Busqueda de productos (solo usuarios registrados)
+ *  - Marcar producto como fav/wish (solo usuarios registrados)
+ */
+
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/product.controller");
 
@@ -28,7 +36,7 @@ module.exports = function (app) {
      */
     app.put(
         "/product",
-        [],
+        [authJwt.verifyToken, authJwt.isManufacturer],
         controller.updateProduct
     )
 
