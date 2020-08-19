@@ -12,9 +12,6 @@ tags:
   description: "Everything about base products"
 - name: "product"
   description: "Everything about the products"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
 - name: "account"
   description: "Operations about accounts"
 schemes:
@@ -483,9 +480,6 @@ definitions:
       name: "User"
   Product:
     type: "object"
-    required:
-    - "name"
-    - "photoUrls"
     properties:
       address:
         type: "string"
@@ -503,9 +497,6 @@ definitions:
       name: "Product"
   BaseProduct:
     type: "object"
-    required:
-      - "name"
-      - "photoUrls"
     # Deberiamos tener un sku_empresa y ean_empresa además de los nuestros?
     # Es posible que dos empresas coincidan en estos códigos?
     properties:
