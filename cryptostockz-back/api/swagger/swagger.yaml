@@ -8,18 +8,20 @@ info:
 host: "localhost:10010"
 basePath: "/"
 tags:
+- name: "base product"
+  description: "Everything about base products"
 - name: "product"
   description: "Everything about the products"
   externalDocs:
     description: "Find out more"
     url: "http://swagger.io"
-- name: "user"
-  description: "Operations about user"
+- name: "account"
+  description: "Operations about accounts"
 schemes:
 - "https"
 - "http"
 paths:
-  #Operaciones de productos
+  #Operaciones sobre productos
   /product:
     post:
       x-swagger-router-controller: "product.controller"
@@ -191,13 +193,13 @@ paths:
           schema:
             $ref: "#/definitions/ApiResponse"
 
-  #Operaciones de usuarios
+  #Operaciones sobre cuentas
   ## auth.controller.js
-  /user/signup:
+  /account/signup:
     post:
       x-swagger-router-controller: "auth.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Create user"
       description: "This can be done by any new user."
       operationId: "signup"
@@ -215,11 +217,11 @@ paths:
         default:
           description: "successful operation"
   ## auth.controller.js
-  /user/signin:
+  /account/signin:
     get:
       x-swagger-router-controller: "auth.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Logs user into the system"
       description: ""
       operationId: "signin"
@@ -254,11 +256,11 @@ paths:
         "400":
           description: "Invalid username/password supplied"
   ## auth.controller.js
-  /user/signgout:
+  /account/signgout:
     get:
       x-swagger-router-controller: "auth.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Logs out current logged in user session"
       description: ""
       operationId: "signout"
@@ -269,11 +271,12 @@ paths:
       responses:
         default:
           description: "successful operation"
-  /user/{username}:
+  ## account.controller.js
+  /account/{username}:
     get:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "account.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Get user by user name"
       description: ""
       operationId: "getUserByName"
@@ -296,9 +299,9 @@ paths:
         "404":
           description: "User not found"
     put:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "account.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Updated user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
@@ -323,9 +326,9 @@ paths:
         "404":
           description: "User not found"
     delete:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "account.controller"
       tags:
-      - "user"
+      - "account"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
       operationId: "deleteUser"
@@ -343,11 +346,11 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
-  /user/products/all:
+  /account/products/all:
     get:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "account.controller"
       tags:
-      - "product"
+      - "account"
       summary: "Finds user owned Products"
       description: ""
       operationId: "getUserProducts"
@@ -363,11 +366,11 @@ paths:
               $ref: "#/definitions/Product"
         "400":
           description: "Invalid status value"
-  /user/products/wish:
+  /account/products/wish:
     get:
-      x-swagger-router-controller: "user.controller"
+      x-swagger-router-controller: "account.controller"
       tags:
-      - "product"
+      - "account"
       summary: "Finds user wishlist Products"
       description: ""
       operationId: "getUserWishProducts"
@@ -383,6 +386,62 @@ paths:
               $ref: "#/definitions/Product"
         "400":
           description: "Invalid status value"
+
+  #Operaciones sobre productos base
+  /base/product:
+    post:
+      x-swagger-router-controller: "base_product.controller"
+      tags:
+      - "base product"
+      summary: "Create a base product"
+      description: "This can be only done by manufacturers"
+      operationId: "createBaseProduct"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created base product object"
+        required: true
+        schema:
+          $ref: "#/definitions/BaseProduct"
+      responses:
+        "200": 
+          description: "successful operation"
+  /base/product/{sku}:
+    put:
+      x-swagger-router-controller: "base_product.controller"
+      tags:
+      - "base product"
+      summary: "Update an existing product"
+      description: ""
+      operationId: "updateBaseProduct"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        description: "The sku of the base product to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Base Product object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/BaseProduct"
+      responses:
+        "200": 
+          description: "successful operation"
+        "400":
+          description: "Invalid sku supplied"
+        "404":
+          description: "Base Product not found"
 
 definitions:
   User:
@@ -428,20 +487,44 @@ definitions:
     - "name"
     - "photoUrls"
     properties:
+      address:
+        type: "string"
       base_product_id:
         type: "integer"
-        format: "int64"
-      name:
+      unique_identificator:
         type: "string"
-      photoUrls:
-        type: "array"
-        xml:
-          name: "photoUrl"
-          wrapped: true
-        items:
-          type: "string"
+      manufact_id:
+        type: "string"
+      owner_address:
+        type: "string"
+      level:
+        type: "integer"
     xml:
       name: "Product"
+  BaseProduct:
+    type: "object"
+    required:
+      - "name"
+      - "photoUrls"
+    # Deberiamos tener un sku_empresa y ean_empresa además de los nuestros?
+    # Es posible que dos empresas coincidan en estos códigos?
+    properties:
+      name:
+        type: "string"
+      ean: #13 digitos
+        type: "integer"
+      sku: #alfanumérico, de 8 a 12
+        type: "string"
+      manufact_id:
+        type: "string"
+      verified: #si es original o no
+        type: "boolean"
+      ilustration:
+        type: "string"
+      img:
+        type: "string" #CONVERTIR A IMG
+    xml:
+        name: "BaseProduct"
   ApiResponse:
     type: "object"
     properties:
