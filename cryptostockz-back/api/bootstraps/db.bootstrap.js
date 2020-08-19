@@ -43,11 +43,4 @@ function initial() {
       id: 4,
       name: "admin"
     });
-
-    Product.create({
-      addrees: "0x13131",
-      owner_address: "0xuser2",
-      level: 1,
-      uniqueId: "0xfqfe"
-    })
   }
