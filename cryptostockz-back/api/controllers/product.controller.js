@@ -1,6 +1,4 @@
 const db = require("../models");
-const config = require("../../config/auth.config");
-const { session } = require("../middleware");
 
 const Product = db.product;
 
@@ -10,7 +8,7 @@ const Product = db.product;
  * En la practica, esto llama a createProduct de sercives.
  */
 exports.createProduct = (req, res) => {
-    var products = req.boy;
+    var products = req.body;
     Product.bulkCreate({
         products
     })
