@@ -20,19 +20,40 @@ module.exports = function (app) {
     });
 
     /**
-     * Subida un producto nuevo al sistema.
-     * Requiere comprobacion de rol y permisos.
-     * Implica escritura en la blockchain (cryptostockz.service.js)
-     */
+     * Registro de un producto base.
+    */
     app.post(
         "/base/product",
         [authJwt.verifyToken], //Crear nueva comprobacion isUserOrManu ?¿?¿
         controller.createBaseProduct
     );
 
+    /**
+     * Verificacion de la originalidad de un producto.
+     * Solo puede ser efectuado por manufacturers.
+    */
+    app.put(
+        "/base/product/:manufacturer_id/pending/:product_id",
+        [authJwt.verifyToken, authJwt.isManufacturer],
+        controller.verifyBaseProduct
+    );
+
+    /**
+     * Obtener los productos pendientes de verificar por un manufacturer
+    */
     app.get(
-        "/base/product",
+        "/base/product/:manufacturer_id/pending",
+        [authJwt.verifyToken, authJwt.isManufacturer],
+        controller.getPendingBaseProducts
+    );
+
+    /** 
+     * Obtener todos los productos base de un usuario
+     * CREO QUE ESTO DEBERIA ESTAR EN /ACCOUNT/:USER_ID/BASEPRODUCTS
+    */
+    app.get(
+        "/base/product/:user_id",
         [authJwt.verifyToken],
         controller.getBaseProducts
-    )
+    );
 };

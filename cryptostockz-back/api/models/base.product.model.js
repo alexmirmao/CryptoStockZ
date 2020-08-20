@@ -15,10 +15,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.BOOLEAN
       },
       owner: {
-        type: Sequelize.STRING
+        type: Sequelize.INT
       },
       manufacturer: {
-        type: Sequelize.STRING
+        type: Sequelize.INT
       }
     });
   

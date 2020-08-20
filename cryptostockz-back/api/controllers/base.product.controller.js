@@ -12,11 +12,11 @@ const User = db.user;
  * propiedad de ese usuario (user.id) y que es de la empresa x (user.username).
  * 
  * Por otro lado, cuando es creado por un usuario base, no se puede garantizar
- * la originalidad del producto (original = false). Además, si se sabe que éste
- * es el dueño del producto (user.id) pero se desconoce la empresa fabricante 
- * (no se garantiza su originalidad), por lo que manufacturer queda vacio.
- * Cuando el manufacturer responsable de verificar el producto lo haga, se rellenará
- * este campo.
+ * la originalidad del producto (original = false). Sin embargo, si se sabe que
+ * se trata del dueño del producto y él conoce la empresa fabricante
+ * (limitar posibilidades en el front: solo manufacturers registrados).
+ * Cuando el manufacturer responsable de verificar el producto lo haga, se
+ * cambiará original a true.
  */
 exports.createBaseProduct = (req, res) => {
     User.findOne({
@@ -39,23 +39,48 @@ exports.createBaseProduct = (req, res) => {
                     sku: req.body.sku,
                     original: true,
                     owner: user.id,
-                    manufacturer: user.username
+                    manufacturer: user.id
                 }).then(() => {
                     return res.status(200).send("Original base product created.");
                 });
             } else {
+                // Si quien hace la peticion tiene otro rol
+                // el producto queda pendiente de verificacion
+                /// SE DEBERIA CREAR UN MECANISMO QUE AVISE AL MANUFACTURER
+                /// DE QUE TIENE UN PRODUCTO PENDIENTE DE VERIFICAR
                 BaseProduct.create({
                     name: req.body.name,
                     ean: req.body.ean,
                     sku: req.body.sku,
                     original: false,
                     owner: user.id,
-                    manufacturer: " - "
+                    manufacturer: req.body.manufacturer
                 }).then(() => {
                     return res.status(200).send("Base product created. Needs confirmation from manufacrurer.");
                 });
             }
         });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+exports.getPendingBaseProducts = (req, res) => {
+
+}
+
+exports.verifyBaseProduct = (req, res) => {
+    BaseProduct.findOne({
+        where: {
+            manufacturer: req.path.manufacturer_id,
+            id: req.path.product_id
+        }
+    }).then( baseproduct => {
+        baseproduct.update({
+            original: true
+        }).then( () => {
+            return res.status(200).send("Product " + req.path.product_id + " verified.")
+        })
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
