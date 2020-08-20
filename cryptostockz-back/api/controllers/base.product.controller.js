@@ -65,10 +65,17 @@ exports.createBaseProduct = (req, res) => {
     });
 };
 
+/**
+ * Debe devolver los productos de un manufacturer que tienen
+ * campo original a falso 
+ */
 exports.getPendingBaseProducts = (req, res) => {
 
 }
 
+/**
+ * Debe cambiar el campo "original" del producto a true
+ */
 exports.verifyBaseProduct = (req, res) => {
     BaseProduct.findOne({
         where: {
@@ -86,6 +93,9 @@ exports.verifyBaseProduct = (req, res) => {
     });
 };
 
+/**
+ * Debe devolver todos los productos base de un usuario
+ */
 exports.getBaseProducts = (req, res) => {
 
 };
