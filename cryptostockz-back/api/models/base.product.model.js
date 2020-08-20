@@ -6,13 +6,19 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       ean: {
-        type: Sequelize.STRING
+        type: Sequelize.BIGINT
       },
       sku: {
-        type: Sequelize.FLOAT
+        type: Sequelize.STRING
       },
       original: {
         type: Sequelize.BOOLEAN
+      },
+      owner: {
+        type: Sequelize.STRING
+      },
+      manufacturer: {
+        type: Sequelize.STRING
       }
     });
   
