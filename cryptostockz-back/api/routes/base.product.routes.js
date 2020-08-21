@@ -33,7 +33,7 @@ module.exports = function (app) {
      * Solo puede ser efectuado por manufacturers.
     */
     app.put(
-        "/base/product/pending/:product_id",
+        "/base/product/pending/:baseproduct_id",
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.verifyBaseProduct
     );

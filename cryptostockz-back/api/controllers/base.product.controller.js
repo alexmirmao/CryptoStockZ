@@ -33,13 +33,21 @@ exports.createBaseProduct = (req, res) => {
             // Si quien hace la peticion es manufacturer
             // el producto base se da de alta marcado como original
             if (authorities.includes("manufacturer")) {
-                BaseProduct.create({
-                    name: req.body.name,
-                    ean: req.body.ean,
-                    sku: req.body.sku,
-                    original: true,
-                    owner: user.id,
-                    manufacturer: user.id
+                var baseproducts = req.body;
+                /*BaseProduct.bulkCreate({
+                    baseproducts
+                }).then(() => {
+                    return res.status(200).send("Original base product created.");
+                });*/
+                baseproducts.forEach(baseproduct => {
+                    BaseProduct.create({
+                        name: baseproduct.name,
+                        ean: baseproduct.ean,
+                        sku: baseproduct.sku,
+                        original: true,
+                        owner: user.id,
+                        manufacturer: user.id
+                    });
                 }).then(() => {
                     return res.status(200).send("Original base product created.");
                 });
