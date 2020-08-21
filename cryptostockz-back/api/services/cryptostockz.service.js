@@ -14,22 +14,30 @@ const ContractAddress = config.contracts.LotteryService.contractAddress;
 const ContractAbi = config.contracts.LotteryService.contractAbi;
 
 
-// TODO
 const web3 = new Web3(ethereumUrl);
 const contract = new web3.eth.Contract(JSON.parse(ContractAbi), ContractAddress);
 
+//TODO
+/// Añadir las llamadas al contrato
 
 /**
- * Return a list of registered .
+ * Creates a product in the blockchain
  */
-async function getTest(_address) {
+async function createProduct(){
+  return {msg: "product created"};
+}
 
-  return { msg: "ok"};
+/**
+ * Transfers product ownership to new address
+ * @param {*} receiver 
+ * @param {*} productAddress 
+ */
+async function transferProduct(receiver, productAddress){
+  return {msg: "product "+ productAddress+ " transfered to " + receiver};
 }
 
 
-
-
 module.exports = {
-  getTest,
+  transferProduct,
+  createProduct
 }

@@ -1,6 +1,8 @@
 const db = require("../models");
-
 const Product = db.product;
+
+const cryptostockzService = require("../services/cryptostockz.service");
+
 
 /**
  * Ejemplo de creacion de un producto
@@ -13,6 +15,9 @@ exports.createProduct = (req, res) => {
         products
     })
     .then(() => {
+        /*cryptostockzService.createProduct().then(result => {
+            
+        })*/
         return res.status(200).send({ message: "Product(s) Created" });
     })
     .catch(err => {

@@ -3,6 +3,8 @@ const User = db.user;
 const Product = db.product;
 const Permissions = db.permissions;
 
+const cryptostockzService = require("../services/cryptostockz.service");
+
 // Operaciones para la gestion de los usuarios
 exports.getUserByUserName = (req, res) => {
   User.findOne({
@@ -119,32 +121,37 @@ exports.getUserWishList = (req, res) => {
       id: req.userId
     }
   })
-  .then( user => {
-    if(!user){
-      return res.status(404).send({message: "User Not Found." });
-    }
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not Found." });
+      }
 
-    return res.status(200).send({message: "User wish list"});
-  })
-  .catch(err => {
-    res.status(500).send({ message: err.message });
-  });
+      return res.status(200).send({ message: "User wish list" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
-exports.trasnferProduct = (req, res) => {
+/**
+ * Necesita el address del usuario receptor y el address del producto
+ */
+exports.transferProduct = (req, res) => {
   User.findOne({
     where: {
       id: req.userId
     }
   })
-  .then( user => {
-    if(!user){
-      return res.status(404).send({message: "User Not Found." });
-    }
-
-    return res.status(200).send({message: "Product transfered"});
-  })
-  .catch(err => {
-    res.status(500).send({ message: err.message });
-  });
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not Found." });
+      }
+      cryptostockzService.transferProduct("receiver","address")
+        .then(result => {
+          return res.status(200).send({ message: result });
+        });
+    })
+    .catch(err => {
+      return res.status(500).send({ message: err.message });
+    });
 }
