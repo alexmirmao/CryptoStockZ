@@ -33,7 +33,7 @@ module.exports = function (app) {
      * Solo puede ser efectuado por manufacturers.
     */
     app.put(
-        "/base/product/:manufacturer_id/pending/:product_id",
+        "/base/product/pending/:product_id",
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.verifyBaseProduct
     );
@@ -42,17 +42,16 @@ module.exports = function (app) {
      * Obtener los productos pendientes de verificar por un manufacturer
     */
     app.get(
-        "/base/product/:manufacturer_id/pending",
+        "/base/product/pending",
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.getPendingBaseProducts
     );
 
     /** 
      * Obtener todos los productos base de un usuario
-     * CREO QUE ESTO DEBERIA ESTAR EN /ACCOUNT/:USER_ID/BASEPRODUCTS
     */
     app.get(
-        "/base/product/:user_id",
+        "/base/product",
         [authJwt.verifyToken],
         controller.getBaseProducts
     );

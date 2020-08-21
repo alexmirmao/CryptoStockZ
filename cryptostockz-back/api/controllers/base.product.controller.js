@@ -66,14 +66,6 @@ exports.createBaseProduct = (req, res) => {
 };
 
 /**
- * Debe devolver los productos de un manufacturer que tienen
- * campo original a falso 
- */
-exports.getPendingBaseProducts = (req, res) => {
-
-}
-
-/**
  * Debe cambiar el campo "original" del producto a true
  */
 exports.verifyBaseProduct = (req, res) => {
@@ -82,10 +74,10 @@ exports.verifyBaseProduct = (req, res) => {
             manufacturer: req.path.manufacturer_id,
             id: req.path.product_id
         }
-    }).then( baseproduct => {
+    }).then(baseproduct => {
         baseproduct.update({
             original: true
-        }).then( () => {
+        }).then(() => {
             return res.status(200).send("Product " + req.path.product_id + " verified.")
         })
     }).catch(err => {
@@ -94,8 +86,44 @@ exports.verifyBaseProduct = (req, res) => {
 };
 
 /**
+ * Debe devolver los productos de un manufacturer que tienen
+ * campo original a falso 
+ */
+exports.getPendingBaseProducts = (req, res) => {
+    User.findOne({
+        where: {
+            id: req.userId
+        }
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ message: "User Not Found." });
+            }
+
+            return res.status(200).send({ message: "Manufacturer pending products" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+}
+
+/**
  * Debe devolver todos los productos base de un usuario
  */
 exports.getBaseProducts = (req, res) => {
+    User.findOne({
+        where: {
+            id: req.userId
+        }
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ message: "User Not Found." });
+            }
 
+            return res.status(200).send({ message: "User base products" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
 };
