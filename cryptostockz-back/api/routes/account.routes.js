@@ -27,24 +27,29 @@ module.exports = function(app) {
     "/account/:username",
     [authJwt.verifyToken],
     controller.updateUser
-  )
+  );
 
   app.delete(
     "/account/:username",
     [authJwt.verifyToken],
     controller.deleteUser
-  )
+  );
 
   app.get(
-    "/account/:username/products/all",
+    "/account/products/all",
     [authJwt.verifyToken],
     controller.getUserProducts
-  )
+  );
 
   app.get(
-    "/account/:username/products/wish",
+    "/account/products/wish",
     [authJwt.verifyToken],
-    controller.getUserProducts
-  )
+    controller.getUserWishList
+  );
 
+  app.post(
+    "/account/products/{productId}/transfer",
+    [authJwt.verifyToken],
+    controller.transferProduct
+  );
 };

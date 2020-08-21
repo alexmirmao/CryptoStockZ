@@ -100,15 +100,51 @@ exports.getUserProducts = (req, res) => {
         return res.status(404).send({ message: "User Not Found." });
       }
 
-      var products = [];
+      /*var products = [];
       user.getUserProducts().then(products => {
         for (let i = 0; i < products.length; i++) {
           products.push(products[i].uniqueId);
         }
-      });
-      return res.status(200).send({ products: products });
+      });*/
+      return res.status(200).send({ products: "User products" });
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
 };
+
+exports.getUserWishList = (req, res) => {
+  User.findOne({
+    where: {
+      id: req.userId
+    }
+  })
+  .then( user => {
+    if(!user){
+      return res.status(404).send({message: "User Not Found." });
+    }
+
+    return res.status(200).send({message: "User wish list"});
+  })
+  .catch(err => {
+    res.status(500).send({ message: err.message });
+  });
+};
+
+exports.trasnferProduct = (req, res) => {
+  User.findOne({
+    where: {
+      id: req.userId
+    }
+  })
+  .then( user => {
+    if(!user){
+      return res.status(404).send({message: "User Not Found." });
+    }
+
+    return res.status(200).send({message: "Product transfered"});
+  })
+  .catch(err => {
+    res.status(500).send({ message: err.message });
+  });
+}
