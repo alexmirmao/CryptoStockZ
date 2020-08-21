@@ -48,7 +48,7 @@ module.exports = function(app) {
   );
 
   app.post(
-    "/account/products/{productId}/transfer",
+    "/account/products/:productId/transfer",
     [authJwt.verifyToken],
     controller.transferProduct
   );
