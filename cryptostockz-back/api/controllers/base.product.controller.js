@@ -24,6 +24,10 @@ exports.createBaseProduct = (req, res) => {
             id: req.userId
         }
     }).then(user => {
+        if (!user) {
+            return res.status(404).send({ message: "User Not Found." });
+        }
+
         var authorities = [];
         user.getRoles().then(roles => {
             roles.forEach(element => {
@@ -32,39 +36,50 @@ exports.createBaseProduct = (req, res) => {
 
             // Si quien hace la peticion es manufacturer
             // el producto base se da de alta marcado como original
+            // además, tiene la posibilidad de dar de alta varios productos
+            // de una sola vez.
             if (authorities.includes("manufacturer")) {
                 var baseproducts = req.body;
-                /*BaseProduct.bulkCreate({
-                    baseproducts
-                }).then(() => {
-                    return res.status(200).send("Original base product created.");
-                });*/
+                console.log(req.userId);
                 baseproducts.forEach(baseproduct => {
                     BaseProduct.create({
                         name: baseproduct.name,
                         ean: baseproduct.ean,
                         sku: baseproduct.sku,
                         original: true,
-                        owner: user.id,
-                        manufacturer: user.id
+                        owner: req.userId
+                    }).then(baseproduct => {
+                        baseproduct.setManufacturer(user);
+                        user.setBaseProducts(baseproduct);
                     });
-                }).then(() => {
-                    return res.status(200).send("Original base product created.");
                 });
+
+                return res.status(200).send({ message: "Original base product created." });
             } else {
                 // Si quien hace la peticion tiene otro rol
                 // el producto queda pendiente de verificacion
                 /// SE DEBERIA CREAR UN MECANISMO QUE AVISE AL MANUFACTURER
                 /// DE QUE TIENE UN PRODUCTO PENDIENTE DE VERIFICAR
-                BaseProduct.create({
-                    name: req.body.name,
-                    ean: req.body.ean,
-                    sku: req.body.sku,
-                    original: false,
-                    owner: user.id,
-                    manufacturer: req.body.manufacturer
-                }).then(() => {
-                    return res.status(200).send("Base product created. Needs confirmation from manufacrurer.");
+
+                User.findOne({
+                    where: {
+                        username: req.body.manufacturer
+                    }
+                }).then(manufacturer => {
+                    if (!manufacturer) {
+                        return res.status(404).send({ message: "Manufacturer Not Found." });
+                    }
+
+                    BaseProduct.create({
+                        name: req.body.name,
+                        ean: req.body.ean,
+                        sku: req.body.sku,
+                        original: false
+                    }).then(baseproduct => {
+                        user.setBaseProducts(baseproduct);
+                        baseproduct.setManufacturer(manufacturer);
+                        return res.status(200).send({ message: "Base product created. Needs confirmation from manufacrurer." });
+                    });
                 });
             }
         });
@@ -135,3 +150,29 @@ exports.getBaseProducts = (req, res) => {
             res.status(500).send({ message: err.message });
         });
 };
+
+exports.test = (req, res) => {
+    BaseProduct.findAll({
+        where: {
+            fk_manufacturer: req.userId
+        }
+    }).then(baseproduct => {
+        console.log(req.userId);
+        return res.status(200).send({message: baseproduct});
+    });/*
+    User.findOne({
+        where: {
+            id: req.userId
+        }
+    }).then(user => {
+        var bps = [];
+        user.getBaseProducts().then(baseproducts => {
+            
+            baseproducts.forEach(baseproduct => {
+                console.log(baseproduct);
+                bps.push(baseproduct);
+            });
+            return res.status(200).send({ message: baseproducts });
+        });
+    });*/
+}

@@ -55,4 +55,10 @@ module.exports = function (app) {
         [authJwt.verifyToken],
         controller.getBaseProducts
     );
+
+    app.get(
+        "/base/product/test",
+        [authJwt.verifyToken],
+        controller.test
+    )
 };
