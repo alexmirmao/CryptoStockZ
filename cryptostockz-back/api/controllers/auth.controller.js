@@ -20,7 +20,7 @@ exports.signup = (req, res) => {
     sales: 0,
     level: 0,
     password: bcrypt.hashSync(req.body.password, 8),
-    metamaskAccount: "0x" + req.body.username, //Habrá que cogerla directamente desde el front con web3
+    metamaskAccount: req.body.metamaskAccount, //Habrá que cogerla directamente desde el front con web3
   })
     .then(user => {
       if (req.body.roles) {
