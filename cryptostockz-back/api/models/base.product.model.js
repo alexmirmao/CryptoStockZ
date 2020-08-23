@@ -13,12 +13,6 @@ module.exports = (sequelize, Sequelize) => {
       },
       original: {
         type: Sequelize.BOOLEAN
-      },
-      owner: {
-        type: Sequelize.INTEGER
-      },
-      manufacturer: {
-        type: Sequelize.INTEGER
       }
     });
   

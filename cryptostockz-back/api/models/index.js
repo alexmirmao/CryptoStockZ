@@ -65,10 +65,21 @@ db.base_product.hasOne(db.product);
 db.base_product.hasMany(db.illustration);
 db.illustration.belongsTo(db.base_product);
 
-// OWNERSHIP
-db.user.hasMany(db.product, {as : 'manProduct'});
-db.product.belongsTo(db.user, {as : 'manufacturer'});
+// BASE PRODUCT
 
+db.user.hasMany(db.base_product, {
+  as : 'BaseProducts',
+  foreignKey: 'id', 
+  sourceKey: 'id'
+});
+
+db.base_product.belongsTo(db.user, {
+  as: 'Manufacturer',
+  foreignKey: 'fk_manufacturer', 
+  targetKey: 'id'
+});
+
+// PRODUCT
 
 db.user.hasMany(db.product, {as : 'product'});
 db.product.belongsTo(db.user, {as : 'owner'});
