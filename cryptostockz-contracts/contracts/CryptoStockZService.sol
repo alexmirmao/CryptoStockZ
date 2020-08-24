@@ -39,6 +39,13 @@ contract CryptoStockZ is Ownable {
         productToken = ProductToken(address(_productTokenAddr));
     }
 
+    /**
+    @notice create a product and the token associated to this product.
+    @dev emits an event in order to know that a new product has been created
+    @param _ean ean of a product
+    @param _sku of a product
+    @param _name of a product
+    */
     function createProduct(string memory _ean, string memory  _sku, string memory _name) public {
         Product product = new Product(_ean,_sku,_name,productLogic);
         uint256 tokenId = stockZStorage.getProducts().length;
@@ -48,6 +55,12 @@ contract CryptoStockZ is Ownable {
         emit createProductEvent(msg.sender,_name,_ean,_sku,0,0,0);
     }
     
+    /**
+    @notice transfer the token from msg.sender to _to
+    @dev emits an event in order to know that a token has been transfered
+    @param _to the addres who is going to recieve the token
+    @param _idProduct address of a product
+    */
     function transferProduct(address _to, address _idProduct) public {
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
         productToken.transferToken(msg.sender, _to, tokenId);
