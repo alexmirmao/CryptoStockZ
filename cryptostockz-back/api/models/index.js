@@ -69,7 +69,7 @@ db.illustration.belongsTo(db.base_product);
 
 db.user.hasMany(db.base_product, {
   as : 'BaseProducts',
-  foreignKey: 'id', 
+  foreignKey: 'fk_userId', 
   sourceKey: 'id'
 });
 

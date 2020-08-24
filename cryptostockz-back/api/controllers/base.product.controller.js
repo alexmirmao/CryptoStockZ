@@ -9,7 +9,7 @@ const User = db.user;
  * 
  * Cuando es creado por un manufacturer, se da por hecho que es original
  * y es marcado como tal (original = true). Además, se registra que es 
- * propiedad de ese usuario (user.id) y que es de la empresa x (user.username).
+ * propiedad de ese usuario () y que es de la empresa x (user.username).
  * 
  * Por otro lado, cuando es creado por un usuario base, no se puede garantizar
  * la originalidad del producto (original = false). Sin embargo, si se sabe que
@@ -46,11 +46,10 @@ exports.createBaseProduct = (req, res) => {
                         name: baseproduct.name,
                         ean: baseproduct.ean,
                         sku: baseproduct.sku,
-                        original: true,
-                        owner: req.userId
+                        original: true
                     }).then(baseproduct => {
                         baseproduct.setManufacturer(user);
-                        user.setBaseProducts(baseproduct);
+                        user.addBaseProducts(baseproduct);
                     });
                 });
 
@@ -76,8 +75,8 @@ exports.createBaseProduct = (req, res) => {
                         sku: req.body.sku,
                         original: false
                     }).then(baseproduct => {
-                        user.setBaseProducts(baseproduct);
                         baseproduct.setManufacturer(manufacturer);
+                        user.addBaseProducts(baseproduct);
                         return res.status(200).send({ message: "Base product created. Needs confirmation from manufacrurer." });
                     });
                 });
@@ -94,14 +93,14 @@ exports.createBaseProduct = (req, res) => {
 exports.verifyBaseProduct = (req, res) => {
     BaseProduct.findOne({
         where: {
-            manufacturer: req.path.manufacturer_id,
-            id: req.path.product_id
+            fk_manufacturer: req.userId,
+            id: req.params.baseproduct_id
         }
     }).then(baseproduct => {
         baseproduct.update({
             original: true
         }).then(() => {
-            return res.status(200).send("Product " + req.path.product_id + " verified.")
+            return res.status(200).send("Product " + req.params.baseproduct_id + " verified.")
         })
     }).catch(err => {
         res.status(500).send({ message: err.message });
@@ -113,21 +112,16 @@ exports.verifyBaseProduct = (req, res) => {
  * campo original a falso 
  */
 exports.getPendingBaseProducts = (req, res) => {
-    User.findOne({
+    BaseProduct.findAll({
         where: {
-            id: req.userId
+            fk_manufacturer: req.userId,
+            original: false
         }
-    })
-        .then(user => {
-            if (!user) {
-                return res.status(404).send({ message: "User Not Found." });
-            }
-
-            return res.status(200).send({ message: "Manufacturer pending products" });
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
+    }).then(baseproducts => {
+        return res.status(200).send({ message: baseproducts });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
 }
 
 /**
@@ -138,41 +132,15 @@ exports.getBaseProducts = (req, res) => {
         where: {
             id: req.userId
         }
-    })
-        .then(user => {
-            if (!user) {
-                return res.status(404).send({ message: "User Not Found." });
-            }
-
-            return res.status(200).send({ message: "User base products" });
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
-};
-
-exports.test = (req, res) => {
-    BaseProduct.findAll({
-        where: {
-            fk_manufacturer: req.userId
-        }
-    }).then(baseproduct => {
-        console.log(req.userId);
-        return res.status(200).send({message: baseproduct});
-    });/*
-    User.findOne({
-        where: {
-            id: req.userId
-        }
     }).then(user => {
-        var bps = [];
+        if (!user) {
+            return res.status(404).send({ message: "User Not Found." });
+        }
+
         user.getBaseProducts().then(baseproducts => {
-            
-            baseproducts.forEach(baseproduct => {
-                console.log(baseproduct);
-                bps.push(baseproduct);
-            });
             return res.status(200).send({ message: baseproducts });
         });
-    });*/
-}
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
