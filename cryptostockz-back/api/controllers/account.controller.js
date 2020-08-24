@@ -141,17 +141,26 @@ exports.transferProduct = (req, res) => {
     where: {
       id: req.userId
     }
-  })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "User Not Found." });
+  }).then(user => {
+    if (!user) {
+      return res.status(404).send({ message: "User Not Found." });
+    }
+
+    Product.findOne({
+      where: {
+        id: req.params.productId,
+        owner_address: user.metamaskAccount
       }
-      cryptostockzService.transferProduct("receiver","address")
-        .then(result => {
-          return res.status(200).send({ message: result });
-        });
-    })
-    .catch(err => {
-      return res.status(500).send({ message: err.message });
+    }).then(product => {
+      if (!product) {
+        return res.status(404).send({ message: "Product Not Found." });
+      }
+
+      cryptostockzService.transferProduct(req.body.receiver, product.address).then(result => {
+        return res.status(200).send({ message: result });
+      });
     });
+  }).catch(err => {
+    return res.status(500).send({ message: err.message });
+  });
 }
