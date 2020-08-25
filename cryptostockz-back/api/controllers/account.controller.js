@@ -12,22 +12,17 @@ exports.getUserByUserName = (req, res) => {
       username: req.params.username
     },
     include: Permissions
-  })
-    .then(user => {
+  }).then(user => {
       if (!user) {
         return res.status(404).send({ message: "User Not Found." });
       }
 
+      if (user.permissions[0].name === "public"){
+        return res.status(200).send(user);
+      }
 
-      return res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        name: user.name,
-        permission: user.permissions[0].name
-      });
-    })
-    .catch(err => {
+      return res.status(200).send({message: "User account is private."});
+    }).catch(err => {
       res.status(500).send({ message: err.message });
     });
 };
