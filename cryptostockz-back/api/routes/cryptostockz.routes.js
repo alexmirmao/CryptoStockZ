@@ -1,4 +1,4 @@
-const { verifySignUp } = require("../middleware");
+const { verifySignUp, authJwt } = require("../middleware");
 const controller = require("../controllers/cryptostockz.controller");
 
 module.exports = function(app) {
@@ -12,6 +12,7 @@ module.exports = function(app) {
 
     app.post(
         "/product",
-        controller.getTest
+        [authJwt.verifyToken, authJwt.isManufacturer],
+        controller.createProduct
     );
 };
