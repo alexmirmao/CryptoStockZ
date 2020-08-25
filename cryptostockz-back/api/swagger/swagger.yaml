@@ -97,7 +97,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Product not found"
-    post:
+    put:
       x-swagger-router-controller: "product.controller"
       tags:
       - "product"
@@ -106,6 +106,7 @@ paths:
       operationId: "updateProductWithForm"
       consumes:
       - "application/x-www-form-urlencoded"
+      - "application/json"
       produces:
       - "application/xml"
       - "application/json"
@@ -116,14 +117,14 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-      - name: "name"
+      - name: "address"
         in: "formData"
-        description: "Updated name of the product"
+        description: "Updated address of the product"
         required: false
         type: "string"
-      - name: "status"
+      - name: "owner_address"
         in: "formData"
-        description: "Updated status of the product"
+        description: "Updated owner_address of the product"
         required: false
         type: "string"
       responses:

@@ -15,4 +15,10 @@ module.exports = function(app) {
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.createProduct
     );
+
+    app.put(
+        "/product/:productId",
+        [authJwt.verifyToken, authJwt.isManufacturer],
+        controller.updateProductWithForm
+    )
 };

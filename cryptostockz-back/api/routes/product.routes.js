@@ -38,7 +38,7 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.updateProduct
     )
-    */
+    
 
-    app.get("/product", controller.getAllProducts)
+    app.get("/product", controller.getAllProducts)*/
 };

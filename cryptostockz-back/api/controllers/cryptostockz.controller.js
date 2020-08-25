@@ -78,8 +78,46 @@ function createProduct(req, res) {
   });
 }
 
+function updateProductWithForm(req, res) {
+  User.findOne({
+    where: {
+        id: req.userId
+    }
+  }).then(user => {
+      if (!user) {
+          return res.status(404).send({ message: "User Not Found." });
+      }
+
+      var authorities = [];
+      user.getRoles().then(roles => {
+          roles.forEach(element => {
+              authorities.push(element.name);
+          });
+          // Comprobamos que sea manufacturer o seller la persona que modifica un producto digital
+          if (authorities.includes("manufacturer")) {
+            var digitalProduct = req.body;
+            console.log(digitalProduct);
+            Product.update(
+              digitalProduct
+            ,
+            { where: 
+              {
+                id: digitalProduct.productId
+              }
+            })
+            return res.status(200).send({ message: "Digital product updated." });
+          } else {
+            return res.status(404).send({ message: "Need permissions to update." });
+          }
+      });
+  }).catch(err => {
+      res.status(500).send({ message: err.message });
+  });
+}
+
 
 module.exports = {
   getTest,
-  createProduct
+  createProduct,
+  updateProductWithForm
 };
