@@ -17,6 +17,17 @@ const User = db.user;
  * (limitar posibilidades en el front: solo manufacturers registrados).
  * Cuando el manufacturer responsable de verificar el producto lo haga, se
  * cambiará original a true.
+ * 
+ * 
+ * 
+ * TODO:
+ *      Cuando un manufacturer registra productos base, debemos generar automaticamente
+ *      sus correspondientes productos digitales. Inserción en la BD y en la BC.
+ *      El evento de la BC informará al front de que tiene que ejecutar la peticion post /product
+ * 
+ *      Por otro lado, el producto digital de un producto generado por un usuario normal
+ *      solo se genera cuando es verificado por un Manufacturer.
+ * 
  */
 exports.createBaseProduct = (req, res) => {
     User.findOne({
@@ -89,6 +100,9 @@ exports.createBaseProduct = (req, res) => {
 
 /**
  * Debe cambiar el campo "original" del producto a true
+ * 
+ * TODO:
+ *      Añadir logica para generar el producto digital correspondiente.
  */
 exports.verifyBaseProduct = (req, res) => {
     BaseProduct.findOne({
@@ -108,8 +122,9 @@ exports.verifyBaseProduct = (req, res) => {
 };
 
 /**
- * Debe devolver los productos de un manufacturer que tienen
- * campo original a falso 
+ * Devuelve los productos de un manufacturer que tienen
+ * campo original a falso. Es decir, productos suyos que 
+ * han sido registrados por usuarios.
  */
 exports.getPendingBaseProducts = (req, res) => {
     BaseProduct.findAll({
@@ -125,7 +140,7 @@ exports.getPendingBaseProducts = (req, res) => {
 }
 
 /**
- * Debe devolver todos los productos base de un usuario
+ * Devuelve todos los productos base de un usuario
  */
 exports.getBaseProducts = (req, res) => {
     User.findOne({
