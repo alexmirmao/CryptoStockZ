@@ -64,35 +64,21 @@ exports.createProduct = (req, res) => {
  */
 exports.updateProductWithForm = (req, res) => {
     User.findOne({
-      where: {
-          id: req.userId
-      }
+        where: {
+            id: req.userId
+        }
     }).then(user => {
         if (!user) {
             return res.status(404).send({ message: "User Not Found." });
         }
-  
-        var authorities = [];
-        user.getRoles().then(roles => {
-            roles.forEach(element => {
-                authorities.push(element.name);
-            });
-            // Comprobamos que sea manufacturer o seller la persona que modifica un producto digital
-            if (authorities.includes("manufacturer")) {
-              var digitalProduct = req.body;
-              console.log(digitalProduct);
-              Product.update(
-                digitalProduct
-              ,
-              { where: 
-                {
-                  id: digitalProduct.productId
-                }
-              })
-              return res.status(200).send({ message: "Digital product updated." });
-            } else {
-              return res.status(404).send({ message: "Need permissions to update." });
+        var digitalProduct = req.body;
+
+        Product.update(digitalProduct, {
+            where: {
+                id: digitalProduct.productId
             }
+        }).then(() => {
+            return res.status(200).send({ message: "Digital product updated." });
         });
     }).catch(err => {
         res.status(500).send({ message: err.message });
@@ -100,11 +86,9 @@ exports.updateProductWithForm = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-    Product.findAll()
-        .then(products => {
-            return res.status(200).send({ products: products });
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
+    Product.findAll().then(products => {
+        return res.status(200).send({ products: products });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
 };

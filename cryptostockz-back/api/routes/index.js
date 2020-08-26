@@ -6,4 +6,3 @@ require('../routes/account.routes')(app);
 require('../routes/views.routes')(app);
 require('../routes/product.routes')(app);
 require('../routes/base.product.routes')(app);
-require('../routes/cryptostockz.routes')(app);
