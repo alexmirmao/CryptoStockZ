@@ -22,23 +22,25 @@ module.exports = function (app) {
      * Subida un producto nuevo al sistema.
      * Requiere comprobacion de rol y permisos.
      * Implica escritura en la blockchain (cryptostockz.service.js)
+    */
     app.post(
         "/product",
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.createProduct
     );
-    */
+
 
     /**
      * Actualizacion de un producto existente.
      * Requiere comprobacion de rol y permisos.
      * Implica escritura en la blockchain (cryptostockz.service.js).
+    */
     app.put(
-        "/product",
+        "/product/:productId",
         [authJwt.verifyToken, authJwt.isManufacturer],
-        controller.updateProduct
+        controller.updateProductWithForm
     )
     
 
-    app.get("/product", controller.getAllProducts)*/
+    app.get("/product", controller.getAllProducts)
 };

@@ -13,18 +13,30 @@ exports.getUserByUserName = (req, res) => {
     },
     include: Permissions
   }).then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "User Not Found." });
-      }
+    if (!user) {
+      return res.status(404).send({ message: "User Not Found." });
+    }
 
-      if (user.permissions[0].name === "public"){
-        return res.status(200).send(user);
-      }
+    if (user.permissions[0].name === "public") {
+      return res.status(200).send({
+        "user": {
+          "userId": user.id,
+          "name": user.name,
+          "email": user.email,
+          "username": user.username,
+          "metamaskAccount": user.metamaskAccount,
+          "level": user.level,
+          "purchases": user.purchases,
+          "sales": user.sales,
+          "permissions": user.permissions[0].name
+        }
+      });
+    }
 
-      return res.status(200).send({message: "User account is private."});
-    }).catch(err => {
-      res.status(500).send({ message: err.message });
-    });
+    return res.status(200).send({ message: "User account is private." });
+  }).catch(err => {
+    res.status(500).send({ message: err.message });
+  });
 };
 
 // Que informacion es actualizable por un usuario?
@@ -89,25 +101,19 @@ exports.deleteUser = (req, res) => {
 exports.getUserProducts = (req, res) => {
   User.findOne({
     where: {
-      username: req.params.username
+      id: req.userId
     }
-  })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "User Not Found." });
-      }
+  }).then(user => {
+    if (!user) {
+      return res.status(404).send({ message: "User Not Found." });
+    }
 
-      /*var products = [];
-      user.getUserProducts().then(products => {
-        for (let i = 0; i < products.length; i++) {
-          products.push(products[i].uniqueId);
-        }
-      });*/
-      return res.status(200).send({ products: "User products" });
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
+    user.getProducts().then(products => {
+      return res.status(200).send({ products: products });
     });
+  }).catch(err => {
+    res.status(500).send({ message: err.message });
+  });
 };
 
 exports.getUserWishList = (req, res) => {
@@ -151,8 +157,18 @@ exports.transferProduct = (req, res) => {
         return res.status(404).send({ message: "Product Not Found." });
       }
 
-      cryptostockzService.transferProduct(req.body.receiver, product.address).then(result => {
-        return res.status(200).send({ message: result });
+      User.findOne({
+        where: {
+          metamaskAccount: req.body.receiver
+        }
+      }).then( receiver =>  {
+        
+        cryptostockzService.transferProduct(receiver.metamaskAccount, product.address).then(result => {
+          product.update({
+            owner_address: receiver.metamaskAccount
+          });
+          return res.status(200).send({ message: result });
+        });
       });
     });
   }).catch(err => {
