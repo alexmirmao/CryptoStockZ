@@ -16,50 +16,41 @@ const User = db.user;
  * AÑADIR PRODUCT_BASE ID EN LA BLOCKCHAIN ?¿?¿
  */
 exports.createProduct = (req, res) => {
-    console.log(req.userId);
-    User.findOne({
+    var digitalProduct = req.body;
+    // Buscamos que exista el producto base en nuestra base de datos
+    BaseProduct.findOne({
         where: {
-            id: req.userId
+            ean: digitalProduct.ean
         }
-    }).then(user => {
-        if (!user) {
-            return res.status(404).send({ message: "User Not Found." });
+    }).then(base_product => {
+        // Comprueba que existe el producto base en nuestra base de datos
+        if (!base_product) {
+            return res.status(200).send({ message: "Base Product does not exist." });
         }
-        var digitalProduct = req.body;
-        // Buscamos que exista el producto base en nuestra base de datos
-        BaseProduct.findOne({
+        // Buscamos que el owner_address sea igual al valor de la cuenta de metamask guardada.
+        User.findOne({
             where: {
-                fk_userId: user.id
+                metamaskAccount: digitalProduct.owner_address
             }
-        }).then(base_product => {
-            // Comprueba que existe el producto base en nuestra base de datos
-            if (!base_product) {
-                return res.status(200).send({ message: "Base Product does not exist." });
+        }).then(owner => {
+            // Comprueba que existe la cuenta en nuestra base de datos
+            if (!owner) {
+                return res.status(200).send({ message: "Metamask account not match." });
             }
-            // Buscamos que el owner_address sea igual al valor de la cuenta de metamask guardada.
-            User.findOne({
-                where: {
-                    metamaskAccount: digitalProduct.owner_address
-                }
-            }).then(metamask_account => {
-                // Comprueba que existe la cuenta en nuestra base de datos
-                if (!metamask_account) {
-                    return res.status(200).send({ message: "Metamask account not match." });
-                }
-            
-                Product.create({
-                    address: digitalProduct.address,
-                    owner_address: digitalProduct.owner_address,
-                    name: digitalProduct.name,
-                    ean: digitalProduct.ean,
-                    sku: digitalProduct.sku,
-                    numberOfTransactions: digitalProduct.numberTransactions,
-                    dna: digitalProduct.dna,
-                    level: digitalProduct.level
-                }).then(product => {
-                    product.setBaseProductId(base_product);
-                    return res.status(200).send({ message: "Digital product "+ product.address+" created." });
-                });
+
+            Product.create({
+                address: digitalProduct.address,
+                owner_address: digitalProduct.owner_address,
+                name: digitalProduct.name,
+                ean: digitalProduct.ean,
+                sku: digitalProduct.sku,
+                numberOfTransactions: digitalProduct.numberTransactions,
+                dna: digitalProduct.dna,
+                level: digitalProduct.level
+            }).then(product => {
+                product.setBaseProductId(base_product);
+                owner.addProducts(product);
+                return res.status(200).send({ message: "Digital product " + product.address + " created." });
             });
         });
     }).catch(err => {
@@ -96,6 +87,22 @@ exports.updateProductWithForm = (req, res) => {
 exports.getAllProducts = (req, res) => {
     Product.findAll().then(products => {
         return res.status(200).send({ products: products });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+exports.getProduct = (req, res) => {
+    Product.findOne({
+        where: {
+            id: req.params.productId
+        }
+    }).then(product => {
+        if(!product){
+            return res.status(404).send({ message: "Product Not Found." });
+        }
+
+        return res.status(200).send({"product": product});
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });

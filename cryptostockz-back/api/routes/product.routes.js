@@ -39,8 +39,15 @@ module.exports = function (app) {
         "/product/:productId",
         [authJwt.verifyToken, authJwt.isManufacturer],
         controller.updateProductWithForm
-    )
-    
+    );
 
-    app.get("/product", controller.getAllProducts)
+    app.get("/product",
+        [authJwt.verifyToken],
+        controller.getAllProducts
+    );
+
+    app.get("/product/:productId",
+        [authJwt.verifyToken],
+        controller.getProduct
+    );
 };

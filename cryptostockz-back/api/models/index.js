@@ -81,8 +81,8 @@ db.base_product.belongsTo(db.user, {
 
 db.user.hasMany(db.product, {
   as : 'Products',
-  foreignKey: 'owner_address', 
-  sourceKey: 'metamaskAccount'
+  foreignKey: 'owner_id', 
+  sourceKey: 'id'
 });
 
 /*db.product.belongsTo(db.user, {
