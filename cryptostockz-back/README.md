@@ -51,8 +51,12 @@ Crear una base de datos con nombre -> "cryptostockz"
 ### USUARIO
 Crear un usuario -> "cryptostockz"
 Darle una contraseña -> "cryptostockz"
-Darle permisos -> ALL
 
+```bash
+CREATE ROLE cryptostockz WITH LOGIN PASSWORD 'cryptostockz'
+```
+
+Darle permisos -> ALL
 
 Ejemplo:
 ``` sql
@@ -75,6 +79,31 @@ sudo nano /etc/postgresql/12/main/postgresql.conf
 
 Asegurarnos que el puerto es `5434` y que escucha en `localhost`
 
+En un entorno Mac para instalar postgres debemos lanzar los siguientes comandos.
+
+```bash
+brew doctor
+brew update
+brew install postgres
+```
+
+Buscar donde se encuentra el fichero de configuración.
+```bash
+sudo find / -name "postgresql.conf"
+```
+copiar la primera ruta que aparece que será parecida a /usr/local/var/postgres/postgresql.conf y editar las lineas de localhost y port cambiandolo a `5434`
+```bash
+nano /usr/local/var/postgres/postgresql.conf
+```
+
+Para comprobar que está iniciado el servicio
+```bash
+pg_ctl -D /usr/local/var/postgres start
+```
+Acceder con el comando a postgres
+```bash
+psql -p 5434 postgres
+```
 
 ### ENTORNOS 
 Podemos establecer otros parámetros en el archivo `config.js`
