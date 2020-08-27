@@ -11,8 +11,12 @@ const User = db.user;
  * En la practica, esta funcion es llamada desde el front cuando
  * se recibe el evento de que se ha creado el producto en la
  * Blockchain.
+ * 
+ * 
+ * AÑADIR PRODUCT_BASE ID EN LA BLOCKCHAIN ?¿?¿
  */
 exports.createProduct = (req, res) => {
+    console.log(req.userId);
     User.findOne({
         where: {
             id: req.userId
@@ -25,7 +29,7 @@ exports.createProduct = (req, res) => {
         // Buscamos que exista el producto base en nuestra base de datos
         BaseProduct.findOne({
             where: {
-                id: digitalProduct.baseProductId
+                fk_userId: user.id
             }
         }).then(base_product => {
             // Comprueba que existe el producto base en nuestra base de datos
@@ -42,15 +46,19 @@ exports.createProduct = (req, res) => {
                 if (!metamask_account) {
                     return res.status(200).send({ message: "Metamask account not match." });
                 }
+            
                 Product.create({
                     address: digitalProduct.address,
                     owner_address: digitalProduct.owner_address,
-                    level: digitalProduct.level,
-                    baseProductId: digitalProduct.baseProductId,
-                    userId: metamask_account.dataValues.id
+                    name: digitalProduct.name,
+                    ean: digitalProduct.ean,
+                    sku: digitalProduct.sku,
+                    numberOfTransactions: digitalProduct.numberTransactions,
+                    dna: digitalProduct.dna,
+                    level: digitalProduct.level
                 }).then(product => {
-                    //product.setOwner(metamask_account);
-                    return res.status(200).send({ message: "Digital product created." });
+                    product.setBaseProductId(base_product);
+                    return res.status(200).send({ message: "Digital product "+ product.address+" created." });
                 });
             });
         });

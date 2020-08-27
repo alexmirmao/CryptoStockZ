@@ -58,8 +58,6 @@ db.user.belongsToMany(db.permissions, {
 });
 
 
-// PRODUCTS o2m
-db.base_product.hasOne(db.product);
 
 // // ILLUSTRATIONS o2m
 db.base_product.hasMany(db.illustration);
@@ -81,8 +79,23 @@ db.base_product.belongsTo(db.user, {
 
 // PRODUCT
 
-db.user.hasMany(db.product, {as : 'product'});
-db.product.belongsTo(db.user, {as : 'owner'});
+db.user.hasMany(db.product, {
+  as : 'Products',
+  foreignKey: 'owner_address', 
+  sourceKey: 'metamaskAccount'
+});
+
+/*db.product.belongsTo(db.user, {
+  as : 'OwnerAddress',
+  foreignKey: 'owner_address', 
+  targetKey: 'metamaskAccount'
+});*/
+
+db.product.belongsTo(db.base_product, {
+  as: 'BaseProductId',
+  foreignKey: "base_productId",
+  target: "id"
+});
 
 
 // IMAGES
