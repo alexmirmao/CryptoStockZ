@@ -46,6 +46,7 @@ exports.getUserByUserName = (req, res) => {
 exports.updateUser = (req, res) => {
   User.findOne({
     where: {
+      id: req.userId,
       username: req.params.username
     }
   })
@@ -54,24 +55,25 @@ exports.updateUser = (req, res) => {
         return res.status(404).send({ message: "User Not Found." });
       }
 
-      if (req.body.permission) {
+      var userupdate = req.body;
+
+      if (userupdate.permission) {
         Permissions.findOne({
           where: {
-            name: req.body.permission
+            name: userupdate.permission
           }
-        })
-          .then(permission => {
-            if (!permission) {
-              return res.status(404).send({ message: "Invalid Permission." });
-            }
+        }).then(permission => {
+          if (!permission) {
+            return res.status(404).send({ message: "Invalid Permission." });
+          }
 
-            user.update({ name: req.body.name });
-            user.setPermissions([permission.id]);
+          user.update(userupdate);
+          user.setPermissions([permission.id]);
 
-            return res.status(200).send({ message: "User Succesfully Updated." });
-          });
+          return res.status(200).send({ message: "User Succesfully Updated." });
+        });
       } else {
-        user.update({ name: req.body.name });
+        user.update(userupdate);
         return res.status(200).send({ message: "User Succesfully Updated." });
       }
     })
@@ -135,22 +137,25 @@ exports.getUserWishList = (req, res) => {
 };
 
 /**
- * Necesita el address del usuario receptor y el address del producto
+ * Recibe productId y username del receiver.
+ * 
+ * Requiere comprobar que quien hace la peticion de transferencia es el dueño 
+ * del producto y que el producto exista, y que el receiver exista.
  */
 exports.transferProduct = (req, res) => {
   User.findOne({
     where: {
       id: req.userId
     }
-  }).then(user => {
-    if (!user) {
+  }).then(sender => {
+    if (!sender) {
       return res.status(404).send({ message: "User Not Found." });
     }
 
-    Product.findOne({
+    sender.getProducts({
       where: {
-        id: req.params.productId,
-        owner_address: user.metamaskAccount
+        owner_address: sender.metamaskAccount,
+        id: req.params.productId
       }
     }).then(product => {
       if (!product) {
@@ -159,10 +164,13 @@ exports.transferProduct = (req, res) => {
 
       User.findOne({
         where: {
-          metamaskAccount: req.body.receiver
+          username: req.body.receiver
         }
-      }).then( receiver =>  {
-        
+      }).then(receiver => {
+        if (!receiver) {
+          return res.status(404).send({ message: "Receiver Not Found." });
+        }
+
         cryptostockzService.transferProduct(receiver.metamaskAccount, product.address).then(result => {
           product.update({
             owner_address: receiver.metamaskAccount
