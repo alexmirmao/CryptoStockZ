@@ -46,14 +46,15 @@ module.exports = function (app) {
         controller.getAllProducts
     );
 
-    app.get("/product", controller.getAllProducts)
+    // app.get("/product", controller.getAllProducts)
 
     app.get(
         "/product/search/:productName/:manufacturerName",
         controller.searchProduct
     )
-    app.get("/product/:productId",
-        [authJwt.verifyToken],
-        controller.getProduct
-    );
+    
+    // app.get("/product/:productId",
+    //     [authJwt.verifyToken],
+    //     controller.getProduct
+    // );
 };
