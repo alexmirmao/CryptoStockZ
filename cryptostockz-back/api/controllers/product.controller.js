@@ -1,4 +1,5 @@
 const db = require("../models");
+const { product } = require("../models");
 
 const Product = db.product;
 const BaseProduct = db.base_product;
@@ -25,7 +26,7 @@ exports.createProduct = (req, res) => {
         // Buscamos que exista el producto base en nuestra base de datos
         BaseProduct.findOne({
             where: {
-                id: digitalProduct.baseProductId
+                name: digitalProduct.baseProductName
             }
         }).then(base_product => {
             // Comprueba que existe el producto base en nuestra base de datos
@@ -46,7 +47,7 @@ exports.createProduct = (req, res) => {
                     address: digitalProduct.address,
                     owner_address: digitalProduct.owner_address,
                     level: digitalProduct.level,
-                    baseProductId: digitalProduct.baseProductId,
+                    baseProductId: base_product.dataValues.id,
                     userId: metamask_account.dataValues.id
                 }).then(product => {
                     //product.setOwner(metamask_account);
@@ -92,3 +93,37 @@ exports.getAllProducts = (req, res) => {
         res.status(500).send({ message: err.message });
     });
 };
+
+
+exports.searchProduct = (req, res) => {
+    // Buscamos todos los productos que tiene el manufacturer
+    User.findAll({
+        include: {
+            model: BaseProduct,
+            as: "BaseProducts"
+        },
+        where: {
+            name: req.params.manufacturerName,
+        }
+    }).then(users => {
+        if (!users) {
+            return res.status(404).send({ message: "Manufacturer not found" });
+        }
+        // Recorremos el array de usuarios buscando el producto específico
+        users.forEach(user => {
+            BaseProduct.findOne({
+                where: {
+                    fk_userId: user.dataValues.id,
+                    name: req.params.productName
+                }
+            }).then(product => {
+                if (!product) {
+                    return res.status(404).send({ message: "This product does not belong to this manufacturer" });
+                }
+                return res.status(200).send({ message: product });
+            });
+        });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+}

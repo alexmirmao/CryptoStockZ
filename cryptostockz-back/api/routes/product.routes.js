@@ -43,4 +43,9 @@ module.exports = function (app) {
     
 
     app.get("/product", controller.getAllProducts)
+
+    app.get(
+        "/product/search/:productName/:manufacturerName",
+        controller.searchProduct
+    )
 };
