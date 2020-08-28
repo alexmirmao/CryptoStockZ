@@ -20,7 +20,8 @@ module.exports = function(app) {
 
   app.get(
     "/account/:username", 
-    controller.getUserByUserName
+    [authJwt.verifyToken],
+    controller.getUserProfile
   );
 
   app.put(
@@ -52,4 +53,5 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.transferProduct
   );
+
 };
