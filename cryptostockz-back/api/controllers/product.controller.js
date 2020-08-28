@@ -31,39 +31,13 @@ exports.createProduct = (req, res) => {
         // Buscamos que el owner_address sea igual al valor de la cuenta de metamask guardada.
         User.findOne({
             where: {
-<<<<<<< HEAD
-                name: digitalProduct.baseProductName
-=======
                 metamaskAccount: digitalProduct.owner_address
->>>>>>> 46a29bc5acd94ff6e3a1d911a5853b2214ee8fac
             }
         }).then(owner => {
             // Comprueba que existe la cuenta en nuestra base de datos
             if (!owner) {
                 return res.status(200).send({ message: "Metamask account not match." });
             }
-<<<<<<< HEAD
-            // Buscamos que el owner_address sea igual al valor de la cuenta de metamask guardada.
-            User.findOne({
-                where: {
-                    metamaskAccount: digitalProduct.owner_address
-                }
-            }).then(metamask_account => {
-                // Comprueba que existe la cuenta en nuestra base de datos
-                if (!metamask_account) {
-                    return res.status(200).send({ message: "Metamask account not match." });
-                }
-                Product.create({
-                    address: digitalProduct.address,
-                    owner_address: digitalProduct.owner_address,
-                    level: digitalProduct.level,
-                    baseProductId: base_product.dataValues.id,
-                    userId: metamask_account.dataValues.id
-                }).then(product => {
-                    //product.setOwner(metamask_account);
-                    return res.status(200).send({ message: "Digital product created." });
-                });
-=======
 
             Product.create({
                 address: digitalProduct.address,
@@ -78,7 +52,6 @@ exports.createProduct = (req, res) => {
                 product.setBaseProductId(base_product);
                 owner.addProducts(product);
                 return res.status(200).send({ message: "Digital product " + product.address + " created." });
->>>>>>> 46a29bc5acd94ff6e3a1d911a5853b2214ee8fac
             });
         });
     }).catch(err => {
