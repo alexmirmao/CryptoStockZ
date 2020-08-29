@@ -156,7 +156,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Product not found"
-  /product/search/{productName}/{manufacturerName}:
+  /product/search:
     get:
       x-swagger-router-controller: "product.controller"
       tags:
@@ -169,14 +169,14 @@ paths:
       - "application/json"
       parameters:
       - name: "productName"
-        in: "path"
+        in: "query"
         description: "Name of product to return"
-        required: true
+        required: false
         type: "string"
       - name: "manufacturerName"
-        in: "path"
+        in: "query"
         description: "Name of manufacturer to return"
-        required: true
+        required: false
         type: "string"
       responses:
         "200":

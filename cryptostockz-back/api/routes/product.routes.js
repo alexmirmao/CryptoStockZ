@@ -49,7 +49,7 @@ module.exports = function (app) {
     // app.get("/product", controller.getAllProducts)
 
     app.get(
-        "/product/search/:productName/:manufacturerName",
+        "/product/search",
         controller.searchProduct
     )
     
