@@ -32,6 +32,11 @@ contract StockZStorage {
         owner = _sender;
         latestVersion = msg.sender;
     }
+
+    function upgradeVersion(address _newVersion, address _sender) public {
+        require(_sender == owner, 'only owner');
+        latestVersion = _newVersion;
+    }
     
     /**
     @notice gets a Product by its address

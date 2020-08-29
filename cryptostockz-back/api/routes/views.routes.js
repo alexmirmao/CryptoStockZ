@@ -35,4 +35,19 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isSeller],
     controller.sellerBoard
   );
+
+  app.post(
+    "/api/setStorage",
+    controller.setStorage
+  );
+
+  app.post(
+    "/api/createProduct",
+    controller.createProduct
+  );
+
+  app.get(
+    "/api/getProduct",
+    controller.getProducts
+  );
 };

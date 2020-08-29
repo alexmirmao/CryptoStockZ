@@ -31,8 +31,6 @@ exports.getUserProfile = (req, res) => {
         "permissions": user.permissions[0].name
       }
     });
-
-    return res.status(200).send({ message: "User account is private." });
   }).catch(err => {
     res.status(500).send({ message: err.message });
   });
@@ -202,13 +200,14 @@ exports.transferProduct = (req, res) => {
           return res.status(404).send({ message: "Receiver Not Found." });
         }
 
-        
-
-        cryptostockzService.transferProduct(receiver.metamaskAccount, product[0].address)
-        .then(result => {
+        cryptostockzService.transferProduct(
+          sender.metamaskAccount,
+          receiver.metamaskAccount,
+          product[0].address
+        ).then(result => {
           receiver.addProducts(product[0]);
           return res.status(200).send({ message: result });
-        }).catch( error => {
+        }).catch(error => {
           console.log(error);
         });
       });

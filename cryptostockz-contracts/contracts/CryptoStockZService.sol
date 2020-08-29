@@ -12,7 +12,7 @@ import "./Product.sol";
 contract CryptoStockZ is Ownable {
     
     //constructor() ERC721("Stock Z Products", "SZP") public{}
-    StockZStorage stockZStorage = new StockZStorage(msg.sender);  // Creamos el storage 1.0
+    StockZStorage stockZStorage;// = new StockZStorage(msg.sender);  // Creamos el storage 1.0
     ProductToken productToken = new ProductToken();
     address productLogic = address(new ProductLogic());
 
