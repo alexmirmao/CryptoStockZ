@@ -1,69 +1,83 @@
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
 
-import { useHistory , Link} from "react-router-dom";
-import { Button,FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { useFormFields } from "../libs/hooksLib";
-import "./Login.css";
-import React from 'react';
-var ok_login
-export {ok_login};
 
-export default function Login() {
+export default class Login extends Component{
 
-  const history = useHistory();
-  const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: ""
-  });
-
-  function validateForm() {
-    return fields.email.length > 0 && fields.password.length > 0;
+  constructor(props){
+    super(props);
+      this.state={
+        username:"",
+        password:"",
+        errorMessage:"",
+        successMessage:"",
+        ok_login:false
+      }
+      this.reset=this.reset.bind(this);
   }
 
-  async function handleSubmit(event) {
-    if(true)//verque el usuario ya este registrado
-    {
-      ok_login = true
-      history.push(ok_login)
-      history.push("/perfil")
+  setValue(e){
+    let id=e.target.id;
+    let value=e.target.value;
+    let username=e.target.username;
+    if(value===undefined || value==="")
+      return;
+    if(id==="username"){
+      username=value.toUpperCase();
+      this.setState({
+        username:username})
     }
     else{
-      //(event.target.elements.email.value
-      alert("Debe registrarse")
+      this.setState({
+        password:e.target.value})
     }
-
   }
 
-  return (
-    <div className="Login">
-      <form onSubmit={handleSubmit} >
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={fields.email}
-            onChange={handleFieldChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
-          <FormControl
-            type="password"
-            value={fields.password}
-            onChange={handleFieldChange}
-          />
-        </FormGroup>
+  submit(e){
+    if(this.state.username===undefined||this.state.username===""
+        || this.state.password===undefined || this.state.password===""){
+      this.setState({
+        errorMessage:"Debe ingresar email y contraseña correctamente"})
+        }
+    else{
+      this.setState({
+        successMessage:"Bienvenido a CryptoStockZ",
+        ok_login:true})
+    }
+  }
+  reset(){
+    let username=this.state.username;
+    let password=this.state.password;
+      this.setState({
+        username:"",
+        password:"",
+      })
+  }
+  render(){
+    return(
+      <form>
+            <h3>Sign In</h3>
 
-        <Button block bsSize="large" onClick={handleSubmit} disabled={!validateForm()} type="submit">
-        Login
-        </Button>
-        <Button block bsSize="large" type="submit">
-        <Link to="/signup" className="nav-registro">
-          Registro
-          </Link>
-        </Button>
-      </form>
-    </div>
+            <div className="form-group">
+                <label>Username:</label>
+                <input type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
 
-  );
+            </div>
+
+            <div className="form-group">
+                <label>Password:</label>
+                <input type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
+            </div>
+
+            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>Iniciar Sesión</button>
+            <button block bsSize="large" type="reset" className="btn btn-primary btn-block" onClick={this.reset}>Reset</button>
+            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" >
+              <Link to="/signup" className="nav-registro">
+                Registro
+              </Link>
+              </button>
+
+        </form>
+    )
+  }
 }

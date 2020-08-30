@@ -3,12 +3,12 @@ import {Link} from "react-router-dom";
 import logo from "../Icono_opt.png"
 import styled from "styled-components";
 import {ButtonContainer} from "./Button";
-
+import ok_login from "./Login";
 
 
 export default class Navbar extends Component{
   render() {
-    if(true){
+    if(ok_login===true){
     return(
       <NavWrapper className="navbar navbar-expand-small  navbar-dark px-sm-5">
         <Link to="/">
