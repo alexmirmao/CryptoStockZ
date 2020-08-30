@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useHistory, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {
   Button,
   FormGroup,
@@ -8,55 +8,41 @@ import {
 } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
 import "./SignUp.css";
-var ok_reg;
-export {ok_reg}
+var params;
 
 export default function Signup() {
-  const history = useHistory();
   const [fields, handleFieldChange] = useFormFields({
+    username: "",
+    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    confirmationCode: "",
+    roles: "",
+    metamaskAccount: ""
   });
-  const [newUser, setNewUser] = useState(null);
-
-  function validateForm() {
-    return (
-      fields.email.length > 0 &&
-      fields.password.length > 0 &&
-      fields.password === fields.confirmPassword
-    );
-  }
+  const [newUser] = useState(null);
 
   async function handleSubmit(event) {
-    event.preventDefault();
-
-    setNewUser("test");
-    ok_reg= true
-    history.push("/perfil")
-
+    makePostRequest();
   }
-
 
   function renderForm() {
     return (
       <form onSubmit={handleSubmit}>
-      <FormGroup controlId="nombre" bsSize="large">
-        <ControlLabel>Nombre</ControlLabel>
+      <FormGroup controlId="username" bsSize="large">
+        <ControlLabel>Username</ControlLabel>
         <FormControl
           autoFocus
-          type="nombre"
-          value={fields.nombre}
+          type="username"
+          value={fields.username}
           onChange={handleFieldChange}
         />
       </FormGroup>
-      <FormGroup controlId="nif" bsSize="large">
-        <ControlLabel>NIF</ControlLabel>
+      <FormGroup controlId="name" bsSize="large">
+        <ControlLabel>Name</ControlLabel>
         <FormControl
           autoFocus
-          type="nif"
-          value={fields.nif}
+          type="name"
+          value={fields.name}
           onChange={handleFieldChange}
         />
         <FormGroup controlId="email" bsSize="large">
@@ -77,27 +63,47 @@ export default function Signup() {
             onChange={handleFieldChange}
           />
         </FormGroup>
-        <FormGroup controlId="usuario" bsSize="large">
-          <ControlLabel>Nombre de usuario</ControlLabel>
-          <FormControl
-            autoFocus
-            type="usuario"
-            value={fields.usuario}
-            onChange={handleFieldChange}
-          />
 
+          <FormGroup controlId="lista" bsSize="large">
         <select id="lista" name="lista" size="1">
         <option value="fabricante">Manufacturer</option>
         <option value="usuario">User</option>
         </select>
       </FormGroup>
-        <Button block bsSize="large" disabled={!validateForm()} type="submit">
-        <Link to="/perfil" className="nav-perfil">
+
+      <FormGroup controlId="meta" bsSize="large">
+        <ControlLabel>Cuenta Metamask</ControlLabel>
+        <FormControl
+          autoFocus
+          type="meta"
+          value={fields.meta}
+          onChange={handleFieldChange}
+        />
+        </FormGroup>
+
+        <Button block bsSize="large" type="submit">
           Registrar
-          </Link>
         </Button>
       </form>
     );
+  }
+
+  const axios = require('axios');
+
+  async function makePostRequest() {
+
+      params = {
+          username: fields.username,
+          name: fields.name,
+          email: fields.email,
+          password: fields.password,
+          roles: "user",
+          metamaskAccount: fields.meta
+        }
+
+      let res = await axios.post('http://localhost:10010/signin', params);
+
+      console.log(res.data);
   }
 
   return (
