@@ -4,24 +4,35 @@ import logo from "../Icono_opt.png"
 import styled from "styled-components";
 import {ButtonContainer} from "./Button";
 
+
+
 export default class Navbar extends Component{
   render() {
+    if(true){
     return(
       <NavWrapper className="navbar navbar-expand-small  navbar-dark px-sm-5">
         <Link to="/">
           <img src={logo} alt="store" className="navbar-brand"/>
         </Link>
+
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/" className="nav-link">
-                Comprar
+              <Link to="/perfil" className="nav-link">
+                Home
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/verificar" className="nav-dos">
-                verificar
+              <Link to="/NewProduct" className="nav-dos">
+                Verificar
+              </Link>
+            </li>
+          </ul>
+          <ul className="navbar-nav align-items-center">
+            <li className="nav-item ml-3">
+              <Link to="/registrarTransaccion" className="nav-dos">
+                Registrar transaccion
               </Link>
             </li>
           </ul>
@@ -42,7 +53,11 @@ export default class Navbar extends Component{
           </Link>
       </NavWrapper>
     );
+  }else {
+    return null
   }
+}
+
 }
 
 const NavWrapper = styled.nav`

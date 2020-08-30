@@ -6,7 +6,7 @@ import {ProductConsumer} from "../context";
 
 export default class ProductList extends Component{
   render() {
-    const {id, title, img, price, inCart} = this.props.product; // Destructuracion para no tener que poner this.props.product
+    const {id, title, img, price, inCart,ownerID} = this.props.product; // Destructuracion para no tener que poner this.props.product
 
     return(
       <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
