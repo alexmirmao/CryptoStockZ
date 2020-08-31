@@ -3,7 +3,9 @@ import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
 import Navbar from "./Navbar";
 import Image from 'react-image-resizer';
 import Logo from "../Logo.png";
+import UserStore from "../store/userStore";
 
+//Falta porque al cambiar el state de isLoggedIn se cambie tb en userStore.js
 
 export default class Login extends Component{
 
@@ -82,6 +84,10 @@ export default class Login extends Component{
               <Link to="/signup" className="btn btn-primary btn-block mx-auto text-center">
                 SignUp
               </Link>
+              </button>
+
+              <button block bsSize="large" type="submit" className="btn" onClick={UserStore.isLoggedIn="true"}>
+                Prueba
               </button>
         </form>
 

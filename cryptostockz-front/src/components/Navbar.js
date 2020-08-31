@@ -3,7 +3,7 @@ import {useHistory,Link} from "react-router-dom";
 import logo from "../Icono_opt.png"
 import styled from "styled-components";
 import {ButtonContainer} from "./Button";
-import Login from "./Login";
+import UserStore from "../store/userStore";
 
 const logged=true;
 
@@ -31,7 +31,7 @@ submit(){
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to={logged ? "/profile" : "#"} className="nav-dos" onClick={this.submit}>
+              <Link to={UserStore.isLoggedIn ? "/profile" : "#"} className="nav-dos" onClick={this.submit}>
                 Profile
               </Link>
             </li>
