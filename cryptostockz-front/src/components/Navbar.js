@@ -1,15 +1,18 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {useHistory,Link} from "react-router-dom";
 import logo from "../Icono_opt.png"
 import styled from "styled-components";
 import {ButtonContainer} from "./Button";
 import Login from "./Login";
 
-const logged=false;
+const logged=true;
 
 export default class Navbar extends Component{
-
-
+submit(){
+  if(!logged){
+    alert("Es necesario iniciar sesion")
+  }
+}
   render() {
     return(
       <div>
@@ -28,21 +31,21 @@ export default class Navbar extends Component{
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/profile" className="nav-dos" disabled={logged ? true : false}>
+              <Link to={logged ? "/profile" : "#"} className="nav-dos" onClick={this.submit}>
                 Profile
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/" className="nav-dos">
+              <Link to={logged ? "/" : "#"} className="nav-dos" onClick={this.submit}>
                 Products
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/search" className="nav-link">
+              <Link to={logged ? "/search" : "#"} className="nav-link" onClick={this.submit}>
                 Search
               </Link>
             </li>
