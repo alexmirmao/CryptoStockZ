@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {ButtonContainer} from "./Button";
 import Login from "./Login";
 
+const logged=false;
 
 export default class Navbar extends Component{
 
@@ -27,7 +28,7 @@ export default class Navbar extends Component{
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/profile" className="nav-dos">
+              <Link to="/profile" className="nav-dos" disabled={logged ? true : false}>
                 Profile
               </Link>
             </li>
