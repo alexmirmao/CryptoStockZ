@@ -3,13 +3,16 @@ import {Link} from "react-router-dom";
 import logo from "../Icono_opt.png"
 import styled from "styled-components";
 import {ButtonContainer} from "./Button";
-import ok_login from "./Login";
+import Login from "./Login";
 
 
 export default class Navbar extends Component{
+
+
   render() {
-    if(ok_login===true){
     return(
+      <div>
+
       <NavWrapper className="navbar navbar-expand-small  navbar-dark px-sm-5">
         <Link to="/">
           <img src={logo} alt="store" className="navbar-brand"/>
@@ -17,29 +20,29 @@ export default class Navbar extends Component{
 
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/perfil" className="nav-link">
+              <Link to="/" className="nav-link">
                 Home
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/NewProduct" className="nav-dos">
-                Verificar
+              <Link to="/profile" className="nav-dos">
+                Profile
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/registrarTransaccion" className="nav-dos">
-                Registrar transaccion
+              <Link to="/" className="nav-dos">
+                Products
               </Link>
             </li>
           </ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item ml-3">
-              <Link to="/buscar" className="nav-link">
-                buscar
+              <Link to="/search" className="nav-link">
+                Search
               </Link>
             </li>
           </ul>
@@ -52,10 +55,10 @@ export default class Navbar extends Component{
             </ButtonContainer>
           </Link>
       </NavWrapper>
+
+      </div>
     );
-  }else {
-    return null
-  }
+
 }
 
 }

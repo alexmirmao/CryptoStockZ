@@ -91,19 +91,33 @@ export default function Signup() {
   const axios = require('axios');
 
   async function makePostRequest() {
+    var data = JSON.stringify({
+      "username":fields.username,
+      "name":fields.name,
+      "email":fields.email,
+      "password":fields.password,
+      "roles":["manufacturer"],
+      "metamaskAccount":"0x38Cc8AD81b8E7a8550c0F3AD30060F01830Ba1c9"});
 
-      params = {
-          username: fields.username,
-          name: fields.name,
-          email: fields.email,
-          password: fields.password,
-          roles: "user",
-          metamaskAccount: fields.meta
-        }
+    var config = {
+      method: 'post',
+      url: 'http://localhost:10010/signup',
+      headers: {
+        'Content-Transfer-Encoding': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*'
+      },
+      data : data
+    };
 
-      let res = await axios.post('http://localhost:10010/signin', params);
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-      console.log(res.data);
   }
 
   return (

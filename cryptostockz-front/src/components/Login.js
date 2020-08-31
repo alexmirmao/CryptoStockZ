@@ -1,5 +1,8 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
+import Navbar from "./Navbar";
+import Image from 'react-image-resizer';
+import Logo from "../Logo.png";
 
 
 export default class Login extends Component{
@@ -56,28 +59,33 @@ export default class Login extends Component{
   render(){
     return(
       <form>
-            <h3>Sign In</h3>
+            <h3 className="mx-auto text-center">Login</h3>
 
-            <div className="form-group">
-                <label>Username:</label>
+            <div className="form-group mx-auto text-center">
+                <label>Username :  </label>
                 <input type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
 
             </div>
 
-            <div className="form-group">
-                <label>Password:</label>
+            <div className="form-group mx-auto text-center" autofocus>
+                <label>Password :  </label>
                 <input type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
             </div>
 
-            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>Iniciar Sesión</button>
-            <button block bsSize="large" type="reset" className="btn btn-primary btn-block" onClick={this.reset}>Reset</button>
-            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" >
-              <Link to="/signup" className="nav-registro">
-                Registro
+            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>
+              <Link to="/signup" className="btn btn-primary btn-block mx-auto text-center">
+                Login
+              </Link>
+            </button>
+            <button block bsSize="large" type="reset" className="btn btn-primary btn-block mx-auto text-center" onClick={this.reset}>Reset</button>
+            <button block bsSize="large" type="submit" className="btn btn-primary btn-block mx-auto text-center" >
+              <Link to="/signup" className="btn btn-primary btn-block mx-auto text-center">
+                SignUp
               </Link>
               </button>
-
         </form>
+
+
     )
   }
 }
