@@ -2,11 +2,23 @@ import React, {Component} from "react";
 import Product from "./Product";
 import Title from "./Title";
 import {ProductConsumer} from "../context";
-import {  FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 /* ProductList.js es el componente que va a recopilar los datos de los
 productos y ponerlos en columnas
 */
 export default class ProductList extends Component{
+  constructor(props){
+    super(props);
+      this.state={
+        username:"",
+        email:"",
+        level:"",
+        purchases:"",
+        sales:"",
+        errorMessage:"",
+        successMessage:""
+      }
+  }
+
   render() {
     return(
 
@@ -14,46 +26,31 @@ export default class ProductList extends Component{
 
         <div className="py-5">
     <div>
-    <FormGroup controlId="nombre" bsSize="large">
-      <ControlLabel>Nombre</ControlLabel>
-      <FormControl
-        autoFocus
-        type="nombre"
-        value="nombre"
-      />
-    </FormGroup>
-    <FormGroup controlId="nif" bsSize="large">
-      <ControlLabel>nif</ControlLabel>
-      <FormControl
-        autoFocus
-        type="nif"
-        value="nif"
-      />
-    </FormGroup>
-    <FormGroup controlId="email" bsSize="large">
-      <ControlLabel>email</ControlLabel>
-      <FormControl
-        autoFocus
-        type="email"
-        value="email"
-      />
-    </FormGroup>
-      <FormGroup controlId="rol" bsSize="large">
-        <ControlLabel>rol</ControlLabel>
-        <FormControl
-          autoFocus
-          type="rol"
-          value="rol"
-        />
-      </FormGroup>
-      <FormGroup controlId="level" bsSize="large">
-        <ControlLabel>level</ControlLabel>
-        <FormControl
-          autoFocus
-          type="level"
-          value="level"
-        />
-      </FormGroup>
+    <div className="form-group mx-auto text-center" >
+        <label>Username :  </label>
+        <output type="text" id="username" value={this.state.username}/>
+    </div>
+
+    <div className="form-group mx-auto text-center" >
+        <label>Email :  </label>
+        <output type="email" id="email" value={this.state.email} />
+    </div>
+
+    <div className="form-group mx-auto text-center" >
+        <label>Level :  </label>
+        <output type="level" id="level" value={this.state.level} />
+    </div>
+
+    <div className="form-group mx-auto text-center" >
+        <label>Purchases :  </label>
+        <output type="purchases" id="purchases" value={this.state.purchases} />
+    </div>
+
+    <div className="form-group mx-auto text-center" >
+        <label>Sales :  </label>
+        <output type="sales" id="sales" value={this.state.sales} />
+    </div>
+
     </div>
           <div className="container">
             <Title name="Productos" title="disponibles"/>
