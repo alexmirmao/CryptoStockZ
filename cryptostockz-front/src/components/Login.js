@@ -63,13 +63,13 @@ export default class Login extends Component{
 
             <div className="form-group mx-auto text-center">
                 <label>Username :  </label>
-                <input type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
+                <input placeholder="Insert username" type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
 
             </div>
 
             <div className="form-group mx-auto text-center" autofocus>
                 <label>Password :  </label>
-                <input type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
+                <input placeholder="Insert password" type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
             </div>
 
             <button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>
