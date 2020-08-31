@@ -43,7 +43,7 @@ export default class Buscar extends Component{
         }
     else{
       this.setState({
-        successMessage:"Bienvenido a CryptoStockZ"})
+        successMessage:"Aqui aparecera el perfil del usuario"})
     }
   }
   reset(){
@@ -76,8 +76,6 @@ export default class Buscar extends Component{
               </Link>
             </button>
         </form>
-
-
     )
   }
 }
