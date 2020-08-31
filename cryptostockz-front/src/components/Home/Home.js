@@ -1,8 +1,8 @@
 import React, {Component} from "react"
-import Title from "./Title";
-import Icono from "../Icono.png";
-import Eth from "../eth.png";
-import Meta from "../metamask.png";
+import Title from "../Title";
+import Icono from "../../Icono.png";
+import Eth from "../../eth.png";
+import Meta from "../../metamask.png";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
@@ -16,8 +16,8 @@ export default class Home extends Component{
           <img style={{width: '130px', height: '200px'}} src={Eth} alt="Icono_Eth" />
           <img style={{width: '200px', height: '200px'}} src={Meta} alt="Icono_Meta" />
         </div>
-        <Button block bsSize="large" className="cart-btn">
-          <Link to="/login" className="cart-btn">
+        <Button variant="dark">
+          <Link to="/login">
             Login
           </Link>
         </Button>

@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
-import Navbar from "./Navbar";
 import Image from 'react-image-resizer';
-import Logo from "../Logo.png";
-import UserStore from "../store/userStore";
+import Logo from "../../Logo.png";
+import UserStore from "../../store/userStore";
 
 //Falta porque al cambiar el state de isLoggedIn se cambie tb en userStore.js
 
