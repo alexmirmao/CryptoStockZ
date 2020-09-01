@@ -11,6 +11,7 @@ import axios from 'axios';
 class UserProfile extends React.Component {
 
     state = {
+        isManufacturer: true,
         user: {
         },
         user_products: []
@@ -67,7 +68,7 @@ class UserProfile extends React.Component {
                             <Tabs defaultActiveKey="products" transition={false} id="noanim-tab-example">
                                 <Tab eventKey="products" title="Products">
                                     <div className="container">
-                                        <UserProductList userProducts={this.state.products}/>
+                                        <UserProductList userProducts={this.state.products} />
                                     </div>
                                 </Tab>
                                 <Tab eventKey="wish" title="Wish List">
@@ -75,11 +76,13 @@ class UserProfile extends React.Component {
                                         <UserWishList />
                                     </div>
                                 </Tab>
-                                <Tab eventKey="tx" title="Pending Products">
-                                    <div className="container">
-                                        List of User Tx
+                                {this.state.isManufacturer ? (
+                                    <Tab eventKey="pending" title="Pending Products">
+                                        <div className="container">
+                                            List of User Tx
                                     </div>
-                                </Tab>
+                                    </Tab>
+                                ): null }
                                 <Tab eventKey="new" title="New Product">
                                     <div className="container">
                                         <NewProduct />
