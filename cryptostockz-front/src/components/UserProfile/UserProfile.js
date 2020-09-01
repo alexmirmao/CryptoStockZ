@@ -58,7 +58,7 @@ class UserProfile extends React.Component {
                                 <ListGroup.Item>Email: <strong>{this.state.user.email}</strong></ListGroup.Item>
                                 <ListGroup.Item>Level: <strong>{this.state.user.level}</strong></ListGroup.Item>
                                 <ListGroup.Item>Sales: <strong>{this.state.user.sales}</strong></ListGroup.Item>
-                                <ListGroup.Item>Purchses: <strong>{this.state.user.purchases}</strong></ListGroup.Item>
+                                <ListGroup.Item>Purchases: <strong>{this.state.user.purchases}</strong></ListGroup.Item>
                             </ListGroup>
                         </div>
                     </Col>
@@ -75,7 +75,7 @@ class UserProfile extends React.Component {
                                         <UserWishList />
                                     </div>
                                 </Tab>
-                                <Tab eventKey="tx" title="My Transactions">
+                                <Tab eventKey="tx" title="Pending Products">
                                     <div className="container">
                                         List of User Tx
                                     </div>
