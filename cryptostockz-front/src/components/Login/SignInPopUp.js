@@ -2,7 +2,7 @@ import React from 'react';
 import './PopUp.css';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Image } from "react-bootstrap";
-import Meta from "../metamask.png";
+import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
 
 class SignInPopup extends React.Component {

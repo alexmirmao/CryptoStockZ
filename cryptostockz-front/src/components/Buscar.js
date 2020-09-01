@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
 import Navbar from "./Navbar";
 import Image from 'react-image-resizer';
-import Logo from "../Logo.png";
+import Logo from "../Images/Logo.png";
 
 
 export default class Buscar extends Component{

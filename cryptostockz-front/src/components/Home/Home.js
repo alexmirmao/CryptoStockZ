@@ -1,13 +1,13 @@
 import React, {Component} from "react"
-import Title from "./Title";
-import Icono from "../Icono.png";
-import Eth from "../eth.png";
-import Meta from "../metamask.png";
+import Title from "../Title";
+import Icono from "../../Images/Icono.png";
+import Eth from "../../Images/eth.png";
+import Meta from "../../Images/metamask.png";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
-import SignInPopUp from './SignInPopUp';
-import Login from './Login';
+import SignInPopUp from '../Login/SignInPopUp';
+// import Login from './Login/Login';
 
 export default class Home extends Component{
   constructor(props){  
@@ -41,7 +41,10 @@ export default class Home extends Component{
         }
 
         <Button block bsSize="large" className="cart-btn">
-          <Link to="/login" className="cart-btn">
+          <Link to="/login" className="cart-btn"></Link>
+        </Button>
+        <Button variant="dark">
+          <Link to="/login">
             Login
           </Link>
         </Button>
