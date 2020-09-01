@@ -11,48 +11,21 @@ class UserProductsList extends React.Component {
         user_products: []
     }
 
-    storeProducts = [
-        {
-            id: 1,
-            owner: "AirForce",
-            name: "AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 2,
-            owner: "AirForce",
-            name: "Air Jordan",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 3,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-    ];
-
     getUserProducts() {
         var config = {
             method: 'get',
-            url: 'http://192.168.1.42:10010/account/products/all',
+            url: 'http://192.168.1.42:10010/product',
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc'
+                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
             }
         };
 
         axios(config)
             .then(function (response) {
-                console.log(JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data.products));
                 this.setState({
-                    products: response.data.products
+                    user_products: response.data.products
                 });
             }.bind(this))
             .catch(function (error) {
