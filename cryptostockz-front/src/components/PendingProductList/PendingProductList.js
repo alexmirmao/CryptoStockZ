@@ -48,8 +48,8 @@ class PendingProductsList extends React.Component {
                         <Grid align="center" container spacing={5}>
                             {this.state.user_products.map((product) => {
                                 return (
-                                    <Grid item xs={6}>
-                                        <ProductCard productInfo={product} key={product.id.toString()} />
+                                    <Grid item xs={6}key={product.id}>
+                                        <ProductCard productInfo={product}/>
                                     </Grid>
                                 )
                             })}
