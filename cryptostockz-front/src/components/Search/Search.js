@@ -46,7 +46,7 @@ export default class Search extends Component {
       }.bind(this))
       .catch(function (error) {
         console.log(error);
-        alert("Something went Wrong")
+        alert("Something went wrong")
       });
   }
 
@@ -70,7 +70,7 @@ export default class Search extends Component {
             </InputGroup.Append>
           </InputGroup>
           <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Users (comming soon)" disabled />
+            <Form.Check type="checkbox" label="Users (coming soon)" disabled />
             <Form.Check type="checkbox" label="Products" checked readOnly />
           </Form.Group>
         </div>
