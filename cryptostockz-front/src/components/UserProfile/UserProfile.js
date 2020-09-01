@@ -5,6 +5,7 @@ import './UserProfile.css';
 import UserProductList from '../UserProductList/UserProductsList';
 import UserWishList from '../UserWishList/UserWishList';
 import NewProduct from '../NewProduct/NewProduct';
+import PendingProductList from '../PendingProductList/PendingProductList';
 
 import axios from 'axios';
 
@@ -79,10 +80,10 @@ class UserProfile extends React.Component {
                                 {this.state.isManufacturer ? (
                                     <Tab eventKey="pending" title="Pending Products">
                                         <div className="container">
-                                            List of User Tx
-                                    </div>
+                                            <PendingProductList userProducts={this.state.products} />
+                                        </div>
                                     </Tab>
-                                ): null }
+                                ) : null}
                                 <Tab eventKey="new" title="New Product">
                                     <div className="container">
                                         <NewProduct />

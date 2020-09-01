@@ -42,7 +42,7 @@ class UserWishList extends React.Component {
             <React.Fragment>
                 {this.state.user_products.length == 0 ? (
                     <Grid align="center" container spacing={5}>
-                        <span>There are no prodducts</span>
+                        <span>There are no products</span>
                     </Grid>
                 ) : (
                         <Grid align="center" container spacing={5}>
