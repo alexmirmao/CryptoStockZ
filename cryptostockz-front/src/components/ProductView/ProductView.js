@@ -10,6 +10,9 @@ class ProductView extends React.Component {
     state =  {
         product: {
 
+        },
+        user: {
+
         }
     }
 
@@ -35,6 +38,28 @@ class ProductView extends React.Component {
                     product: response.data.product
               
                   });
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    getUserInfo() {
+        var config = {
+            method: 'get',
+            url: 'http://192.168.1.42:10010/account/nike',
+            headers: {
+                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk4OTg3NDk2LCJleHAiOjE1OTkwNzM4OTZ9.g5-A6CVhmxJvlXUTsugREnwFVMdpnGiKjgbcHDIzS8o',
+                'Cookie': 'userId=2'
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data.user));
+                this.setState({
+                    user: response.data.user
+                });
             }.bind(this))
             .catch(function (error) {
                 console.log(error);
@@ -70,7 +95,12 @@ class ProductView extends React.Component {
                 <Row>
                     <Col>
                         <div className="button_container">
-                            <Button>Transfer</Button>
+                            {this.state.user.metamaskAccount != this.state.product.owner_address ? 
+                            <Button>Add to Wish List</Button>
+                            : (
+                                <Button>Transfer</Button>
+                            )}
+                            
                         </div>
                     </Col>
                 </Row>
