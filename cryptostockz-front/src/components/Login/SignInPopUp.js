@@ -1,61 +1,102 @@
 import React from 'react';  
 import './PopUp.css';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { Form } from 'react-bootstrap';
+import { Button } from 'reactstrap';
+import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
+import axios from 'axios';
 
 class SignInPopup extends React.Component {
     constructor(props){  
         super(props);
-
+        this.handleChange = this.handleChange.bind(this);
         this.state = { 
             showSignUpPopup: false,
-            showSignInPopup: true
+            showSignInPopup: true,
+            username: "",
+            password: ""
         };  
-    }  
+    }
+
+    handleChange(e) {
+        if(e.target.id === "formBasicUsername") {
+            this.setState({username: e.target.value});
+        }else if(e.target.id === "formBasicPassword") {
+            this.setState({password: e.target.value});
+        }
+    }
+
+    signInUser() {
+        var payload={
+            "username":this.state.username,
+            "password":this.state.password
+        }
+
+        var config = {
+            method: 'post',
+            url: 'http://localhost:10010/signin',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : payload
+        };
+
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
     
     togglePopup() {
         this.setState({  
-            showSignUpPopup: !this.state.showSignUpPopup,
-            showSignInPopup: this.props.closePopup
+            showSignUpPopup: !this.state.showSignUpPopup
         });
     }
 
     FormPage() {
+        const username = this.state.username;
+        const password = this.state.password;
         return (
-        <MDBContainer>
-          <MDBRow>
-            <MDBCol md="6">
-                <form>
-                    <p className="h5 text-center mb-4">Sign In</p>
-                    <div className="grey-text">
-                    <MDBInput label="Type your username" icon="user" group type="user" validate error="wrong"
-                        success="right" />
-                    <MDBInput label="Type your password" icon="lock" group type="password" validate />
-                    </div>
-                </form>
-            </MDBCol>
-            <MDBCol md="6">
-                <Image style={{width: '250px', height: '250px'}} src={Meta} alt="Icono_Meta" className="rounded mx-auto d-block"/>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-                <MDBCol md="4">
-                    <MDBBtn color="primary">Log In</MDBBtn>
-                </MDBCol>
-                <MDBCol md="2">
-                    <MDBBtn color="success" onClick={this.togglePopup.bind(this)}>Sign Up</MDBBtn>
-                    {this.state.showSignUpPopup ?  
-                    <SignUpPopUp closeSignInPopup={this.togglePopup.bind(this)}/>
-                    : null
-                    }
-                </MDBCol>
-                <MDBCol md="6">
-                    <MDBBtn color="warning" onClick={this.props.closePopup}>Close</MDBBtn>
-                </MDBCol>
-          </MDBRow>
-        </MDBContainer>
+        <div className="container">
+            <Form>
+                <Grid container spacing={3}>
+                    <Grid item md={6}>
+                        <Form.Group controlId="formBasicUsername">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="username" placeholder="Enter username" value={username} 
+                                          onChange = {this.handleChange}/>
+                        </Form.Group>
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" value={password}
+                                          onChange = {this.handleChange}/>
+                        </Form.Group>
+                    </Grid>
+                    <Grid item md={6}>
+                        <Image style={{width: '250px', height: '250px'}} src={Meta} alt="Icono_Meta" className="rounded mx-auto d-block"/>
+                    </Grid>
+                    <Grid item md={4}>
+                        <Button variant="success" onClick={(event) => this.signInUser(event)}>Log In</Button>
+                    </Grid>
+                    <Grid item md={6}>
+                        <Button color="success" onClick={this.togglePopup.bind(this)}>Sign Up</Button>
+                        {this.state.showSignUpPopup ?  
+                        <SignUpPopUp closeSignInPopup={this.togglePopup.bind(this)}/>
+                        : null
+                        }
+                    </Grid>
+                    <Grid item md={2}>
+                        <Button color="warning" onClick={this.props.closePopup}>Close</Button>
+                    </Grid>
+                </Grid>
+            </Form>
+        </div>
         );
     };
 

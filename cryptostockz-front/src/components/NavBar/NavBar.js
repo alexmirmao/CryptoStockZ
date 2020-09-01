@@ -1,10 +1,25 @@
 import React, { Component } from "react";
-import { Navbar, Nav, Button } from 'react-bootstrap';
-
+import { Navbar, Nav } from 'react-bootstrap';
+import SignInPopUp from '../Login/SignInPopUp';
+import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 const logged = true;
 
 class NavBar extends Component {
+  constructor(props){  
+    super(props);  
+    this.state = { 
+      showPopup: false
+    };  
+  }  
+
+  togglePopup() {
+      this.setState({  
+          showPopup: !this.state.showPopup  
+      });  
+  }
+  
   submit() {
     if (!logged) {
       alert("Es necesario iniciar sesion")
@@ -21,7 +36,11 @@ class NavBar extends Component {
             <Nav.Link href="/profile">Profile</Nav.Link>
             <Nav.Link href="/search">Search</Nav.Link>
           </Nav>
-          <Button variant="outline-info">Login</Button>
+          <Button variant="outline-info" onClick={this.togglePopup.bind(this)}>Login</Button>  
+          {this.state.showPopup ?  
+          <SignInPopUp closePopup={this.togglePopup.bind(this)}/>
+          : null
+          }
         </Navbar.Collapse>
       </Navbar>
     );
