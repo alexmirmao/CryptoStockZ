@@ -16,10 +16,10 @@ export default class Login extends Component{
         password:"",
         errorMessage:"",
         successMessage:"",
-        ok_login:false
+        ok_login:false,
       }
       this.reset=this.reset.bind(this);
-  }
+    }
 
   setValue(e){
     let id=e.target.id;
@@ -62,18 +62,21 @@ export default class Login extends Component{
     return(
       <form>
             <h3 className="mx-auto text-center">Login</h3>
-
-            <div className="form-group mx-auto text-center">
-                <label>Username :  </label>
-                <input placeholder="Insert username" type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
+            <div aria-colspan="2" className="form-group mx-auto text-center">
+              <input placeholder="Insert username" type="text" id="username" value={this.state.username} onChange={(e)=>this.setValue(e)} />
+              <input placeholder="Insert password" type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
             </div>
 
             <div className="form-group mx-auto text-center" autofocus>
-                <label>Password :  </label>
-                <input placeholder="Insert password" type="password" id="password" value={this.state.password} onChange={(e)=>this.setValue(e)} />
+              <label>Username</label>
+              <label>Password</label>
             </div>
+        </form>
+    )
+  }
+}
 
-            <button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>
+/**<button block bsSize="large" type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submit(e)}>
               <Link to="/signup" className="btn btn-primary btn-block mx-auto text-center">
                 Login
               </Link>
@@ -88,9 +91,4 @@ export default class Login extends Component{
               <button block bsSize="large" type="submit" className="btn" onClick={UserStore.isLoggedIn="true"}>
                 Prueba
               </button>
-        </form>
-
-
-    )
-  }
-}
+ */

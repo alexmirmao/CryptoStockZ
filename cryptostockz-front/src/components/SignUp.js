@@ -6,7 +6,6 @@ import Logo from "../Logo.png";
 
 
 export default class Signup extends Component{
-
   constructor(props){
     super(props);
       this.state={
@@ -14,7 +13,7 @@ export default class Signup extends Component{
         password:"",
         errorMessage:"",
         successMessage:"",
-        ok_login:false
+        ok_login:false,
       }
       this.reset=this.reset.bind(this);
   }
