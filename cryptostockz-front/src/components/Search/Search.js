@@ -24,7 +24,7 @@ export default class Search extends Component {
       <div className="container">
         <h3 className="mx-auto text-center">Search</h3>
           <Form.Text className="text-muted">
-            Search products and users by their name.
+            Search products by its name.
         </Form.Text>
           <InputGroup className="mb-3">
             <FormControl placeholder="Search..."
@@ -39,7 +39,7 @@ export default class Search extends Component {
           </InputGroup>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Users (comming soon)" disabled />
-            <Form.Check type="checkbox" label="Products" />
+            <Form.Check type="checkbox" label="Products" checked readOnly/>
           </Form.Group>
       </div>
     )

@@ -6,7 +6,43 @@ import UserProductList from '../UserProductList/UserProductsList';
 import UserWishList from '../UserWishList/UserWishList';
 import NewProduct from '../NewProduct/NewProduct';
 
+import axios from 'axios';
+
 class UserProfile extends React.Component {
+
+    state = {
+        user: {
+        },
+        user_products: []
+    }
+
+
+    getUserInfo() {
+        var config = {
+            method: 'get',
+            url: 'http://192.168.1.42:10010/account/adidas',
+            headers: {
+                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc',
+                'Cookie': 'userId=2'
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data.user));
+                this.setState({
+                    user: response.data.user
+                });
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    componentDidMount() {
+        this.getUserInfo();
+    }
+
 
     render() {
         return (
@@ -18,11 +54,11 @@ class UserProfile extends React.Component {
                         </div>
                         <div className="user_information">
                             <ListGroup>
-                                <ListGroup.Item>Username: username</ListGroup.Item>
-                                <ListGroup.Item>Email: email@email.com</ListGroup.Item>
-                                <ListGroup.Item>Level: 1</ListGroup.Item>
-                                <ListGroup.Item>Sales: 0</ListGroup.Item>
-                                <ListGroup.Item>Purchses: 0</ListGroup.Item>
+                                <ListGroup.Item>Username: <strong>{this.state.user.username}</strong></ListGroup.Item>
+                                <ListGroup.Item>Email: <strong>{this.state.user.email}</strong></ListGroup.Item>
+                                <ListGroup.Item>Level: <strong>{this.state.user.level}</strong></ListGroup.Item>
+                                <ListGroup.Item>Sales: <strong>{this.state.user.sales}</strong></ListGroup.Item>
+                                <ListGroup.Item>Purchses: <strong>{this.state.user.purchases}</strong></ListGroup.Item>
                             </ListGroup>
                         </div>
                     </Col>
@@ -31,12 +67,12 @@ class UserProfile extends React.Component {
                             <Tabs defaultActiveKey="products" transition={false} id="noanim-tab-example">
                                 <Tab eventKey="products" title="Products">
                                     <div className="container">
-                                        <UserProductList/>
+                                        <UserProductList userProducts={this.state.products}/>
                                     </div>
                                 </Tab>
                                 <Tab eventKey="wish" title="Wish List">
                                     <div className="container">
-                                        <UserWishList/>
+                                        <UserWishList />
                                     </div>
                                 </Tab>
                                 <Tab eventKey="tx" title="My Transactions">
@@ -46,7 +82,7 @@ class UserProfile extends React.Component {
                                 </Tab>
                                 <Tab eventKey="new" title="New Product">
                                     <div className="container">
-                                        <NewProduct/>
+                                        <NewProduct />
                                     </div>
                                 </Tab>
                             </Tabs>
