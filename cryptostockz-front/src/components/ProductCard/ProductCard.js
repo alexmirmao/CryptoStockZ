@@ -1,5 +1,11 @@
 import React from 'react';
+<<<<<<< HEAD
 import {Card, Button, ListGroup } from 'bootstrap';
+=======
+import { Card, Button, ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+>>>>>>> 118b30c7a65229e2a0caa30bad81c0491fb88dfb
 
 class ProductCard extends React.Component {
 
@@ -10,15 +16,14 @@ class ProductCard extends React.Component {
                     <Card.Img variant="top" src="https://www.clipartmax.com/png/middle/8-82865_footwear-keds-nike-run-shoe-shoes-sneaker-icon-nike-shoe-drawing.png" />
                     <Card.Body>
                         <Card.Title>{this.props.productInfo.name}</Card.Title>
-                        <Card.Text>
-                            <ListGroup>
-                                <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
-                                <ListGroup.Item>ean: {this.props.productInfo.ean}</ListGroup.Item>
-                                <ListGroup.Item>sku: {this.props.productInfo.sku}</ListGroup.Item>
-                                <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Text>
-                        <Button variant="primary">See</Button>
+                        <ListGroup>
+                            <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
+                            <ListGroup.Item>ean: {this.props.productInfo.ean}</ListGroup.Item>
+                            <ListGroup.Item>sku: {this.props.productInfo.sku}</ListGroup.Item>
+                            <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
+                        </ListGroup>
+                        <br></br>
+                        <Link to={`/products/${this.props.productInfo.id}`}>See</Link>
                     </Card.Body>
                 </Card>
             </div>
