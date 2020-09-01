@@ -1,6 +1,6 @@
 import React from 'react';  
 import './PopUp.css';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+// import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
 import { Button } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
@@ -64,7 +64,7 @@ class SignInPopup extends React.Component {
         const username = this.state.username;
         const password = this.state.password;
         const showSignInPopup = this.state.showSignInPopup;
-        const showSignUpPopup = this.state.showSignUpPopup;
+        //const showSignUpPopup = this.state.showSignUpPopup;
         return (
         <div className="container">
             <Form>
@@ -88,7 +88,7 @@ class SignInPopup extends React.Component {
                         <Button variant="success" onClick={(event) => this.signInUser(event)}>Log In</Button>
                     </Grid>
                     <Grid item md={6}>
-                        <Button color="success" id="handlePopUp" value={showSignInPopup, showSignUpPopup} 
+                        <Button color="success" id="handlePopUp" value={showSignInPopup} 
                                 onClick={this.handleChange}>Sign Up</Button>
                         {this.state.showSignUpPopup ?  
                         <SignUpPopUp closeSignInPopup={this.handleChange}/>

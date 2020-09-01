@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import SignInPopUp from '../Login/SignInPopUp';
 import {Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 const logged = true;
 

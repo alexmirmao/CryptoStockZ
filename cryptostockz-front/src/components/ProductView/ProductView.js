@@ -95,7 +95,7 @@ class ProductView extends React.Component {
                 <Row>
                     <Col>
                         <div className="button_container">
-                            {this.state.user.metamaskAccount != this.state.product.owner_address ? 
+                            {this.state.user.metamaskAccount !== this.state.product.owner_address ? 
                             <Button>Add to Wish List</Button>
                             : (
                                 <Button>Transfer</Button>

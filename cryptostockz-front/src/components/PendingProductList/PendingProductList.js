@@ -40,7 +40,7 @@ class PendingProductsList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.user_products.length == 0 ? (
+                {this.state.user_products.length === 0 ? (
                     <Grid align="center" container spacing={5}>
                         <span>There are no pending products.</span>
                     </Grid>

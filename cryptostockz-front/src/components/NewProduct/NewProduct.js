@@ -17,9 +17,9 @@ class NewProduct extends React.Component {
 
   checkData() {
     if (this.state.isManufacturer) {
-      return (this.state.name != "" && this.state.ean != "" && this.state.sku != "");
+      return (this.state.name !== "" && this.state.ean !== "" && this.state.sku !== "");
     } else {
-      return (this.state.name != "" && this.state.ean != "" && this.state.sku != "" && this.state.manufacturer != "");
+      return (this.state.name !== "" && this.state.ean !== "" && this.state.sku !== "" && this.state.manufacturer !== "");
     }
   }
 

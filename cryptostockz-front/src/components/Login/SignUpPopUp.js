@@ -1,11 +1,11 @@
 import React from 'react';  
 import './PopUp.css';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+// import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
 import { Button } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
-import SignInPopUp from './SignInPopUp';
+// import SignInPopUp from './SignInPopUp';
 import Meta from "../../Images/metamask.png";
 import axios from 'axios';
 
@@ -56,10 +56,10 @@ class SignUpPopup extends React.Component {
       }
     
     reset(){
-      let username=this.state.username;
-      let password=this.state.password;
-      let name=this.state.name;
-      let email=this.state.email;
+      // let username=this.state.username;
+      // let password=this.state.password;
+      // let name=this.state.name;
+      // let email=this.state.email;
           this.setState({
               username:"",
               password:"",
@@ -105,8 +105,8 @@ class SignUpPopup extends React.Component {
       const password = this.state.password;
       const metamask = this.state.metamask;
       const email = this.state.email;
-      const showSignInPopup = this.state.showSignInPopup;
-      const showSignUpPopup = this.state.showSignUpPopup;
+      // const showSignInPopup = this.state.showSignInPopup;
+      // const showSignUpPopup = this.state.showSignUpPopup;
         return (
         <div className="container">
         <Form>
