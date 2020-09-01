@@ -40,15 +40,22 @@ class UserProductsList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Grid align="center" container spacing={5}>
-                        {this.state.user_products.map((product) => {
-                            return (
-                            <Grid item xs={6}>
-                                <ProductCard productInfo={product} key={product.id.toString()} />
-                            </Grid>
-                            )
-                        })}
-                </Grid>
+                {this.state.user_products.length == 0 ? (
+                    <Grid align="center" container spacing={5}>
+                        <span>There are no prodducts</span>
+                    </Grid>
+                ) : (
+                        <Grid align="center" container spacing={5}>
+                            {this.state.user_products.map((product) => {
+                                return (
+                                    <Grid item xs={6}>
+                                        <ProductCard productInfo={product} key={product.id.toString()} />
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    )
+                }
             </React.Fragment>
         )
     }

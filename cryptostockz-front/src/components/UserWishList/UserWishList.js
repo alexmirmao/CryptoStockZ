@@ -2,109 +2,60 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
+import axios from 'axios';
 
 
 class UserWishList extends React.Component {
 
-    storeProducts = [
-        {
-            id: 1,
-            owner: "AirForce",
-            name: "AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 2,
-            owner: "AirForce",
-            name: "Air Jordan",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 3,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 3,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 4,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 5,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 6,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 7,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 8,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 9,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        },
-        {
-            id: 10,
-            owner: "AirForce",
-            name: "img/AirForce.png",
-            ean: 10,
-            sku: "Nike",
-            level: 0
-        }
-    ];
+    state = {
+        user_products: []
+    }
+
+    getUserProducts() {
+        var config = {
+            method: 'get',
+            url: 'http://192.168.1.42:10010/base/product',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data.products));
+                this.setState({
+                    user_products: response.data.products
+                });
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    componentDidMount() {
+        this.getUserProducts();
+    }
 
     render() {
         return (
             <React.Fragment>
-                <Grid align="center" container spacing={5}>
-                        {this.storeProducts.map((product) => {
-                            return <Grid item xs={6}><ProductCard productInfo={product} key={product.id}/></Grid>
-                        })}
-                </Grid>
+                {this.state.user_products.length == 0 ? (
+                    <Grid align="center" container spacing={5}>
+                        <span>There are no prodducts</span>
+                    </Grid>
+                ) : (
+                        <Grid align="center" container spacing={5}>
+                            {this.state.user_products.map((product) => {
+                                return (
+                                    <Grid item xs={6}>
+                                        <ProductCard productInfo={product} key={product.id.toString()} />
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    )
+                }
             </React.Fragment>
         )
     }
