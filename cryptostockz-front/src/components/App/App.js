@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import NavBar from '../NavBar/NavBar';
 import UserProfile from '../UserProfile/UserProfile';
@@ -18,12 +18,17 @@ function App() {
       <NavBar />
       <BrowserRouter>
         <Switch>
+          <Route exact path="/" render={() => {
+            return (
+              <Redirect to="/home" />
+            )
+          }} />
           <Route path="/home" component={Home} />
           <Route path="/profile" component={UserProfile} />
-          <Route path='/profile/product/:productId' component={ProductView}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/signup' component={SignUp}/>
-          <Route path='/search' component={Search}/>
+          <Route path='/products/:productId' component={ProductView} />
+          <Route path='/login' component={Login} />
+          <Route path='/signup' component={SignUp} />
+          <Route path='/search' component={Search} />
         </Switch>
       </BrowserRouter>
     </React.Fragment>

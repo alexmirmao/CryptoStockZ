@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, Button, ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 
 class ProductCard extends React.Component {
 
@@ -18,7 +20,7 @@ class ProductCard extends React.Component {
                                 <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
                             </ListGroup>
                         </Card.Text>
-                        <Button variant="primary">See</Button>
+                            <Link  to={`/products/${this.props.productInfo.id}`}>See</Link>
                     </Card.Body>
                 </Card>
             </div>
