@@ -1,11 +1,7 @@
 import React from 'react';
-<<<<<<< HEAD
-import {Card, Button, ListGroup } from 'bootstrap';
-=======
 import { Card, Button, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
->>>>>>> 118b30c7a65229e2a0caa30bad81c0491fb88dfb
 
 class ProductCard extends React.Component {
 

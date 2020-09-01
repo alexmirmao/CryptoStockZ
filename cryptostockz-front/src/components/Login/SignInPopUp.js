@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
+import UserProfile from '../UserProfile/UserProfile';
 import axios from 'axios';
 
 class SignInPopup extends React.Component {
@@ -26,6 +27,11 @@ class SignInPopup extends React.Component {
             this.setState({username: e.target.value});
         }else if(e.target.id === "formBasicPassword") {
             this.setState({password: e.target.value});
+        }else if(e.target.id === "handlePopUp") {
+            this.setState({  
+                showSignUpPopup: !this.state.showSignUpPopup,
+                showSignInPopup: !this.state.showSignInPopup
+            })
         }
     }
 
@@ -45,23 +51,20 @@ class SignInPopup extends React.Component {
         };
 
         axios(config)
-        .then(function (response) {
-            console.log(JSON.stringify(response.data));
+        .then(function(reponse) {
+            console.log(reponse);
+            return <UserProfile reponse/>
         })
         .catch(function (error) {
             console.log(error);
-        });
-    }
-    
-    togglePopup() {
-        this.setState({  
-            showSignUpPopup: !this.state.showSignUpPopup
         });
     }
 
     FormPage() {
         const username = this.state.username;
         const password = this.state.password;
+        const showSignInPopup = this.state.showSignInPopup;
+        const showSignUpPopup = this.state.showSignUpPopup;
         return (
         <div className="container">
             <Form>
@@ -85,9 +88,10 @@ class SignInPopup extends React.Component {
                         <Button variant="success" onClick={(event) => this.signInUser(event)}>Log In</Button>
                     </Grid>
                     <Grid item md={6}>
-                        <Button color="success" onClick={this.togglePopup.bind(this)}>Sign Up</Button>
+                        <Button color="success" id="handlePopUp" value={showSignInPopup, showSignUpPopup} 
+                                onClick={this.handleChange}>Sign Up</Button>
                         {this.state.showSignUpPopup ?  
-                        <SignUpPopUp closeSignInPopup={this.togglePopup.bind(this)}/>
+                        <SignUpPopUp closeSignInPopup={this.handleChange}/>
                         : null
                         }
                     </Grid>

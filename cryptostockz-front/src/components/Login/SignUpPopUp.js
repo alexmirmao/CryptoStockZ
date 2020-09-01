@@ -1,15 +1,23 @@
 import React from 'react';  
 import './PopUp.css';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { Form } from 'react-bootstrap';
+import { Button } from 'reactstrap';
+import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
+import SignInPopUp from './SignInPopUp';
 import Meta from "../../Images/metamask.png";
+import axios from 'axios';
 
-class SignInPopup extends React.Component {
+class SignUpPopup extends React.Component {
     constructor(props){
         super(props);
           this.state={
             username:"",
             password:"",
+            name: "",
+            email: "",
+            metamask: "",
             errorMessage:"",
             successMessage:"",
             ok_login:false,
@@ -48,47 +56,100 @@ class SignInPopup extends React.Component {
       }
     
     reset(){
-        let username=this.state.username;
-        let password=this.state.password;
-        let name=this.state.name;
-        let email=this.state.email;
-            this.setState({
-                username:"",
-                password:"",
-                name:"",
-                email:""
-            })
+      let username=this.state.username;
+      let password=this.state.password;
+      let name=this.state.name;
+      let email=this.state.email;
+          this.setState({
+              username:"",
+              password:"",
+              name:"",
+              email:""
+          })
     }
+
+    signUpUser() {
+      // var data = JSON.stringify({"username":"nike","email":"nike@gmail.com","password":"nike","name":"nike","roles":["manufacturer"],"metamaskAccount":"0x973AEe0C82633edaf13B56536762Cbc766F44ee2"});
+      var payload={
+        "username": this.state.username,
+        "email": this.state.email,
+        "password": this.state.password,
+        "name": this.state.name,
+        "roles": ["user"],
+        "metamaskAccount": this.state.metamask
+      }
+
+      console.log(payload)
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost:10010/signup',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : payload
+      };
+      
+      axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
     FormPage() {
+      const name = this.state.name;
+      const username = this.state.username;
+      const password = this.state.password;
+      const metamask = this.state.metamask;
+      const email = this.state.email;
+      const showSignInPopup = this.state.showSignInPopup;
+      const showSignUpPopup = this.state.showSignUpPopup;
         return (
-        <MDBContainer>
-          <MDBRow>
-            <MDBCol md="6">
+        <div className="container">
+        <Form>
+            <Grid container spacing={3}>
+              <Grid item md={6}>
                 <Image style={{width: '250px', height: '250px'}} src={Meta} alt="Icono_Meta" className="rounded mx-auto d-block"/>
-            </MDBCol>
-            <MDBCol md="6">
-                <form>
-                    <p className="h5 text-center mb-4">Sign Up</p>
-                    <div className="grey-text">
-                    <MDBInput label="Type your username" icon="user" group type="user" validate error="wrong"
-                        success="right" />
-                    <MDBInput label="Type your password" icon="lock" group type="password" validate />
-                    </div>
-                </form>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-                <MDBCol md="6">
-                    <MDBBtn color="warning" onClick={this.props.closePopup}>Close</MDBBtn>
-                </MDBCol>
-                <MDBCol md="4">
-                    <MDBBtn color="primary">Log In</MDBBtn>
-                </MDBCol>
-                <MDBCol md="2">
-                    <MDBBtn color="success">Sign Up</MDBBtn>
-                </MDBCol>
-          </MDBRow>
-        </MDBContainer>
+              </Grid>
+              <Grid item md={6}>
+                <Form.Group controlId="formBasicName">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="name" placeholder="Enter name" value={name} 
+                                onChange = {this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="formBasicUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control type="username" placeholder="Enter username" value={email} 
+                                onChange = {this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" value={username} 
+                                onChange = {this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" value={password}
+                                onChange = {this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="formBasicMetamask">
+                  <Form.Label>Metamask</Form.Label>
+                  <Form.Control type="string" placeholder="Metamask account" value={metamask}
+                                onChange = {this.handleChange}/>
+                </Form.Group>
+              </Grid>
+              <Grid item md={10}>
+                  <Button color="warning" onClick={this.props.closePopup}>Close</Button>
+              </Grid>
+              <Grid item md={2}>
+                  <Button variant="success" onClick={(event) => this.signUpUser(event)}>Sign Up</Button>
+              </Grid>
+            </Grid>
+        </Form>
+    </div>
         );
     };
 
@@ -103,4 +164,4 @@ class SignInPopup extends React.Component {
     }  
 }  
 
-export default SignInPopup;
+export default SignUpPopup;

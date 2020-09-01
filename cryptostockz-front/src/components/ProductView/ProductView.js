@@ -1,13 +1,9 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Container, Row, Col, Image, Tabs, Tab, ListGroup } from 'bootstrap';
-=======
 import { Container, Row, Col, Image, Button, ListGroup } from 'react-bootstrap';
 import './ProductView.css';
 
 import axios from 'axios';
 
->>>>>>> 118b30c7a65229e2a0caa30bad81c0491fb88dfb
 
 class ProductView extends React.Component {
 
