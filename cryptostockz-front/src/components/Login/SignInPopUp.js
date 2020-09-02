@@ -74,6 +74,7 @@ class SignInPopup extends React.Component {
     }
 
     FormPage() {
+        const isEnabled = this.state.username.length > 0 && this.state.password.length > 0;
         const username = this.state.username;
         const password = this.state.password;
         const showSignInPopup = this.state.showSignInPopup;
@@ -98,7 +99,7 @@ class SignInPopup extends React.Component {
                         <Image style={{width: '250px', height: '250px'}} src={Meta} alt="Icono_Meta" className="rounded mx-auto d-block"/>
                     </Grid>
                     <Grid item md={4}>
-                        <Button variant="success" onClick={(event) => this.signInUser(event)}>Log In</Button>
+                        <Button color="primary" onClick={(event) => this.signInUser(event)} disabled={!isEnabled}>Log In</Button>
                     </Grid>
                     <Grid item md={6}>
                         <Button color="success" id="handlePopUp" value={showSignInPopup}

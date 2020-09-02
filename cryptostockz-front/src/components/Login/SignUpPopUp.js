@@ -1,11 +1,9 @@
 import React from 'react';
 import './PopUp.css';
-// import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
 import { Button } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
-// import SignInPopUp from './SignInPopUp';
 import Meta from "../../Images/metamask.png";
 import axios from 'axios';
 import Web3 from 'web3';
@@ -30,8 +28,8 @@ class SignUpPopup extends React.Component {
             errorMessage:"",
             successMessage:"",
             ok_login:false,
-        }
-        this.handleChange = this.handleChange.bind(this);
+          }
+          this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
@@ -46,8 +44,7 @@ class SignUpPopup extends React.Component {
       }else if(e.target.id === "formBasicMetamask") {
         this.setState({metamask: e.target.value});
       }
-
-  }
+    }
 
     setValue(e){
         let id=e.target.id;
@@ -80,7 +77,6 @@ class SignUpPopup extends React.Component {
       }
 
     signUpUser() {
-      // var data = JSON.stringify({"username":"nike","email":"nike@gmail.com","password":"nike","name":"nike","roles":["manufacturer"],"metamaskAccount":"0x973AEe0C82633edaf13B56536762Cbc766F44ee2"});
       var payload={
         "username": this.state.username,
         "email": this.state.email,
@@ -113,13 +109,14 @@ class SignUpPopup extends React.Component {
     }
 
     FormPage() {
+      const isEnabled = this.state.name.length > 0 && this.state.username.length > 0 && this.state.email.length > 0 && this.state.password.length > 0;
       const name = this.state.name;
       const username = this.state.username;
-      const password = this.state.password;
-      const metamask = this.state.metamask;
       const email = this.state.email;
-      // const showSignInPopup = this.state.showSignInPopup;
-      // const showSignUpPopup = this.state.showSignUpPopup;
+      const password = this.state.password;
+
+      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        
         return (
         <div className="container">
         <Form>
@@ -129,35 +126,46 @@ class SignUpPopup extends React.Component {
               </Grid>
               <Grid item md={6}>
                 <Form.Group controlId="formBasicName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="name" placeholder="Enter name" value={name}
-                                onChange = {this.handleChange}/>
+                  {this.state.name == 0 ? 
+                    <div className='error'><Form.Label>Name required</Form.Label></div> : 
+                    <Form.Label>Name</Form.Label> 
+                  }
+                    <Form.Control type="name" placeholder="Enter name" value={name} onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicUsername">
-                  <Form.Label>Username</Form.Label>
+                  {this.state.username == 0 ? 
+                    <div className='error'><Form.Label>Username required</Form.Label></div> : 
+                    <Form.Label>Username</Form.Label> 
+                  }
                   <Form.Control type="username" placeholder="Enter username" value={username}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Email</Form.Label>
+                  {this.state.email == 0 || !pattern.test(this.state.email) ? 
+                    <div className='error'><Form.Label>Email required</Form.Label></div> : 
+                    <Form.Label>Email</Form.Label>
+                  }
                   <Form.Control type="email" placeholder="Enter email" value={email}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
+                  {this.state.password == 0 ?
+                    <div className='error'><Form.Label>Password required</Form.Label></div> : 
+                    <Form.Label>Password</Form.Label>
+                  }
+                  {this.state.password.length < 8 ?
+                    <div className='error'><Form.Label>Password too short</Form.Label></div> : 
+                    null 
+                  }
                   <Form.Control type="password" placeholder="Password" value={password}
                                 onChange = {this.handleChange}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicMetamask">
-                  <Form.Label>Metamask</Form.Label>
-                  <Form.Control type="string" placeholder={account0}/>
                 </Form.Group>
               </Grid>
               <Grid item md={10}>
                   <Button color="warning" onClick={this.props.closePopup}>Close</Button>
               </Grid>
               <Grid item md={2}>
-                  <Button variant="success" onClick={(event) => this.signUpUser(event)}>Sign Up</Button>
+                  <Button color="success" onClick={(event) => this.signUpUser(event)} disabled={!isEnabled}>Sign Up</Button>
               </Grid>
             </Grid>
         </Form>
@@ -166,13 +174,13 @@ class SignUpPopup extends React.Component {
     };
 
     render() {
-        return (
-            <div className='popup'>
-                <div className='popup\_inner'>
-                    {this.FormPage()}
-                </div>
-            </div>
-        );
+      return (
+          <div className='popup'>
+              <div className='popup\_inner'>
+                  {this.FormPage()}
+              </div>
+          </div>
+      );
     }
 }
 
