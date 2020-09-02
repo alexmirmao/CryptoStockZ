@@ -23,7 +23,6 @@ class SignUpPopup extends React.Component {
             ok_login:false,
         }
         this.handleChange = this.handleChange.bind(this);
-        this.reset=this.reset.bind(this);
     }
 
     handleChange(e) {
@@ -70,15 +69,6 @@ class SignUpPopup extends React.Component {
             ok_login:true})
         }
       }
-    
-    reset(){
-          this.setState({
-              username:"",
-              password:"",
-              name:"",
-              email:""
-          })
-    }
 
     signUpUser() {
       // var data = JSON.stringify({"username":"nike","email":"nike@gmail.com","password":"nike","name":"nike","roles":["manufacturer"],"metamaskAccount":"0x973AEe0C82633edaf13B56536762Cbc766F44ee2"});
@@ -95,7 +85,7 @@ class SignUpPopup extends React.Component {
 
       var config = {
         method: 'post',
-        url: 'http://localhost:10010/signup',
+        url: 'http://192.168.1.42:10010/signup',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -105,9 +95,11 @@ class SignUpPopup extends React.Component {
       axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        alert("User Signed Up");
       })
       .catch(function (error) {
         console.log(error);
+        alert("Something went wrong");
       });
     }
 

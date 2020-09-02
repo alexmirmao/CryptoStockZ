@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Image, Tabs, Tab, ListGroup } from 'bootstrap';
+import { Container, Row, Col, Image, Tabs, Tab, ListGroup } from 'react-bootstrap';
 import './UserProfile.css';
 
 import UserProductList from '../UserProductList/UserProductsList';
