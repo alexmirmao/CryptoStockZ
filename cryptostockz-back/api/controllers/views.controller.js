@@ -2,6 +2,7 @@ const { session } = require("../middleware")
 const cryptostockzService = require("../services/cryptostockz.service");
 
 exports.allAccess = (req, res) => {
+  console.log("yes");
   res.status(200).send("Public Content.");
 };
   

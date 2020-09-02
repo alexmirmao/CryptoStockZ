@@ -89,7 +89,7 @@ exports.updateProductWithForm = (req, res) => {
 
 exports.getAllProducts = (req, res) => {
     Product.findAll().then(products => {
-        return res.status(200).send({ DigitalProducts: products });
+        return res.status(200).send({ products: products });
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
@@ -97,16 +97,31 @@ exports.getAllProducts = (req, res) => {
 
 exports.getAllBaseProducts = (res) => {
     BaseProduct.findAll().then(products => {
-        return res.status(200).send({ BaseProducts: products })
+        return res.status(200).send({ products: products })
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
 }
 
+exports.getProduct = (req,res) => {
+    Product.findOne({
+        where: {
+            id: req.params.productId
+        }
+    }).then(product => {
+        if (!product) {
+            return res.status(404).send({ message: "Product Not Found" });
+        }
+        return res.status(200).send({ product: product });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
 exports.searchProduct = (req, res) => {
     // Si no envían ningún parámetro devolvemos todos los productos base
     if(_lodash.isEmpty(req.body)) {
-        this.getAllBaseProducts(res);
+        this.getAllProducts(req,res);
     }else{
         if(!_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)){
             User.findAll({

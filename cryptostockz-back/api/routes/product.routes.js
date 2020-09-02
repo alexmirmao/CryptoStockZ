@@ -29,6 +29,16 @@ module.exports = function (app) {
         controller.createProduct
     );
 
+    app.get(
+        "/product/search",
+        [authJwt.verifyToken],
+        controller.searchProduct
+    )
+
+    app.get("/product",
+        [authJwt.verifyToken],
+        controller.getAllProducts
+    );
 
     /**
      * Actualizacion de un producto existente.
@@ -41,20 +51,12 @@ module.exports = function (app) {
         controller.updateProductWithForm
     );
 
-    app.get("/product",
+    app.get(
+        "/product/:productId",
         [authJwt.verifyToken],
-        controller.getAllProducts
+        controller.getProduct
     );
 
-    // app.get("/product", controller.getAllProducts)
-
-    app.get(
-        "/product/search",
-        controller.searchProduct
-    )
     
-    // app.get("/product/:productId",
-    //     [authJwt.verifyToken],
-    //     controller.getProduct
-    // );
+
 };

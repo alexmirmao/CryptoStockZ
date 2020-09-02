@@ -133,7 +133,7 @@ exports.getPendingBaseProducts = (req, res) => {
             original: false
         }
     }).then(baseproducts => {
-        return res.status(200).send({ message: baseproducts });
+        return res.status(200).send({ products: baseproducts });
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
@@ -153,7 +153,7 @@ exports.getBaseProducts = (req, res) => {
         }
 
         user.getBaseProducts().then(baseproducts => {
-            return res.status(200).send({ message: baseproducts });
+            return res.status(200).send({ products: baseproducts });
         });
     }).catch(err => {
         res.status(500).send({ message: err.message });
