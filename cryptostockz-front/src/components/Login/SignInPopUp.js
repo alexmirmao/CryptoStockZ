@@ -9,7 +9,7 @@ import SignUpPopUp from './SignUpPopUp';
 import axios from 'axios';
 import {withCookies, Cookies } from 'react-cookie';
 import {instanceOf} from "prop-types";
-import {Link} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 
 import config from '../../config';
@@ -67,9 +67,9 @@ class SignInPopup extends React.Component {
         };
 
         axios(config)
-        .then(function(reponse) {
-            console.log(reponse);
-            return (<Link to="/profile"/>)
+        .then(function(response) {
+            console.log(response);
+            window.location = "/profile"
         })
         .catch(function (error) {
             console.log(error);
