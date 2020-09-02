@@ -8,6 +8,8 @@ import Meta from "../../Images/metamask.png";
 import axios from 'axios';
 import Web3 from 'web3';
 
+import config from '../../config';
+
 var web3 = new Web3(window.ethereum);
 var account0;
   window.ethereum.enable();
@@ -28,6 +30,7 @@ class SignUpPopup extends React.Component {
             errorMessage:"",
             successMessage:"",
             ok_login:false,
+            baseUrl: config.baseUrl
           }
           this.handleChange = this.handleChange.bind(this);
     }
@@ -90,7 +93,7 @@ class SignUpPopup extends React.Component {
 
       var config = {
         method: 'post',
-        url: 'http://localhost:10010/signup',
+        url: this.state.baseUrl+'/signup',
         headers: {
           'Content-Type': 'application/json'
         },

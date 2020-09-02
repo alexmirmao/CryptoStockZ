@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
+import config from '../../config';
 
 import axios from 'axios';
 
@@ -12,7 +13,8 @@ class NewProduct extends React.Component {
     ean: "",
     sku: "",
     manufacturer: "",
-    isManufacturer: true
+    isManufacturer: true,
+    baseUrl: config.baseUrl
   }
 
   checkData() {
@@ -39,7 +41,7 @@ class NewProduct extends React.Component {
 
       var config = {
         method: 'post',
-        url: 'http://192.168.1.42:10010/base/product',
+        url: this.state.baseUrl+'/base/product',
         headers: {
           'Content-Type': 'application/json',
           'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'

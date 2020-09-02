@@ -4,6 +4,8 @@ import './ProductView.css';
 
 import axios from 'axios';
 
+import config from '../../config';
+
 
 class ProductView extends React.Component {
 
@@ -13,7 +15,8 @@ class ProductView extends React.Component {
         },
         user: {
 
-        }
+        },
+        baseUrl: config.baseUrl
     }
 
     componentDidMount() {
@@ -23,7 +26,7 @@ class ProductView extends React.Component {
     getProductInfo(productId) {
         var config = {
             method: 'get',
-            url: 'http://192.168.1.42:10010/product/'+productId,
+            url: this.state.baseUrl+'/product/'+productId,
             headers: {
                 'Content-Transfer-Encoding': 'application/json',
                 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
