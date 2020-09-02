@@ -22,3 +22,7 @@
   border-radius: 20px;  
   background: white;  
 }
+
+.error {
+  color: red;
+}
