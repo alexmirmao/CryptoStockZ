@@ -1,4 +1,4 @@
-import React from 'react';  
+import React from 'react';
 import './PopUp.css';
 // import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
@@ -9,33 +9,46 @@ import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
 import UserProfile from '../UserProfile/UserProfile';
 import axios from 'axios';
+import {withCookies, Cookies } from 'react-cookie';
+import {instanceOf} from "prop-types";
 
 class SignInPopup extends React.Component {
-    constructor(props){  
+
+    static propTypes={
+      cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props){
         super(props);
+        const {cookies}=props;
         this.handleChange = this.handleChange.bind(this);
-        this.state = { 
+        this.state = {
             showSignUpPopup: false,
             showSignInPopup: true,
             username: "",
-            password: ""
-        };  
+            password: "",
+            name: cookies.get("name")
+        };
     }
 
     handleChange(e) {
         if(e.target.id === "formBasicUsername") {
             this.setState({username: e.target.value});
+            const {cookies}=this.props;
+            cookies.set("name", e.target.value,{path:"/"});
         }else if(e.target.id === "formBasicPassword") {
             this.setState({password: e.target.value});
         }else if(e.target.id === "handlePopUp") {
-            this.setState({  
+            this.setState({
                 showSignUpPopup: !this.state.showSignUpPopup,
                 showSignInPopup: !this.state.showSignInPopup
             })
         }
+
     }
 
     signInUser() {
+      
         var payload={
             "username":this.state.username,
             "password":this.state.password
@@ -44,7 +57,7 @@ class SignInPopup extends React.Component {
         var config = {
             method: 'post',
             url: 'http://localhost:10010/signin',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json'
             },
             data : payload
@@ -72,7 +85,7 @@ class SignInPopup extends React.Component {
                     <Grid item md={6}>
                         <Form.Group controlId="formBasicUsername">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Enter username" value={username} 
+                            <Form.Control type="username" placeholder="Enter username" value={username}
                                           onChange = {this.handleChange}/>
                         </Form.Group>
                         <Form.Group controlId="formBasicPassword">
@@ -88,9 +101,9 @@ class SignInPopup extends React.Component {
                         <Button variant="success" onClick={(event) => this.signInUser(event)}>Log In</Button>
                     </Grid>
                     <Grid item md={6}>
-                        <Button color="success" id="handlePopUp" value={showSignInPopup} 
+                        <Button color="success" id="handlePopUp" value={showSignInPopup}
                                 onClick={this.handleChange}>Sign Up</Button>
-                        {this.state.showSignUpPopup ?  
+                        {this.state.showSignUpPopup ?
                         <SignUpPopUp closeSignInPopup={this.handleChange}/>
                         : null
                         }
@@ -105,14 +118,14 @@ class SignInPopup extends React.Component {
     };
 
     render() {
-        return (  
-            <div className='popup'>  
+        return (
+            <div className='popup'>
                 <div className='popup\_inner'>
                     {this.FormPage()}
                 </div>
             </div>
-        );  
-    }  
-}  
+        );
+    }
+}
 
-export default SignInPopup;
+export default withCookies(SignInPopup);
