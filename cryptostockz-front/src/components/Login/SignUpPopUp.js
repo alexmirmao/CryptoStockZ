@@ -22,8 +22,24 @@ class SignUpPopup extends React.Component {
             successMessage:"",
             ok_login:false,
         }
+        this.handleChange = this.handleChange.bind(this);
         this.reset=this.reset.bind(this);
     }
+
+    handleChange(e) {
+      if(e.target.id === "formBasicUsername") {
+          this.setState({username: e.target.value});
+      }else if(e.target.id === "formBasicPassword") {
+          this.setState({password: e.target.value});
+      }else if(e.target.id === "formBasicEmail") {
+        this.setState({email: e.target.value});
+      }else if(e.target.id === "formBasicName") {
+        this.setState({name: e.target.value});
+      }else if(e.target.id === "formBasicMetamask") {
+        this.setState({metamask: e.target.value});
+      }
+       
+  }
 
     setValue(e){
         let id=e.target.id;
@@ -56,10 +72,6 @@ class SignUpPopup extends React.Component {
       }
     
     reset(){
-      // let username=this.state.username;
-      // let password=this.state.password;
-      // let name=this.state.name;
-      // let email=this.state.email;
           this.setState({
               username:"",
               password:"",
@@ -122,12 +134,12 @@ class SignUpPopup extends React.Component {
                 </Form.Group>
                 <Form.Group controlId="formBasicUsername">
                   <Form.Label>Username</Form.Label>
-                  <Form.Control type="username" placeholder="Enter username" value={email} 
+                  <Form.Control type="username" placeholder="Enter username" value={username} 
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" value={username} 
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" value={email} 
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
