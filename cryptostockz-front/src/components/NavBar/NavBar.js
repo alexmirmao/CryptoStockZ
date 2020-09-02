@@ -5,9 +5,7 @@ import { Button } from "react-bootstrap";
 // import {Link} from "react-router-dom";
 
 import { withCookies } from 'react-cookie';
-
-
-const logged = true;
+import { Label } from "reactstrap";
 
 class NavBar extends Component {
 
@@ -16,27 +14,26 @@ class NavBar extends Component {
     super(props);
     this.state = {
       showPopup: false,
-      token: " "
+      token: undefined,
+      username: undefined
     };
   }
 
   componentDidMount() {
     const { cookies } = this.props;
-
-    this.setState({ token: cookies.get('x-access-token') });
+    this.setState(
+      { 
+        token: cookies.get('x-access-token'),
+        username: cookies.get('username')
+      }
+    );
+    console.log(cookies)
   }
 
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
     });
-    console.log(this.state);
-  }
-
-  submit() {
-    if (!logged) {
-      alert("Es necesario iniciar sesion")
-    }
   }
 
   render() {
@@ -47,18 +44,20 @@ class NavBar extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/home">Home</Nav.Link>
-            {this.state.token !== " " ? (
+            {this.state.token !== undefined ? (
               <React.Fragment>
                 <Nav.Link href="/profile">Profile</Nav.Link>
                 <Nav.Link href="/search">Search</Nav.Link>
               </React.Fragment>
             ) : null}
           </Nav>
-          <Button variant="outline-info" onClick={this.togglePopup.bind(this)}>Login</Button>
-          {this.state.showPopup ?
-            <SignInPopUp closePopup={this.togglePopup.bind(this)} />
-            : null
-          }
+          {this.state.token === undefined ? (
+            <React.Fragment>
+              <Button variant="outline-info" onClick={this.togglePopup.bind(this)}>Login</Button>
+              {this.state.showPopup ? <SignInPopUp/> : null }
+            </React.Fragment>
+          ) : <Navbar.Brand>Hi, {this.state.username} !</Navbar.Brand> }
+          
         </Navbar.Collapse>
       </Navbar>
     );
@@ -67,3 +66,5 @@ class NavBar extends Component {
 }
 
 export default withCookies(NavBar);
+
+/*closePopup={this.togglePopup.bind(this)} */

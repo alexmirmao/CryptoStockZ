@@ -17,7 +17,6 @@ class SignInPopup extends React.Component {
     constructor(props){
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
         this.state = {
             showSignUpPopup: false,
             showSignInPopup: true,
@@ -38,14 +37,6 @@ class SignInPopup extends React.Component {
                 showSignInPopup: !this.state.showSignInPopup
             })
         }
-    }
-
-    handleLogin(e) {
-        console.log(e);
-        this.setState({
-            logged: !this.state.logged,
-            data: e
-        })
     }
 
     signInUser() {
@@ -79,14 +70,14 @@ class SignInPopup extends React.Component {
             cookies.set("roles", response.data.roles[0],options);
 
             console.log(response.data);
-            //window.location = "/profile"
+            window.location = "/profile"
         }.bind(this))
         .catch(function (error) {
             console.log(error);
         });
     }
 
-    FormPage() {
+    SignInForm() {
         const isEnabled = this.state.username.length > 0 && this.state.password.length > 0;
         const username = this.state.username;
         const password = this.state.password;
@@ -112,7 +103,6 @@ class SignInPopup extends React.Component {
                     </Grid>
                     <Grid item md={4}>
                         <Button color="primary" onClick={(event) => this.signInUser(event)} disabled={!isEnabled}>Log In</Button>
-                        {this.state.logged ? <UserProfile data={this.handleLogin}/> : console.log("ERROR: logged "+this.state.logged)}
                     </Grid>
                     <Grid item md={6}>
                         <Button color="success" id="handlePopUp" value={showSignInPopup}
@@ -135,7 +125,7 @@ class SignInPopup extends React.Component {
         return (
             <div className='popup'>
                 <div className='popup\_inner'>
-                    {this.FormPage()}
+                    {this.SignInForm()}
                 </div>
             </div>
         );
