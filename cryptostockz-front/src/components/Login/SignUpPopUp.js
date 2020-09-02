@@ -1,4 +1,4 @@
-import React from 'react';  
+import React from 'react';
 import './PopUp.css';
 // import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
@@ -8,6 +8,15 @@ import { Image } from "react-bootstrap";
 // import SignInPopUp from './SignInPopUp';
 import Meta from "../../Images/metamask.png";
 import axios from 'axios';
+import Web3 from 'web3';
+
+var web3 = new Web3(window.ethereum);
+var account0;
+  window.ethereum.enable();
+  web3.eth.getAccounts().then(function(result){
+    account0 = result[0];
+  })
+
 
 class SignUpPopup extends React.Component {
     constructor(props){
@@ -37,7 +46,7 @@ class SignUpPopup extends React.Component {
       }else if(e.target.id === "formBasicMetamask") {
         this.setState({metamask: e.target.value});
       }
-       
+
   }
 
     setValue(e){
@@ -86,12 +95,12 @@ class SignUpPopup extends React.Component {
       var config = {
         method: 'post',
         url: 'http://192.168.1.42:10010/signup',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json'
         },
         data : payload
       };
-      
+
       axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
@@ -121,17 +130,17 @@ class SignUpPopup extends React.Component {
               <Grid item md={6}>
                 <Form.Group controlId="formBasicName">
                   <Form.Label>Name</Form.Label>
-                  <Form.Control type="name" placeholder="Enter name" value={name} 
+                  <Form.Control type="name" placeholder="Enter name" value={name}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicUsername">
                   <Form.Label>Username</Form.Label>
-                  <Form.Control type="username" placeholder="Enter username" value={username} 
+                  <Form.Control type="username" placeholder="Enter username" value={username}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" value={email} 
+                  <Form.Control type="email" placeholder="Enter email" value={email}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
@@ -141,8 +150,8 @@ class SignUpPopup extends React.Component {
                 </Form.Group>
                 <Form.Group controlId="formBasicMetamask">
                   <Form.Label>Metamask</Form.Label>
-                  <Form.Control type="string" placeholder="Metamask account" value={metamask}
-                                onChange = {this.handleChange}/>
+                  <Form.Control type="string" placeholder={account0} value={metamask}
+                                />
                 </Form.Group>
               </Grid>
               <Grid item md={10}>
@@ -158,14 +167,14 @@ class SignUpPopup extends React.Component {
     };
 
     render() {
-        return (  
-            <div className='popup'>  
+        return (
+            <div className='popup'>
                 <div className='popup\_inner'>
                     {this.FormPage()}
                 </div>
             </div>
-        );  
-    }  
-}  
+        );
+    }
+}
 
 export default SignUpPopup;
