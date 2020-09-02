@@ -5,6 +5,7 @@ import Eth from "../../Images/eth.png";
 import Meta from "../../Images/metamask.png";
 
 export default class Home extends Component{
+
   render() {
     return(
       <div>

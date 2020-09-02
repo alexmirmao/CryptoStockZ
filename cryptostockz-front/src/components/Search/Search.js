@@ -9,11 +9,14 @@ import axios from 'axios';
 
 export default class Search extends Component {
 
-  state = {
-    val: '',
-    products: [],
-    baseUrl: config.baseUrl
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      val: '',
+      products: [],
+      baseUrl: config.baseUrl
+    };
+  }
 
   updateSearchValue(event) {
     this.setState({

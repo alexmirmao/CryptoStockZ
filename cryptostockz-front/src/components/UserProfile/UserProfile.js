@@ -7,28 +7,35 @@ import UserWishList from '../UserWishList/UserWishList';
 import NewProduct from '../NewProduct/NewProduct';
 import PendingProductList from '../PendingProductList/PendingProductList';
 
+import { withCookies } from 'react-cookie';
+
 import axios from 'axios';
 
 import config from '../../config';
 
 class UserProfile extends React.Component {
 
-    state = {
-        isManufacturer: true,
-        user: {
-        },
-        user_products: [],
-        baseUrl: config.baseUrl
+    constructor(props){
+        super(props);
+        const {cookies} = props;
+        this.state = {
+            user: {
+            },
+            user_products: [],
+            baseUrl: config.baseUrl,
+            token: cookies.get('x-access-token'),
+            roles: cookies.get('roles'),
+            username: cookies.get('username')
+        };
     }
 
 
     getUserInfo() {
         var config = {
             method: 'get',
-            url: this.state.baseUrl+'/account/adidas',
+            url: this.state.baseUrl+'/account/'+this.state.username,
             headers: {
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc',
-                'Cookie': 'userId=2'
+                'x-access-token': this.state.token
             }
         };
 
@@ -81,7 +88,7 @@ class UserProfile extends React.Component {
                                         <UserWishList />
                                     </div>
                                 </Tab>
-                                {this.state.isManufacturer ? (
+                                {this.state.roles === "ROLE_MANUFACTURER" ? (
                                     <Tab eventKey="pending" title="Pending Products">
                                         <div className="container">
                                             <PendingProductList userProducts={this.state.products} />
@@ -102,4 +109,4 @@ class UserProfile extends React.Component {
     }
 }
 
-export default UserProfile;
+export default withCookies(UserProfile);

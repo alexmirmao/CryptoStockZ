@@ -3,15 +3,24 @@ import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
+
 
 import config from '../../config';
 
 
 class UserProductsList extends React.Component {
 
-    state = {
-        user_products: [],
-        baseUrl: config.baseUrl
+    constructor(props){
+        super(props);
+        const {cookies} = props;
+        this.state = {
+            user_products: [],
+            baseUrl: config.baseUrl,
+            token: cookies.get('x-access-token'),
+            roles: cookies.get('roles'),
+            username: cookies.get('username')
+        };
     }
 
     getUserProducts() {
@@ -20,7 +29,7 @@ class UserProductsList extends React.Component {
             url: this.state.baseUrl + '/product',
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
+                'x-access-token': this.state.token
             }
         };
 
@@ -64,4 +73,4 @@ class UserProductsList extends React.Component {
     }
 }
 
-export default UserProductsList;
+export default withCookies(UserProductsList);
