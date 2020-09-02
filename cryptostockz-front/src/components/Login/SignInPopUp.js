@@ -11,8 +11,8 @@ import {withCookies, Cookies } from 'react-cookie';
 import {instanceOf} from "prop-types";
 import { Redirect } from "react-router-dom";
 
-
 import config from '../../config';
+import UserProfile from '../UserProfile/UserProfile';
 
 class SignInPopup extends React.Component {
 
@@ -24,13 +24,16 @@ class SignInPopup extends React.Component {
         super(props);
         const {cookies}=props;
         this.handleChange = this.handleChange.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
         this.state = {
             showSignUpPopup: false,
             showSignInPopup: true,
             username: "",
             password: "",
             baseUrl: config.baseUrl,
-            name: cookies.get("name")
+            name: cookies.get("name"),
+            logged: false,
+            data: ""
         };
     }
 
@@ -47,7 +50,14 @@ class SignInPopup extends React.Component {
                 showSignInPopup: !this.state.showSignInPopup
             })
         }
+    }
 
+    handleLogin(e) {
+        console.log(e);
+        this.setState({
+            logged: !this.state.logged,
+            data: e
+        })
     }
 
     signInUser() {
@@ -67,9 +77,9 @@ class SignInPopup extends React.Component {
         };
 
         axios(config)
-        .then(function(response) {
-            console.log(response);
-            window.location = "/profile"
+        .then((response) => {
+            console.log(response.data);
+            this.handleLogin(response);
         })
         .catch(function (error) {
             console.log(error);
@@ -81,7 +91,6 @@ class SignInPopup extends React.Component {
         const username = this.state.username;
         const password = this.state.password;
         const showSignInPopup = this.state.showSignInPopup;
-        //const showSignUpPopup = this.state.showSignUpPopup;
         return (
         <div className="container">
             <Form>
@@ -103,6 +112,7 @@ class SignInPopup extends React.Component {
                     </Grid>
                     <Grid item md={4}>
                         <Button color="primary" onClick={(event) => this.signInUser(event)} disabled={!isEnabled}>Log In</Button>
+                        {this.state.logged ? <UserProfile data={this.handleLogin}/> : console.log("ERROR: logged "+this.state.logged)}
                     </Grid>
                     <Grid item md={6}>
                         <Button color="success" id="handlePopUp" value={showSignInPopup}

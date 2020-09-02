@@ -45,7 +45,8 @@ class UserProfile extends React.Component {
     }
 
     componentDidMount() {
-        this.getUserInfo();
+        console.log("Profile: " +this.data)
+        // this.getUserInfo();
     }
 
 
