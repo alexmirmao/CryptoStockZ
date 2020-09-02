@@ -8,8 +8,8 @@ import NavBar from '../NavBar/NavBar';
 import UserProfile from '../UserProfile/UserProfile';
 import Home from '../Home/Home';
 import ProductView from '../ProductView/ProductView';
-import Login from '../Login/Login';
-import SignUp from '../Login/SignUp'
+import Login from '../Login/SignInPopUp';
+import SignUp from '../Login/SignUpPopUp';
 import Search from '../Search/Search';
 import {CookiesProvider} from "react-cookie";
 

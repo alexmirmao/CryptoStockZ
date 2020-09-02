@@ -1,6 +1,5 @@
 import React from 'react';
 import './PopUp.css';
-// import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Form } from 'react-bootstrap';
 import { Button } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
