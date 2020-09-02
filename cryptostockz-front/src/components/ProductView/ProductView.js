@@ -9,15 +9,20 @@ import config from '../../config';
 
 class ProductView extends React.Component {
 
-    state =  {
-        product: {
+    constructor(props) {
+        super(props);
+        this.state = {
+            product: {
 
-        },
-        user: {
+            },
+            user: {
 
-        },
-        baseUrl: config.baseUrl
+            },
+            baseUrl: config.baseUrl
+        };
     }
+
+
 
     componentDidMount() {
         this.getProductInfo(this.props.match.params.productId);
@@ -26,7 +31,7 @@ class ProductView extends React.Component {
     getProductInfo(productId) {
         var config = {
             method: 'get',
-            url: this.state.baseUrl+'/product/'+productId,
+            url: this.state.baseUrl + '/product/' + productId,
             headers: {
                 'Content-Transfer-Encoding': 'application/json',
                 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
@@ -39,8 +44,8 @@ class ProductView extends React.Component {
                 this.setState({
 
                     product: response.data.product
-              
-                  });
+
+                });
             }.bind(this))
             .catch(function (error) {
                 console.log(error);
@@ -98,12 +103,12 @@ class ProductView extends React.Component {
                 <Row>
                     <Col>
                         <div className="button_container">
-                            {this.state.user.metamaskAccount !== this.state.product.owner_address ? 
-                            <Button>Add to Wish List</Button>
-                            : (
-                                <Button>Transfer</Button>
-                            )}
-                            
+                            {this.state.user.metamaskAccount !== this.state.product.owner_address ?
+                                <Button>Add to Wish List</Button>
+                                : (
+                                    <Button>Transfer</Button>
+                                )}
+
                         </div>
                     </Col>
                 </Row>

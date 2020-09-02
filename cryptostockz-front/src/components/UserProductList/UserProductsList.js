@@ -9,9 +9,12 @@ import config from '../../config';
 
 class UserProductsList extends React.Component {
 
-    state = {
-        user_products: [],
-        baseUrl: config.baseUrl
+    constructor(props){
+        super(props);
+        this.state = {
+            user_products: [],
+            baseUrl: config.baseUrl
+        };
     }
 
     getUserProducts() {

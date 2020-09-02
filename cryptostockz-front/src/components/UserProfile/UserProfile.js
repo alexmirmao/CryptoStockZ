@@ -13,12 +13,15 @@ import config from '../../config';
 
 class UserProfile extends React.Component {
 
-    state = {
-        isManufacturer: true,
-        user: {
-        },
-        user_products: [],
-        baseUrl: config.baseUrl
+    constructor(props){
+        super(props);
+        this.state = {
+            isManufacturer: true,
+            user: {
+            },
+            user_products: [],
+            baseUrl: config.baseUrl
+        };
     }
 
 
