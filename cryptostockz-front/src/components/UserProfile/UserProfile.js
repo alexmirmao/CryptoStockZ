@@ -9,20 +9,23 @@ import PendingProductList from '../PendingProductList/PendingProductList';
 
 import axios from 'axios';
 
+import config from '../../config';
+
 class UserProfile extends React.Component {
 
     state = {
         isManufacturer: true,
         user: {
         },
-        user_products: []
+        user_products: [],
+        baseUrl: config.baseUrl
     }
 
 
     getUserInfo() {
         var config = {
             method: 'get',
-            url: 'http://192.168.1.42:10010/account/adidas',
+            url: this.state.baseUrl+'/account/adidas',
             headers: {
                 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc',
                 'Cookie': 'userId=2'

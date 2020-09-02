@@ -3,13 +3,16 @@ import { Form, FormControl, Button, InputGroup } from "react-bootstrap";
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
+import config from '../../config';
+
 import axios from 'axios';
 
 export default class Search extends Component {
 
   state = {
     val: '',
-    products: []
+    products: [],
+    baseUrl: config.baseUrl
   };
 
   updateSearchValue(event) {
@@ -30,7 +33,7 @@ export default class Search extends Component {
 
     var config = {
       method: 'get',
-      url: 'http://192.168.1.42:10010/product/search',
+      url: this.state.baseUrl+'/product/search',
       headers: {
         'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc'
       },

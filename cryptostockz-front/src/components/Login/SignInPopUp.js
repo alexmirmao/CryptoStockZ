@@ -12,6 +12,9 @@ import {withCookies, Cookies } from 'react-cookie';
 import {instanceOf} from "prop-types";
 import {Link} from "react-router-dom";
 
+
+import config from '../../config';
+
 class SignInPopup extends React.Component {
 
     static propTypes={
@@ -27,6 +30,7 @@ class SignInPopup extends React.Component {
             showSignInPopup: true,
             username: "",
             password: "",
+            baseUrl: config.baseUrl,
             name: cookies.get("name")
         };
     }
@@ -56,7 +60,7 @@ class SignInPopup extends React.Component {
 
         var config = {
             method: 'post',
-            url: 'http://localhost:10010/signin',
+            url: this.state.baseUrl+'/signin',
             headers: {
                 'Content-Type': 'application/json'
             },
