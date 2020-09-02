@@ -53,7 +53,7 @@ class SignInPopup extends React.Component {
         axios(config)
         .then(function(reponse) {
             console.log(reponse);
-            return <UserProfile reponse/>
+            return <UserProfile/>
         })
         .catch(function (error) {
             console.log(error);

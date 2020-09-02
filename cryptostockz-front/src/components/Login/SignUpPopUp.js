@@ -126,14 +126,14 @@ class SignUpPopup extends React.Component {
               </Grid>
               <Grid item md={6}>
                 <Form.Group controlId="formBasicName">
-                  {this.state.name == 0 ? 
+                  {this.state.name === 0 ? 
                     <div className='error'><Form.Label>Name required</Form.Label></div> : 
                     <Form.Label>Name</Form.Label> 
                   }
                     <Form.Control type="name" placeholder="Enter name" value={name} onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicUsername">
-                  {this.state.username == 0 ? 
+                  {this.state.username === 0 ? 
                     <div className='error'><Form.Label>Username required</Form.Label></div> : 
                     <Form.Label>Username</Form.Label> 
                   }
@@ -141,15 +141,15 @@ class SignUpPopup extends React.Component {
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
-                  {this.state.email == 0 || !pattern.test(this.state.email) ? 
-                    <div className='error'><Form.Label>Email required</Form.Label></div> : 
+                  {this.state.email === 0 || !pattern.test(this.state.email) ? 
+                    <div className='error'><Form.Label>Invalid email</Form.Label></div> : 
                     <Form.Label>Email</Form.Label>
                   }
                   <Form.Control type="email" placeholder="Enter email" value={email}
                                 onChange = {this.handleChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                  {this.state.password == 0 ?
+                  {this.state.password === 0 ?
                     <div className='error'><Form.Label>Password required</Form.Label></div> : 
                     <Form.Label>Password</Form.Label>
                   }

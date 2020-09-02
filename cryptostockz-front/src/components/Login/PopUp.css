@@ -1,5 +1,5 @@
 .popup {  
-  position: fixed;  
+  position: fixed;
   width: 50%;  
   height: auto;
   top: 15%;  
@@ -9,7 +9,7 @@
   margin: auto;
   padding: 1%;
   color: white;
-  background-color: rgba(75, 75, 75, 0.9);
+  background-color: rgba(75, 75, 75);
   }  
   
 .popup\_inner {  

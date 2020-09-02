@@ -37,10 +37,10 @@ class NavBar extends Component {
             <Nav.Link href="/search">Search</Nav.Link>
           </Nav>
           <Button variant="outline-info" onClick={this.togglePopup.bind(this)}>Login</Button>  
-          {this.state.showPopup ?  
-          <SignInPopUp closePopup={this.togglePopup.bind(this)}/>
-          : null
-          }
+            {this.state.showPopup ?  
+            <SignInPopUp closePopup={this.togglePopup.bind(this)}/>
+            : null
+            }
         </Navbar.Collapse>
       </Navbar>
     );
