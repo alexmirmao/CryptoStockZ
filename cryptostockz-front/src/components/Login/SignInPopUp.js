@@ -6,10 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
-import UserProfile from '../UserProfile/UserProfile';
 import axios from 'axios';
 import {withCookies, Cookies } from 'react-cookie';
 import {instanceOf} from "prop-types";
+import {Link} from "react-router-dom";
 
 class SignInPopup extends React.Component {
 
@@ -47,7 +47,7 @@ class SignInPopup extends React.Component {
     }
 
     signInUser() {
-      
+
         var payload={
             "username":this.state.username,
             "password":this.state.password
@@ -65,7 +65,7 @@ class SignInPopup extends React.Component {
         axios(config)
         .then(function(reponse) {
             console.log(reponse);
-            return <UserProfile/>
+            return (<Link to="/profile"/>)
         })
         .catch(function (error) {
             console.log(error);
