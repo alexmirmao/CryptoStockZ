@@ -26,7 +26,7 @@ class SignUpPopup extends React.Component {
             password:"",
             name: "",
             email: "",
-            metamask: "",
+            metamask: account0,
             errorMessage:"",
             successMessage:"",
             ok_login:false,
@@ -87,14 +87,14 @@ class SignUpPopup extends React.Component {
         "password": this.state.password,
         "name": this.state.name,
         "roles": ["user"],
-        "metamaskAccount": this.state.metamask
+        "metamaskAccount": account0
       }
 
       console.log(payload)
 
       var config = {
         method: 'post',
-        url: 'http://192.168.1.42:10010/signup',
+        url: 'http://localhost:10010/signup',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -150,8 +150,7 @@ class SignUpPopup extends React.Component {
                 </Form.Group>
                 <Form.Group controlId="formBasicMetamask">
                   <Form.Label>Metamask</Form.Label>
-                  <Form.Control type="string" placeholder={account0} value={metamask}
-                                />
+                  <Form.Control type="string" placeholder={account0}/>
                 </Form.Group>
               </Grid>
               <Grid item md={10}>
