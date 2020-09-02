@@ -3,6 +3,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
 
 import config from '../../config';
 
@@ -10,9 +11,13 @@ class PendingProductsList extends React.Component {
 
     constructor(props){
         super(props);
+        const {cookies} = props;
         this.state = {
             user_products: [],
-            baseUrl: config.baseUrl
+            baseUrl: config.baseUrl,
+            token: cookies.get('x-access-token'),
+            roles: cookies.get('roles'),
+            username: cookies.get('username')
         };
     }
 
@@ -22,7 +27,7 @@ class PendingProductsList extends React.Component {
             url: this.state.baseUrl+'/base/product/pending',
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
+                'x-access-token': this.state.token
             }
         };
 
@@ -66,4 +71,4 @@ class PendingProductsList extends React.Component {
     }
 }
 
-export default PendingProductsList;
+export default withCookies(PendingProductsList);

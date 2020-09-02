@@ -3,20 +3,27 @@ import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
 import config from '../../config';
 
+
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
+
 
 
 class NewProduct extends React.Component {
 
   constructor(props) {
     super(props);
+    const {cookies} = props;
     this.state = {
       name: "",
       ean: "",
       sku: "",
       manufacturer: "",
       isManufacturer: true,
-      baseUrl: config.baseUrl
+      baseUrl: config.baseUrl,
+      token: cookies.get('x-access-token'),
+      roles: cookies.get('roles'),
+      username: cookies.get('username')
     };
   }
 
@@ -47,7 +54,7 @@ class NewProduct extends React.Component {
         url: this.state.baseUrl + '/base/product',
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
+          'x-access-token': this.state.token
         },
         data: data
       };
@@ -113,4 +120,4 @@ class NewProduct extends React.Component {
   }
 }
 
-export default NewProduct;
+export default withCookies(NewProduct);

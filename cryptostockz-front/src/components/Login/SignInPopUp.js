@@ -7,38 +7,28 @@ import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
 import axios from 'axios';
-import {withCookies, Cookies } from 'react-cookie';
-import {instanceOf} from "prop-types";
-import { Redirect } from "react-router-dom";
+import { withCookies } from 'react-cookie';
 
 
 import config from '../../config';
 
 class SignInPopup extends React.Component {
 
-    static propTypes={
-      cookies: instanceOf(Cookies).isRequired
-    };
-
     constructor(props){
         super(props);
-        const {cookies}=props;
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             showSignUpPopup: false,
             showSignInPopup: true,
             username: "",
             password: "",
-            baseUrl: config.baseUrl,
-            name: cookies.get("name")
+            baseUrl: config.baseUrl
         };
     }
 
     handleChange(e) {
         if(e.target.id === "formBasicUsername") {
             this.setState({username: e.target.value});
-            const {cookies}=this.props;
-            cookies.set("name", e.target.value,{path:"/"});
         }else if(e.target.id === "formBasicPassword") {
             this.setState({password: e.target.value});
         }else if(e.target.id === "handlePopUp") {
@@ -68,9 +58,21 @@ class SignInPopup extends React.Component {
 
         axios(config)
         .then(function(response) {
-            console.log(response);
-            window.location = "/profile"
-        })
+
+            const { cookies } = this.props;
+
+            var expiresAt = new Date();
+            expiresAt.setDate(expiresAt.getDate() + 1);
+
+            const options = {path:'/', expires: expiresAt};
+
+            cookies.set("x-access-token", response.data.accessToken,options);
+            cookies.set("username", response.data.username,options);
+            cookies.set("roles", response.data.roles[0],options);
+
+            console.log(response.data);
+            //window.location = "/profile"
+        }.bind(this))
         .catch(function (error) {
             console.log(error);
         });
