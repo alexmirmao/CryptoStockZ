@@ -1,20 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import { Form, FormControl, Button, InputGroup } from "react-bootstrap";
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
+
+import { withCookies } from 'react-cookie';
 
 import config from '../../config';
 
 import axios from 'axios';
 
-export default class Search extends Component {
+class Search extends React.Component {
 
   constructor(props){
     super(props);
+    const { cookies } = props;
     this.state = {
       val: '',
       products: [],
-      baseUrl: config.baseUrl
+      baseUrl: config.baseUrl,
+      token: cookies.get('x-access-token'),
+      roles: cookies.get('roles'),
+      username: cookies.get('username')
     };
   }
 
@@ -38,7 +44,7 @@ export default class Search extends Component {
       method: 'get',
       url: this.state.baseUrl+'/product/search',
       headers: {
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTYwODc2LCJleHAiOjE1OTkwNDcyNzZ9.-PSfbnBUSmYmTmOSAIr-o3dmtbpwebP3IV0m4Iv5CZc'
+        'x-access-token': this.state.token
       },
       data: data
     };
@@ -95,3 +101,5 @@ export default class Search extends Component {
     )
   }
 }
+
+export default withCookies(Search);

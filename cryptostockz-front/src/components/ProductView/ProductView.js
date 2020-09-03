@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Row, Col, Image, Button, ListGroup } from 'react-bootstrap';
 import './ProductView.css';
 
+import { withCookies } from 'react-cookie';
+
 import axios from 'axios';
 
 import config from '../../config';
@@ -11,6 +13,7 @@ class ProductView extends React.Component {
 
     constructor(props) {
         super(props);
+        const { cookies } = props;
         this.state = {
             product: {
 
@@ -18,7 +21,10 @@ class ProductView extends React.Component {
             user: {
 
             },
-            baseUrl: config.baseUrl
+            baseUrl: config.baseUrl,
+            token: cookies.get('x-access-token'),
+            roles: cookies.get('roles'),
+            username: cookies.get('username')
         };
     }
 
@@ -26,6 +32,7 @@ class ProductView extends React.Component {
 
     componentDidMount() {
         this.getProductInfo(this.props.match.params.productId);
+        this.getUserInfo(this.state.username);
     }
 
     getProductInfo(productId) {
@@ -34,7 +41,7 @@ class ProductView extends React.Component {
             url: this.state.baseUrl + '/product/' + productId,
             headers: {
                 'Content-Transfer-Encoding': 'application/json',
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTk4OTgwNDI5LCJleHAiOjE1OTkwNjY4Mjl9.aPE3idLGpEuUw1eYS_jTqAF0z0xUm0tuVAbPGsssEXI'
+                'x-access-token': this.state.token
             }
         };
 
@@ -52,13 +59,12 @@ class ProductView extends React.Component {
             });
     }
 
-    getUserInfo() {
+    getUserInfo(username) {
         var config = {
             method: 'get',
-            url: 'http://192.168.1.42:10010/account/nike',
+            url: this.state.baseUrl+'/account/'+username,
             headers: {
-                'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk4OTg3NDk2LCJleHAiOjE1OTkwNzM4OTZ9.g5-A6CVhmxJvlXUTsugREnwFVMdpnGiKjgbcHDIzS8o',
-                'Cookie': 'userId=2'
+                'x-access-token': this.state.token,
             }
         };
 
@@ -117,4 +123,4 @@ class ProductView extends React.Component {
     }
 }
 
-export default ProductView;
+export default withCookies(ProductView);
