@@ -415,6 +415,26 @@ paths:
               $ref: "#/definitions/Product"
         "400":
           description: "Invalid status value"
+  /manufacturers:
+    get:
+      x-swagger-router-controller: "account.controller"
+      tags:
+      - "account"
+      summary: "Finds all manufacturers"
+      description: ""
+      operationId: "getManufacturers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid status value"
 
   #Operaciones sobre productos base
   /base/product:

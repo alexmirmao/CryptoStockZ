@@ -91,7 +91,7 @@ class NewProduct extends React.Component {
     // TODO: Debemos crear una petición en el back que devuelva todos los manufacturers
     var config = {
       method: 'get',
-      url: this.state.baseUrl + '/base/product', // Cambiar esta peticion
+      url: this.state.baseUrl + '/manufacturers', // Cambiar esta peticion
       headers: {
         'Content-Type': 'application/json',
         'x-access-token': this.state.token
@@ -99,7 +99,8 @@ class NewProduct extends React.Component {
     };
     axios(config)
     .then((response) => {
-      let manufacturersFromApi = response.data.products.map(manufacturer => {
+      console.log(response.data.users)
+      let manufacturersFromApi = response.data.users.map(manufacturer => {
         return {value: manufacturer.id, display: manufacturer.name}
       });
       this.setState({
