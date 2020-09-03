@@ -9,6 +9,9 @@ const User = db.user;
 
 const config = require('../../config/config');
 
+const path = require('path');
+const fs = require("fs");
+
 
 /**
  * Insercion de un nuevo producto digital en la BD
@@ -105,7 +108,7 @@ exports.getAllBaseProducts = (res) => {
     });
 }
 
-exports.getProduct = (req,res) => {
+exports.getProduct = (req, res) => {
     Product.findOne({
         where: {
             id: req.params.productId
@@ -115,17 +118,20 @@ exports.getProduct = (req,res) => {
             return res.status(404).send({ message: "Product Not Found" });
         }
 
-        let productName = product.name;
+        let productName = 'airmax';
         let adn = product.dna.toString();
 
-        let imagesPath = config.env.PRODUCT_IMAGES ;
+        let imagesPath = config.env.PRODUCT_IMAGES;
 
-        let images = [
-            imagesPath+'/fondos/'+adn.charAt(0),
-            imagesPath+'/productos/'+productName+'/'+adn.charAt(1),
-            imagesPath+'/accesorios/'+adn.charAt(2)
-        ]
-        return res.status(200).send({ product: product, images: images });
+        let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.jpg'),{ encoding: "base64" });
+        let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+        let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ adn.charAt(2)+'.png'),{ encoding: "base64" });
+
+        return res.status(200).send({ 
+            product: product, 
+            images: [fondo,producto,accesorio]
+        });
+
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
@@ -133,10 +139,10 @@ exports.getProduct = (req,res) => {
 
 exports.searchProduct = (req, res) => {
     // Si no envían ningún parámetro devolvemos todos los productos base
-    if(_lodash.isEmpty(req.body)) {
-        this.getAllProducts(req,res);
-    }else{
-        if(!_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)){
+    if (_lodash.isEmpty(req.body)) {
+        this.getAllProducts(req, res);
+    } else {
+        if (!_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)) {
             User.findAll({
                 include: {
                     model: BaseProduct,
@@ -166,8 +172,8 @@ exports.searchProduct = (req, res) => {
             }).catch(err => {
                 return res.status(500).send({ message: err.message });
             });
-        }else{
-            if(!_lodash.isEmpty(req.body.manufacturerName) && _lodash.isEmpty(req.body.productName)){
+        } else {
+            if (!_lodash.isEmpty(req.body.manufacturerName) && _lodash.isEmpty(req.body.productName)) {
                 User.findAll({
                     include: {
                         model: BaseProduct,
@@ -193,7 +199,7 @@ exports.searchProduct = (req, res) => {
                 }).catch(err => {
                     return res.status(500).send({ message: err.message });
                 });
-            }else if(_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)){
+            } else if (_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)) {
                 BaseProduct.findOne({
                     where: {
                         name: req.body.productName
@@ -201,7 +207,7 @@ exports.searchProduct = (req, res) => {
                 }).then(product => {
                     return res.status(200).send({ BaseProduct: product });
                 })
-            }else{
+            } else {
                 return res.status(500).send({ message: "Something was wrong, review your parameters." });
             }
         }
