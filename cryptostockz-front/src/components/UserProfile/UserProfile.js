@@ -76,7 +76,7 @@ class UserProfile extends React.Component {
                     </Col>
                     <Col sm={8}>
                         <div>
-                            <Tabs defaultActiveKey="products" transition={false} id="noanim-tab-example">
+                            <Tabs defaultActiveKey="products" unmountOnExit id="noanim-tab-example">
                                 <Tab eventKey="products" title="Products">
                                     <div className="container">
                                         <UserProductList userProducts={this.state.products} />

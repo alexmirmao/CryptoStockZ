@@ -29,14 +29,15 @@ class NewProduct extends React.Component {
 
   checkData() {
     if (this.state.isManufacturer) {
-      return (this.state.name !== "" && this.state.ean !== "" && this.state.sku !== "");
+      this.setState({manufacturer: this.state.username});
+      return (this.state.name === "" || this.state.ean === "" || this.state.sku === "");
     } else {
-      return (this.state.name !== "" && this.state.ean !== "" && this.state.sku !== "" && this.state.manufacturer !== "");
+      return (this.state.name === "" || this.state.ean === "" || this.state.sku === "" || this.state.manufacturer === "");
     }
   }
 
   registerNewProduct(event) {
-    if (this.checkData) {
+    if (this.checkData()) {
       alert("Complete all fields");
     } else {
       var data = JSON.stringify(
@@ -76,13 +77,8 @@ class NewProduct extends React.Component {
       this.setState({ ean: e.target.value });
     } else if (e.target.id === "formBasicSku") {
       this.setState({ sku: e.target.value });
-    } else {
-
-      if (!this.state.isManufacturer && e.target.id === "selectManu") {
+    } else if (!this.state.isManufacturer && e.target.id === "selectManu") {
         this.setState({ manufacturer: e.target.value });
-      } else {
-        this.setState({ manufacturer: "manufacturer" }); //Coger del username de las cookies
-      }
     }
 
   }
