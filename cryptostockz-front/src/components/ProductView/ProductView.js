@@ -98,9 +98,9 @@ class ProductView extends React.Component {
       //https://resizeimage.net/
     combineImages(){
         mergeImages([
-            { src: `data:image/jpg;base64,${this.state.images[0]}`, x: 0, y: 0, width: 300 },
-            { src: `data:image/png;base64,${this.state.images[2]}`, x: 16, y: 0 },
-            { src: `data:image/png;base64,${this.state.images[1]}`, x: 50, y: 25 }
+            { src: `data:image/png;base64,${this.state.images[0]}`, x: 0, y: 0 },
+            { src: `data:image/png;base64,${this.state.images[1]}`, x: 60, y: 25 },
+            { src: `data:image/png;base64,${this.state.images[2]}`, x: 100, y: 0 }
           ])
             .then(b64 => {
                 this.setState({mainImage: b64});
@@ -118,7 +118,7 @@ class ProductView extends React.Component {
                         </div>
                         <div className="product_img">
                             {this.state.imageLoaded ? 
-                            <Image src={this.state.mainImage} width="300px" rounded />
+                            <Image src={this.state.mainImage} width="350px" rounded />
                             : null }
                         </div>
                     </Col>
