@@ -105,10 +105,10 @@ class NewProduct extends React.Component {
         {this.state.isManufacturer ? null : (
           <Form.Group controlId="selectManu">
             <Form.Label>Manufacturer</Form.Label>
-            <Form.Control as="select" onChange={(e) => this.handleChange(e)}>
-              <option>Choose...</option>
-              <option>Adidas</option>
-              <option>Nike</option>
+            <Form.Control as="select" defaultValue="Choose..." onChange={(e) => this.handleChange(e)}>
+              <option value="">Choose...</option>
+              <option value="Adidas">Adidas</option>
+              <option value="Nike">Nike</option>
             </Form.Control>
           </Form.Group>
         )}
