@@ -12,6 +12,7 @@ module.exports = {
     WEBAPP_SECRET: 'cryptostockz',
     WEBAPP_STATIC_FILES_UPLOAD_PATH: __dirname + '/../resources/static/assets/uploads/',
     WEBAPP_STATIC_FILES_TEMP_PATH: __dirname + '/../resources/static/assets/temp/',
+    PRODUCT_IMAGES: __dirname + '/../images'
   },
   eth: {
     nodeUrl: 'localhost',

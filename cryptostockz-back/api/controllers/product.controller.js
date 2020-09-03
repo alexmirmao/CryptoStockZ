@@ -7,6 +7,8 @@ const Product = db.product;
 const BaseProduct = db.base_product;
 const User = db.user;
 
+const config = require('../../config/config');
+
 
 /**
  * Insercion de un nuevo producto digital en la BD
@@ -112,7 +114,18 @@ exports.getProduct = (req,res) => {
         if (!product) {
             return res.status(404).send({ message: "Product Not Found" });
         }
-        return res.status(200).send({ product: product });
+
+        let productName = product.name;
+        let adn = product.dna.toString();
+
+        let imagesPath = config.env.PRODUCT_IMAGES ;
+
+        let images = [
+            imagesPath+'/fondos/'+adn.charAt(0),
+            imagesPath+'/productos/'+productName+'/'+adn.charAt(1),
+            imagesPath+'/accesorios/'+adn.charAt(2)
+        ]
+        return res.status(200).send({ product: product, images: images });
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
