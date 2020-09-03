@@ -19,11 +19,12 @@ class NewProduct extends React.Component {
       ean: "",
       sku: "",
       manufacturer: "",
-      isManufacturer: true,
+      isManufacturer: false,
       baseUrl: config.baseUrl,
       token: cookies.get('x-access-token'),
       roles: cookies.get('roles'),
-      username: cookies.get('username')
+      username: cookies.get('username'),
+      manufacturers: []
     };
   }
 
@@ -84,10 +85,37 @@ class NewProduct extends React.Component {
         this.setState({ manufacturer: "manufacturer" }); //Coger del username de las cookies
       }
     }
+  }
 
+  componentDidMount() {
+    if (this.state.roles === "ROLE_MANUFACTURER") {
+      this.state.isManufacturer = true
+    }
+
+    // TODO: Debemos crear una petición en el back que devuelva todos los manufacturers
+    var config = {
+      method: 'get',
+      url: this.state.baseUrl + '/base/product', // Cambiar esta peticion
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': this.state.token
+      }
+    };
+    axios(config)
+    .then((response) => {
+      let manufacturersFromApi = response.data.products.map(manufacturer => {
+        return {value: manufacturer.id, display: manufacturer.name}
+      });
+      this.setState({
+        manufacturers: [{value: '', display: 'Select your manufacturer'}].concat(manufacturersFromApi)
+      });
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   render() {
+    const isEnabled = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0 && this.state.manufacturer.length > 0;
     return (
       <div className="Newproduct">
         <Form.Group controlId="formBasicName">
@@ -102,17 +130,18 @@ class NewProduct extends React.Component {
           <Form.Label>SKU</Form.Label>
           <Form.Control type="input" placeholder="Product Sku" onChange={(e) => this.handleChange(e)} />
         </Form.Group>
-        {this.state.isManufacturer ? null : (
+        {this.state.isManufacturer ? (
           <Form.Group controlId="selectManu">
             <Form.Label>Manufacturer</Form.Label>
-            <Form.Control as="select" defaultValue="Choose..." onChange={(e) => this.handleChange(e)}>
-              <option value="">Choose...</option>
+            <Form.Control as="select" defaultValue={null} onChange={(e) => this.handleChange(e)}>
+              {/*<option value=""></option>
               <option value="Adidas">Adidas</option>
-              <option value="Nike">Nike</option>
+              <option value="Nike">Nike</option>*/}
+              {this.state.manufacturers.map((manufacturer) => <option key={manufacturer.value} value={manufacturer.value}>{manufacturer.display}</option>)}
             </Form.Control>
           </Form.Group>
-        )}
-        <Button variant="primary" type="submit" onClick={e => this.registerNewProduct(e)}>
+        ) : null}
+        <Button variant="primary" type="submit" onClick={e => this.registerNewProduct(e)} disabled={!isEnabled}>
           Register
         </Button>
       </div>
