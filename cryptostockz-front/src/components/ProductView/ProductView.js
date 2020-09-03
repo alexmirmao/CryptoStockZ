@@ -47,10 +47,11 @@ class ProductView extends React.Component {
 
         axios(config)
             .then(function (response) {
-                console.log(JSON.stringify(response.data.product));
+                console.log(JSON.stringify(response.data));
                 this.setState({
 
-                    product: response.data.product
+                    product: response.data.product,
+                    images: response.data.images
 
                 });
             }.bind(this))
