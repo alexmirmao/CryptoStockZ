@@ -10,7 +10,6 @@ import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
 import config from '../../config';
-import UserProfile from '../UserProfile/UserProfile';
 
 class SignInPopup extends React.Component {
 
@@ -73,7 +72,7 @@ class SignInPopup extends React.Component {
             window.location = "/profile"
         }.bind(this))
         .catch(function (error) {
-            console.log(error);
+            alert(error);
         });
     }
 
