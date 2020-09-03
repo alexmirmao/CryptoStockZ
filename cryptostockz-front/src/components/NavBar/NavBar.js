@@ -22,7 +22,7 @@ class NavBar extends Component {
   componentDidMount() {
     const { cookies } = this.props;
     this.setState(
-      { 
+      {
         token: cookies.get('x-access-token'),
         username: cookies.get('username')
       }
@@ -34,6 +34,14 @@ class NavBar extends Component {
     this.setState({
       showPopup: !this.state.showPopup
     });
+  }
+
+  logout(){
+    const { cookies } = this.props;
+    cookies.remove('x-access-token');
+    cookies.remove('username');
+    cookies.remove('roles');
+    window.location = "/home";
   }
 
   render() {
@@ -54,10 +62,15 @@ class NavBar extends Component {
           {this.state.token === undefined ? (
             <React.Fragment>
               <Button variant="outline-info" onClick={this.togglePopup.bind(this)}>Login</Button>
-              {this.state.showPopup ? <SignInPopUp/> : null }
+              {this.state.showPopup ? <SignInPopUp /> : null}
             </React.Fragment>
-          ) : <Navbar.Brand>Hi, {this.state.username} !</Navbar.Brand> }
-          
+          ) : (
+              <React.Fragment>
+                <Navbar.Brand>Hi, {this.state.username} !</Navbar.Brand>
+                <Button variant="outline-info" onClick={this.logout.bind(this)}>Logout</Button>
+              </React.Fragment>
+            )}
+
         </Navbar.Collapse>
       </Navbar>
     );
