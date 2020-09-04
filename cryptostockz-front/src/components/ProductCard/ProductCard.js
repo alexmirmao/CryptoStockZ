@@ -15,7 +15,9 @@ class ProductCard extends React.Component {
     }
 
     componentDidMount(){
-        this.combineImages();
+        if(this.props.digital){
+            this.combineImages();
+        }
     }
 
     combineImages(){
@@ -33,7 +35,13 @@ class ProductCard extends React.Component {
         return (
             <div align="center">
                 <Card style={{ width: '18rem' }}>
+                    {this.props.digital ?  
                     <Card.Img variant="top" src={this.state.mainImage} />
+                    :  (
+                        <Card.Img variant="top" src="https://www.marshall.edu/it/files/question-mark-circle-icon.png" />
+                    )
+                }
+                    
                     <Card.Body>
                         <Card.Title>{this.props.productInfo.name}</Card.Title>
                         <ListGroup>

@@ -3,11 +3,11 @@
 }
 
 .product_img {
-    z-index: 10;
+    margin-top: 10%;
 }
 
 .info {
-    margin-top: 6%;
+    margin-top: 0%;
 }
 
 .button_container {

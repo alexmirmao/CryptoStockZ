@@ -104,9 +104,6 @@ class ProductView extends React.Component {
             <Container className="product_container">
                 <Row>
                     <Col sm={4} align="center">
-                        <div>
-                            <label>{this.state.product.name}</label>
-                        </div>
                         <div className="product_img">
                             {this.state.imageLoaded ? 
                             <Image src={this.state.mainImage} width="350px" rounded />
@@ -116,6 +113,7 @@ class ProductView extends React.Component {
                     <Col sm={8}>
                         <div className="info">
                             <ListGroup>
+                                <ListGroup.Item>Product Name: {this.state.product.name}</ListGroup.Item>
                                 <ListGroup.Item>Address: {this.state.product.address}</ListGroup.Item>
                                 <ListGroup.Item>DNA: {this.state.product.dna}</ListGroup.Item>
                                 <ListGroup.Item>Owner: {this.state.product.owner_address}</ListGroup.Item>
