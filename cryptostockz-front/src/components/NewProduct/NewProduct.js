@@ -78,7 +78,7 @@ class NewProduct extends React.Component {
       this.setState({ ean: e.target.value });
     } else if (e.target.id === "formBasicSku") {
       this.setState({ sku: e.target.value });
-    } else if (!this.state.isManufacturer && e.target.id === "selectManu") {
+    } else if (this.state.isManufacturer && e.target.id === "selectManu") {
         this.setState({ manufacturer: e.target.value });
     }
   }
@@ -99,13 +99,13 @@ class NewProduct extends React.Component {
     };
     axios(config)
     .then((response) => {
-      console.log(response.data.users)
       let manufacturersFromApi = response.data.users.map(manufacturer => {
         return {value: manufacturer.id, display: manufacturer.name}
       });
       this.setState({
         manufacturers: [{value: '', display: 'Select your manufacturer'}].concat(manufacturersFromApi)
       });
+      console.log("MANUFACTURERS: "+manufacturersFromApi)
     }).catch(error => {
       console.log(error);
     });
@@ -130,7 +130,7 @@ class NewProduct extends React.Component {
         {this.state.isManufacturer ? (
           <Form.Group controlId="selectManu">
             <Form.Label>Manufacturer</Form.Label>
-            <Form.Control as="select" defaultValue={null} onChange={(e) => this.handleChange(e)}>
+            <Form.Control as="select" onChange={(e) => this.handleChange(e)}>
               {/*<option value=""></option>
               <option value="Adidas">Adidas</option>
               <option value="Nike">Nike</option>*/}

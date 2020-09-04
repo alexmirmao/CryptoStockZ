@@ -55,8 +55,8 @@ class SignUpPopup extends React.Component {
       "email": this.state.email,
       "password": this.state.password,
       "name": this.state.name,
-      "roles": [this.state.roles],
-      "metamaskAccount": this.state.metamask
+      // "roles": [this.state.roles],
+      "metamaskAccount": account0
     }
 
     console.log(payload)
@@ -133,6 +133,7 @@ class SignUpPopup extends React.Component {
                 <Form.Control type="password" placeholder="Password" value={password}
                   onChange={this.handleChange} />
               </Form.Group>
+              {/*
               <Form.Group controlId="selectRole">
                 <Form.Label>Role</Form.Label>
                 <Form.Control as="select" defaultValue="Choose..." onChange={(e) => this.handleChange(e)}>
@@ -141,6 +142,7 @@ class SignUpPopup extends React.Component {
                   <option valuee="manufacturer">Manufacturer</option>
                 </Form.Control>
               </Form.Group>
+              */}
               <Form.Group controlId="formBasicMetamask">
                 <Form.Label>Wallet Account</Form.Label>
                 <Form.Control type="input" value={this.state.metamask} disabled />
