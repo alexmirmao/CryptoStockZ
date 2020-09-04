@@ -86,15 +86,6 @@ class ProductView extends React.Component {
             });
     }
 
-    resizeImage(base64Str, width, height) {
-
-        var img = new Image;
-        img.src = base64Str;
-        img.width = width;
-        img.height = height;
-        return img;
-      }
-
       //https://resizeimage.net/
     combineImages(){
         mergeImages([
