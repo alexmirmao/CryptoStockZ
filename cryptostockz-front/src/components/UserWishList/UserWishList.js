@@ -5,10 +5,11 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
+
 import config from '../../config';
 
 
-class UserWishList extends React.Component {
+class UserProductsList extends React.Component {
 
     constructor(props){
         super(props);
@@ -25,7 +26,7 @@ class UserWishList extends React.Component {
     getUserProducts() {
         var config = {
             method: 'get',
-            url: this.state.baseUrl+'/base/product',
+            url: this.state.baseUrl + '/product',
             headers: {
                 'Content-Type': 'application/json',
                 'x-access-token': this.state.token
@@ -48,6 +49,8 @@ class UserWishList extends React.Component {
         this.getUserProducts();
     }
 
+
+
     render() {
         return (
             <React.Fragment>
@@ -60,7 +63,7 @@ class UserWishList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} />
+                                        <ProductCard productInfo={product} digital={true} />
                                     </Grid>
                                 )
                             })}
@@ -72,4 +75,4 @@ class UserWishList extends React.Component {
     }
 }
 
-export default withCookies(UserWishList);
+export default withCookies(UserProductsList);
