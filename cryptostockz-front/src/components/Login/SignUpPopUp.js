@@ -56,7 +56,7 @@ class SignUpPopup extends React.Component {
       "password": this.state.password,
       "name": this.state.name,
       "roles": [this.state.roles],
-      "metamaskAccount": "000001"
+      "metamaskAccount": this.state.metamask
     }
 
     console.log(payload)
