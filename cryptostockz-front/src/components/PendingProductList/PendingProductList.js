@@ -5,9 +5,11 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
+
 import config from '../../config';
 
-class PendingProductsList extends React.Component {
+
+class UserProductsList extends React.Component {
 
     constructor(props){
         super(props);
@@ -21,10 +23,10 @@ class PendingProductsList extends React.Component {
         };
     }
 
-    getPendingProducts() {
+    getUserProducts() {
         var config = {
             method: 'get',
-            url: this.state.baseUrl+'/base/product/pending',
+            url: this.state.baseUrl + '/base/product/pending',
             headers: {
                 'Content-Type': 'application/json',
                 'x-access-token': this.state.token
@@ -44,22 +46,24 @@ class PendingProductsList extends React.Component {
     }
 
     componentDidMount() {
-        this.getPendingProducts();
+        this.getUserProducts();
     }
+
+
 
     render() {
         return (
             <React.Fragment>
                 {this.state.user_products.length === 0 ? (
                     <Grid align="center" container spacing={5}>
-                        <span>There are no pending products.</span>
+                        <span>There are no products</span>
                     </Grid>
                 ) : (
                         <Grid align="center" container spacing={5}>
                             {this.state.user_products.map((product) => {
                                 return (
-                                    <Grid item xs={6}key={product.id}>
-                                        <ProductCard productInfo={product}/>
+                                    <Grid item xs={6} key={product.id}>
+                                        <ProductCard productInfo={product} digital={false} />
                                     </Grid>
                                 )
                             })}
@@ -71,4 +75,4 @@ class PendingProductsList extends React.Component {
     }
 }
 
-export default withCookies(PendingProductsList);
+export default withCookies(UserProductsList);

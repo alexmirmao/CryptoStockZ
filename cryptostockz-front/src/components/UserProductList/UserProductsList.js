@@ -49,6 +49,8 @@ class UserProductsList extends React.Component {
         this.getUserProducts();
     }
 
+
+
     render() {
         return (
             <React.Fragment>
@@ -61,7 +63,7 @@ class UserProductsList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} />
+                                        <ProductCard productInfo={product} digital={true} />
                                     </Grid>
                                 )
                             })}
