@@ -8,10 +8,7 @@ import NewProduct from '../NewProduct/NewProduct';
 import PendingProductList from '../PendingProductList/PendingProductList';
 
 import { withCookies } from 'react-cookie';
-
-import axios from 'axios';
-
-import config from '../../config';
+import { GetUserInfo } from '../../services/BackendService';
 
 class UserProfile extends React.Component {
 
@@ -22,37 +19,20 @@ class UserProfile extends React.Component {
             user: {
             },
             user_products: [],
-            baseUrl: config.baseUrl,
             token: cookies.get('x-access-token'),
             roles: cookies.get('roles'),
             username: cookies.get('username')
         };
     }
 
-
-    getUserInfo() {
-        var config = {
-            method: 'get',
-            url: this.state.baseUrl+'/account/'+this.state.username,
-            headers: {
-                'x-access-token': this.state.token
-            }
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data.user));
-                this.setState({
-                    user: response.data.user
-                });
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     componentDidMount() {
-        this.getUserInfo();
+        GetUserInfo(this.state.token, this.state.username)
+        .then(function(response){
+            console.log(JSON.stringify(response));
+            this.setState({
+                user: response.data.user
+            });
+        }.bind(this));
     }
 
 

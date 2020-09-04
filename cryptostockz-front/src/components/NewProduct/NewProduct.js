@@ -1,11 +1,8 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
-import config from '../../config';
-
-
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
+import { CreateNewProduct, GetManufacturers } from "../../services/BackendService";
 
 
 
@@ -13,14 +10,13 @@ class NewProduct extends React.Component {
 
   constructor(props) {
     super(props);
-    const {cookies} = props;
+    const { cookies } = props;
     this.state = {
       name: "",
       ean: "",
       sku: "",
       manufacturer: "",
       isManufacturer: false,
-      baseUrl: config.baseUrl,
       token: cookies.get('x-access-token'),
       roles: cookies.get('roles'),
       username: cookies.get('username'),
@@ -30,7 +26,7 @@ class NewProduct extends React.Component {
 
   checkData() {
     if (this.state.isManufacturer) {
-      this.setState({manufacturer: this.state.username});
+      this.setState({ manufacturer: this.state.username });
       return (this.state.name === "" || this.state.ean === "" || this.state.sku === "");
     } else {
       return (this.state.name === "" || this.state.ean === "" || this.state.sku === "" || this.state.manufacturer === "");
@@ -41,33 +37,15 @@ class NewProduct extends React.Component {
     if (this.checkData()) {
       alert("Complete all fields");
     } else {
-      var data = JSON.stringify(
-        [
-          {
-            "name": this.state.name,
-            "ean": this.state.ean,
-            "sku": this.state.sku,
-            "manufacturer": this.state.manufacturer
-          }
-        ]);
-
-      var config = {
-        method: 'post',
-        url: this.state.baseUrl + '/base/product',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': this.state.token
-        },
-        data: data
-      };
-
-      axios(config)
+      CreateNewProduct(
+        this.state.token,
+        this.state.name,
+        this.state.ean,
+        this.state.sku,
+        this.state.manufacturer)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          console.log(response);
+        }.bind(this));
     }
   }
 
@@ -79,7 +57,7 @@ class NewProduct extends React.Component {
     } else if (e.target.id === "formBasicSku") {
       this.setState({ sku: e.target.value });
     } else if (this.state.isManufacturer && e.target.id === "selectManu") {
-        this.setState({ manufacturer: e.target.value });
+      this.setState({ manufacturer: e.target.value });
     }
   }
 
@@ -89,26 +67,16 @@ class NewProduct extends React.Component {
     }
 
     // TODO: Debemos crear una petición en el back que devuelva todos los manufacturers
-    var config = {
-      method: 'get',
-      url: this.state.baseUrl + '/manufacturers', // Cambiar esta peticion
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': this.state.token
-      }
-    };
-    axios(config)
-    .then((response) => {
-      let manufacturersFromApi = response.data.users.map(manufacturer => {
-        return {value: manufacturer.id, display: manufacturer.name}
-      });
-      this.setState({
-        manufacturers: [{value: '', display: 'Select your manufacturer'}].concat(manufacturersFromApi)
-      });
-      console.log("MANUFACTURERS: "+manufacturersFromApi)
-    }).catch(error => {
-      console.log(error);
-    });
+    GetManufacturers(this.state.token)
+      .then(function (response) {
+        let manufacturersFromApi = response.data.users.map(manufacturer => {
+          return { value: manufacturer.id, display: manufacturer.name }
+        });
+        this.setState({
+          manufacturers: [{ value: '', display: 'Select your manufacturer' }].concat(manufacturersFromApi)
+        });
+        console.log("MANUFACTURERS: " + manufacturersFromApi)
+      }.bind(this));
   }
 
   render() {

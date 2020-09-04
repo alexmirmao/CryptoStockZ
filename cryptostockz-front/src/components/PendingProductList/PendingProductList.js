@@ -2,54 +2,32 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
+import { GetPendingProducts } from '../../services/BackendService';
 
 
-import config from '../../config';
-
-
-class UserProductsList extends React.Component {
+class PendingProductsList extends React.Component {
 
     constructor(props){
         super(props);
         const {cookies} = props;
         this.state = {
             user_products: [],
-            baseUrl: config.baseUrl,
             token: cookies.get('x-access-token'),
             roles: cookies.get('roles'),
             username: cookies.get('username')
         };
     }
 
-    getUserProducts() {
-        var config = {
-            method: 'get',
-            url: this.state.baseUrl + '/base/product/pending',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': this.state.token
-            }
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data.products));
+    componentDidMount() {
+        GetPendingProducts(this.state.token)
+        .then(function(response){
+            console.log(JSON.stringify(response.data.products));
                 this.setState({
                     user_products: response.data.products
                 });
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
+        }.bind(this));
     }
-
-    componentDidMount() {
-        this.getUserProducts();
-    }
-
-
 
     render() {
         return (
@@ -75,4 +53,4 @@ class UserProductsList extends React.Component {
     }
 }
 
-export default withCookies(UserProductsList);
+export default withCookies(PendingProductsList);
