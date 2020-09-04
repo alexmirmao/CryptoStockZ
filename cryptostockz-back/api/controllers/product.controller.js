@@ -94,7 +94,21 @@ exports.updateProductWithForm = (req, res) => {
 
 exports.getAllProducts = (req, res) => {
     Product.findAll().then(products => {
-        return res.status(200).send({ products: products });
+
+        products.forEach((product) => {
+            let productName = 'airmax';
+            let adn = product.dna.toString();
+
+            let imagesPath = config.env.PRODUCT_IMAGES;
+
+            let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
+            let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+            let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ adn.charAt(2)+'.png'),{ encoding: "base64" });
+
+            product.dataValues.images = [fondo,producto,accesorio];
+        });
+            return res.status(200).send({ products: products});
+
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
@@ -102,7 +116,7 @@ exports.getAllProducts = (req, res) => {
 
 exports.getAllBaseProducts = (res) => {
     BaseProduct.findAll().then(products => {
-        return res.status(200).send({ products: products })
+        return res.status(200).send({ products: products})
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
