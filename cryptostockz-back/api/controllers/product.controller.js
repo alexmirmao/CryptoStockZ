@@ -214,12 +214,12 @@ exports.searchProduct = (req, res) => {
                     return res.status(500).send({ message: err.message });
                 });
             } else if (_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)) {
-                BaseProduct.findOne({
+                Product.findOne({
                     where: {
                         name: req.body.productName
                     }
                 }).then(product => {
-                    return res.status(200).send({ BaseProduct: product });
+                    return res.status(200).send({ product: product });
                 })
             } else {
                 return res.status(500).send({ message: "Something was wrong, review your parameters." });
