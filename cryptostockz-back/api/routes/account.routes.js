@@ -54,4 +54,10 @@ module.exports = function(app) {
     controller.transferProduct
   );
 
+  app.get(
+    "/manufacturers",
+    [authJwt.verifyToken],
+    controller.getManufacturers
+  );
+
 };

@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.user;
+const Role = db.role;
 const Product = db.product;
 const Permissions = db.permissions;
 
@@ -214,5 +215,20 @@ exports.transferProduct = (req, res) => {
     });
   }).catch(err => {
     return res.status(500).send({ message: err.message });
+  });
+}
+
+exports.getManufacturers = (req, res) => {
+  User.findAll({
+    include: {
+      model: Role,
+      where: {
+        id: 3
+      }
+    },
+  }).then(user => {
+    return res.status(200).send({ users: user });
+  }).catch(err => {
+      res.status(500).send({ message: err.message });
   });
 }
