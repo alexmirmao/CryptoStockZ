@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 
 var corsOptions = {
-  origin: config.env.WEBAPP_URL+":"+config.env.WEBAPP_PORT
+  origin: config.env.WEBAPP_URL+":3000"
+  // origin: config.env.WEBAPP_URL+":"+config.env.WEBAPP_PORT
 };
 
 

@@ -4,8 +4,6 @@ import "./NewProduct.css";
 import { withCookies } from 'react-cookie';
 import { CreateNewProduct, GetManufacturers } from "../../services/BackendService";
 
-
-
 class NewProduct extends React.Component {
 
   constructor(props) {
@@ -24,6 +22,12 @@ class NewProduct extends React.Component {
     };
   }
 
+  clearFields() {
+    this.setState({ name: "" });
+    this.setState({ ean: "" });
+    this.setState({ sku: "" });
+  }
+
   checkData() {
     if (this.state.isManufacturer) {
       this.setState({ manufacturer: this.state.username });
@@ -34,6 +38,8 @@ class NewProduct extends React.Component {
   }
 
   registerNewProduct(event) {
+    event.preventDefault();
+
     if (this.checkData()) {
       alert("Complete all fields");
     } else {
@@ -44,8 +50,14 @@ class NewProduct extends React.Component {
         this.state.sku,
         this.state.manufacturer)
         .then(function (response) {
-          console.log("Response:"+response);
-        }.bind(this));
+          this.clearFields()
+          alert("Successful! New product created!")
+          // NotificationManager.success('New product created!', 'Successful!', 2000);
+        }.bind(this))
+        .catch(error => {
+          alert("Error creating a new product!")
+          // NotificationManager.error('Error creating new book!', 'Error!', 2000);
+        });
     }
   }
 
@@ -80,20 +92,20 @@ class NewProduct extends React.Component {
 
   render() {
     const isEnabled = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0 && this.state.manufacturer.length > 0;
-    const isEnabledUsers = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0;
+    // const isEnabledUsers = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0;
     return (
       <div className="Newproduct">
         <Form.Group controlId="formBasicName">
           <Form.Label>Product Name</Form.Label>
-          <Form.Control type="input" placeholder="Product name" onChange={(e) => this.handleChange(e)} />
+          <Form.Control type="input" placeholder="Product name" onChange={(e) => this.handleChange(e)} value={this.state.name}/>
         </Form.Group>
         <Form.Group controlId="formBasicEan">
           <Form.Label>EAN</Form.Label>
-          <Form.Control type="input" placeholder="Product Ean" onChange={(e) => this.handleChange(e)} />
+          <Form.Control type="input" placeholder="Product Ean" onChange={(e) => this.handleChange(e)} value={this.state.ean}/>
         </Form.Group>
         <Form.Group controlId="formBasicSku">
           <Form.Label>SKU</Form.Label>
-          <Form.Control type="input" placeholder="Product Sku" onChange={(e) => this.handleChange(e)} />
+          <Form.Control type="input" placeholder="Product Sku" onChange={(e) => this.handleChange(e)} value={this.state.sku}/>
         </Form.Group>
         {/*{this.state.isManufacturer ? (
           <Form.Group controlId="selectManu">

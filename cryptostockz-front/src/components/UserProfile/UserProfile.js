@@ -79,6 +79,13 @@ class UserProfile extends React.Component {
                                         <NewProduct />
                                     </div>
                                 </Tab>
+                                {this.state.roles === "ROLE_MANUFACTURER" ? (
+                                    <Tab eventKey="digital" title="New Digital Product">
+                                        <div className="container">
+                                            <NewProduct />
+                                        </div>
+                                    </Tab>
+                                ) : null}
                             </Tabs>
                         </div>
                     </Col>
