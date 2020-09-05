@@ -97,7 +97,7 @@ exports.getAllProducts = (req, res) => {
 
         products.forEach((product) => {
             let productName = 'airmax';
-            let adn = product.dna.toString();
+            let adn = "9999"; //product.dna.toString();
 
             let imagesPath = config.env.PRODUCT_IMAGES;
 
