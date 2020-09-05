@@ -2,10 +2,9 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
+import { GetPendingProducts } from '../../services/BackendService';
 
-import config from '../../config';
 
 class PendingProductsList extends React.Component {
 
@@ -14,37 +13,20 @@ class PendingProductsList extends React.Component {
         const {cookies} = props;
         this.state = {
             user_products: [],
-            baseUrl: config.baseUrl,
             token: cookies.get('x-access-token'),
             roles: cookies.get('roles'),
             username: cookies.get('username')
         };
     }
 
-    getPendingProducts() {
-        var config = {
-            method: 'get',
-            url: this.state.baseUrl+'/base/product/pending',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': this.state.token
-            }
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data.products));
+    componentDidMount() {
+        GetPendingProducts(this.state.token)
+        .then(function(response){
+            console.log(JSON.stringify(response.data.products));
                 this.setState({
                     user_products: response.data.products
                 });
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    componentDidMount() {
-        this.getPendingProducts();
+        }.bind(this));
     }
 
     render() {
@@ -52,14 +34,14 @@ class PendingProductsList extends React.Component {
             <React.Fragment>
                 {this.state.user_products.length === 0 ? (
                     <Grid align="center" container spacing={5}>
-                        <span>There are no pending products.</span>
+                        <span>There are no products</span>
                     </Grid>
                 ) : (
                         <Grid align="center" container spacing={5}>
                             {this.state.user_products.map((product) => {
                                 return (
-                                    <Grid item xs={6}key={product.id}>
-                                        <ProductCard productInfo={product}/>
+                                    <Grid item xs={6} key={product.id}>
+                                        <ProductCard productInfo={product} digital={false} />
                                     </Grid>
                                 )
                             })}

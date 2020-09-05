@@ -5,10 +5,11 @@ import { Button } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
-import axios from 'axios';
+
 import Web3 from 'web3';
 
-import config from '../../config';
+import { SignUpUser } from '../../services/BackendService';
+
 
 var web3 = new Web3(window.ethereum);
 var account0;
@@ -27,8 +28,7 @@ class SignUpPopup extends React.Component {
       name: "",
       email: "",
       roles: "",
-      metamask: account0,
-      baseUrl: config.baseUrl
+      metamask: account0
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -50,35 +50,11 @@ class SignUpPopup extends React.Component {
   }
 
   signUpUser() {
-    var payload = {
-      "username": this.state.username,
-      "email": this.state.email,
-      "password": this.state.password,
-      "name": this.state.name,
-      "roles": [this.state.roles],
-      "metamaskAccount": "000001"
-    }
-
-    console.log(payload)
-
-    var config = {
-      method: 'post',
-      url: this.state.baseUrl + '/signup',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: payload
-    };
-
-    axios(config)
+   SignUpUser(this.state.username,this.state.email,this.state.password,this.state.name,account0)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         window.location = "/signin"
-      })
-      .catch(function (error) {
-        console.log(error);
-        alert(error);
-      });
+      }.bind(this));
   }
 
   FormPage() {
@@ -133,6 +109,7 @@ class SignUpPopup extends React.Component {
                 <Form.Control type="password" placeholder="Password" value={password}
                   onChange={this.handleChange} />
               </Form.Group>
+              {/*
               <Form.Group controlId="selectRole">
                 <Form.Label>Role</Form.Label>
                 <Form.Control as="select" defaultValue="Choose..." onChange={(e) => this.handleChange(e)}>
@@ -141,6 +118,7 @@ class SignUpPopup extends React.Component {
                   <option valuee="manufacturer">Manufacturer</option>
                 </Form.Control>
               </Form.Group>
+              */}
               <Form.Group controlId="formBasicMetamask">
                 <Form.Label>Wallet Account</Form.Label>
                 <Form.Control type="input" value={this.state.metamask} disabled />

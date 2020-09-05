@@ -10,6 +10,7 @@ import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
 import config from '../../config';
+import { SigninUser } from '../../services/BackendService';
 
 class SignInPopup extends React.Component {
 
@@ -40,21 +41,7 @@ class SignInPopup extends React.Component {
 
     signInUser() {
 
-        var payload={
-            "username":this.state.username,
-            "password":this.state.password
-        }
-
-        var config = {
-            method: 'post',
-            url: this.state.baseUrl+'/signin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data : payload
-        };
-
-        axios(config)
+        SigninUser(this.state.username,this.state.password)
         .then(function(response) {
 
             const { cookies } = this.props;
@@ -70,9 +57,9 @@ class SignInPopup extends React.Component {
 
             console.log(response.data);
             window.location = "/profile"
-        }.bind(this))
-        .catch(function (error) {
-            alert(error);
+        }.bind(this)
+        ).catch(error => {
+            alert("Something was wrong, review your credentials. " + error)
         });
     }
 

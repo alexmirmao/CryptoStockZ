@@ -11,7 +11,7 @@ import axios from 'axios';
 
 class Search extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     const { cookies } = props;
     this.state = {
@@ -35,14 +35,14 @@ class Search extends React.Component {
     var data = JSON.stringify(
       [
         {
-          "productName":"",
-          "manufacturerName":""
+          "productName": this.state.val,
+          "manufacturerName": ""
         }
       ]);
 
-    var config = {
+    var config = { 
       method: 'get',
-      url: this.state.baseUrl+'/product/search',
+      url: this.state.baseUrl + '/product/search',
       headers: {
         'x-access-token': this.state.token
       },
@@ -87,15 +87,21 @@ class Search extends React.Component {
           </Form.Group>
         </div>
         <div className="container">
-          <Grid align="center" container spacing={5}>
-            {this.state.products.map((product) => {
-              return (
-                <Grid item xs={6} key={product.id} >
-                  <ProductCard productInfo={product} key={product.id} />
-                </Grid>
-              )
-            })}
-          </Grid>
+          {this.state.products.length === 0 ? (
+            <Grid align="center" container spacing={5}>
+              <span>There are no products</span>
+            </Grid>
+          ) : (
+              <Grid align="center" container spacing={5}>
+                {this.state.products.map((product) => {
+                  return (
+                    <Grid item xs={6} key={product.id} >
+                      <ProductCard productInfo={product} key={product.id} />
+                    </Grid>
+                  )
+                })}
+              </Grid>
+            )}
         </div>
       </div>
     )

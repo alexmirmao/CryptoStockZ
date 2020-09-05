@@ -4,49 +4,34 @@ import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
+import { GetUserProducts } from  '../../services/BackendService';
 
-import config from '../../config';
 
 
-class UserWishList extends React.Component {
+class UserProductsList extends React.Component {
 
     constructor(props){
         super(props);
         const {cookies} = props;
         this.state = {
             user_products: [],
-            baseUrl: config.baseUrl,
             token: cookies.get('x-access-token'),
             roles: cookies.get('roles'),
             username: cookies.get('username')
         };
     }
 
-    getUserProducts() {
-        var config = {
-            method: 'get',
-            url: this.state.baseUrl+'/base/product',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': this.state.token
-            }
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data.products));
-                this.setState({
-                    user_products: response.data.products
-                });
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     componentDidMount() {
-        this.getUserProducts();
+        GetUserProducts(this.state.token)
+        .then(function(response){
+            console.log(JSON.stringify(response));
+            this.setState({
+                user_products: response.data.products
+            });
+        }.bind(this));
     }
+
+
 
     render() {
         return (
@@ -60,7 +45,7 @@ class UserWishList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} />
+                                        <ProductCard productInfo={product} digital={true} />
                                     </Grid>
                                 )
                             })}
@@ -72,4 +57,4 @@ class UserWishList extends React.Component {
     }
 }
 
-export default withCookies(UserWishList);
+export default withCookies(UserProductsList);
