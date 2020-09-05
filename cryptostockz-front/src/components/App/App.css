@@ -9,7 +9,7 @@
 body{
   font-family: 'Baloo Tamma 2', cursive !important;
   /*background: var(--mainWhite) !important;*/
-  background: var(--teal) !important;
+  background: #D7ECF3 !important;
   color: var(--mainDark) !important;
 }
 
