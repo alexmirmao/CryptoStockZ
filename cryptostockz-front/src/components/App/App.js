@@ -20,6 +20,8 @@ class App extends React.Component {
         <NavBar />
         <BrowserRouter>
           <Switch>
+            <Route path='/signin' component={Login} />
+            <Route path='/signup' component={SignUp} />
             <Route exact path="/" render={() => {
               return (
                 <Redirect to="/home" />
@@ -28,8 +30,6 @@ class App extends React.Component {
             <Route path="/home" component={Home} />
             <Route path="/profile" component={UserProfile} />
             <Route path='/products/:productId' component={ProductView} />
-            <Route path='/signin' component={Login} />
-            <Route path='/signup' component={SignUp} />
             <Route path='/search' component={Search} />
           </Switch>
         </BrowserRouter>

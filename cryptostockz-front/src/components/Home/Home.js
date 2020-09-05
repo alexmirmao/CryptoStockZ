@@ -28,7 +28,7 @@ const items = [
   },
   {
      src: Luxury,
-     caption: 'Content here'
+     //caption: 'Content here'
   }
 ];
 
@@ -82,6 +82,8 @@ export default class Home extends Component {
 
     return (
       <CarouselItem
+        className="my-Carousel"
+        tag="div"
         onExiting={this.onExiting}
         onExited={this.onExited}
         key={item.src}
@@ -91,8 +93,8 @@ export default class Home extends Component {
           <div className='ImgCont' align="center">
             <img width='80%' src={item.src} alt={item.altText}/>
           </div>
-          <div align="left">
-            <CarouselCaption captionHeader={item.header}  captionText={item.caption}  />
+          <div>
+            <CarouselCaption captionHeader={item.header}  captionText={item.caption} />
           </div>
         </div>
       </CarouselItem>

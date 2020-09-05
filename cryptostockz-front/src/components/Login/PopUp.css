@@ -10,6 +10,7 @@
   padding: 1%;
   color: white;
   background-color: rgba(75, 75, 75);
+  z-index: 1;
   }  
   
 .popup\_inner {  
@@ -20,7 +21,8 @@
   bottom: 25%;  
   margin: auto;  
   border-radius: 20px;  
-  background: white;  
+  background: white;
+  z-index: 1;
 }
 
 .error {
