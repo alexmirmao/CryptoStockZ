@@ -29,6 +29,10 @@ contract CryptoStockZ is Ownable {
         stockZStorage = StockZStorage(address(_StockZStorageAddr));
     }
 
+    function checkConnection() public pure returns(string memory){
+        return "HOLA";
+    }
+
      // ProductToken Storage
     /**
     @notice sets the address of the Token contract
