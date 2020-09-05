@@ -8,6 +8,7 @@
 
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/product.controller");
+const wishlist = require("../controllers/product.wishlist");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -57,6 +58,22 @@ module.exports = function (app) {
         controller.getProduct
     );
 
+    /**
+     * WISHLIST
+     * Incluir producto a wishlist
+     * Requiere comprobacion de rol y permisos.
+    */
+    app.put(
+        "/product/:productId/wishlist",
+        [authJwt.verifyToken],
+        wishlist.addProductToWishtlist
+    );
+
+    app.delete(
+        "/product/:productId/wishlist",
+        [authJwt.verifyToken],
+        wishlist.delProductToWishtlist
+    );    
     
 
 };

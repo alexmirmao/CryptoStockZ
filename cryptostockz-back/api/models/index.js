@@ -58,7 +58,6 @@ db.user.belongsToMany(db.permissions, {
 });
 
 
-
 // WISHLIST RELATION
 db.product.belongsToMany(db.user, {
   through: "user_wish_products",
