@@ -44,7 +44,7 @@ class NewProduct extends React.Component {
         this.state.sku,
         this.state.manufacturer)
         .then(function (response) {
-          console.log(response);
+          console.log("Response:"+response);
         }.bind(this));
     }
   }
@@ -56,7 +56,7 @@ class NewProduct extends React.Component {
       this.setState({ ean: e.target.value });
     } else if (e.target.id === "formBasicSku") {
       this.setState({ sku: e.target.value });
-    } else if (this.state.isManufacturer && e.target.id === "selectManu") {
+    } else if (/*this.state.isManufacturer && */ e.target.id === "selectManu") {
       this.setState({ manufacturer: e.target.value });
     }
   }
@@ -75,12 +75,12 @@ class NewProduct extends React.Component {
         this.setState({
           manufacturers: [{ value: '', display: 'Select your manufacturer' }].concat(manufacturersFromApi)
         });
-        console.log("MANUFACTURERS: " + manufacturersFromApi)
       }.bind(this));
   }
 
   render() {
     const isEnabled = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0 && this.state.manufacturer.length > 0;
+    const isEnabledUsers = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0;
     return (
       <div className="Newproduct">
         <Form.Group controlId="formBasicName">
@@ -95,20 +95,25 @@ class NewProduct extends React.Component {
           <Form.Label>SKU</Form.Label>
           <Form.Control type="input" placeholder="Product Sku" onChange={(e) => this.handleChange(e)} />
         </Form.Group>
-        {this.state.isManufacturer ? (
+        {/*{this.state.isManufacturer ? (
           <Form.Group controlId="selectManu">
             <Form.Label>Manufacturer</Form.Label>
             <Form.Control as="select" onChange={(e) => this.handleChange(e)}>
-              {/*<option value=""></option>
-              <option value="Adidas">Adidas</option>
-              <option value="Nike">Nike</option>*/}
               {this.state.manufacturers.map((manufacturer) => <option key={manufacturer.value} value={manufacturer.value}>{manufacturer.display}</option>)}
             </Form.Control>
           </Form.Group>
-        ) : null}
-        <Button variant="primary" type="submit" onClick={e => this.registerNewProduct(e)} disabled={!isEnabled}>
-          Register
-        </Button>
+        ) : null}*/}
+        <Form.Group controlId="selectManu">
+          <Form.Label>Manufacturer</Form.Label>
+          <Form.Control as="select" onChange={(e) => this.handleChange(e)}>
+            {this.state.manufacturers.map((manufacturer) => <option key={manufacturer.value} value={manufacturer.value}>{manufacturer.display}</option>)}
+          </Form.Control>
+        </Form.Group>
+        {this.state.isManufacturer ?
+          <Button variant="primary" type="submit" onClick={e => this.registerNewProduct(e)} disabled={!isEnabled}>Register</Button> 
+          :
+          <Button variant="primary" type="submit" onClick={e => this.registerNewProduct(e)} disabled={!isEnabled}>Apply register</Button>
+        }
       </div>
     );
   }

@@ -41,8 +41,6 @@ class SignInPopup extends React.Component {
 
     signInUser() {
 
-        
-
         SigninUser(this.state.username,this.state.password)
         .then(function(response) {
 
@@ -59,7 +57,10 @@ class SignInPopup extends React.Component {
 
             console.log(response.data);
             window.location = "/profile"
-        }.bind(this));
+        }.bind(this)
+        ).catch(error => {
+            alert("Something was wrong, review your credentials. " + error)
+        });
     }
 
     SignInForm() {

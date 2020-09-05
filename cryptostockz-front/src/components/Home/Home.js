@@ -3,7 +3,7 @@ import Title from "../Title";
 import Icono from "../../Images/Icono.png";
 import Eth from "../../Images/eth.png";
 import Meta from "../../Images/metamask.png";
-import Adidas from "../../Images/adidas-back.png";
+import AdidasNike from "../../Images/adidas-nike-back.png";
 import Converse from "../../Images/converse-back.png"
 import Luxury from "../../Images/luxury-back.png"
 import {
@@ -15,16 +15,16 @@ import {
 
 const items = [
   {
-     src: Adidas,
+     src: AdidasNike,
      altText: 'Image alt Text',
-     header: 'Adidas',
-     caption: 'Exclusive products'
+     header: 'Adidas & Nike',
+     caption: 'Exclusive products from original brands'
   },
   {
      src: Converse,
      altText: 'Image alt Text',
      header: 'Converse',
-     caption: 'Exclusive products'
+     caption: 'Ensure your cryptoitems'
   },
   {
      src: Luxury,
