@@ -1,8 +1,5 @@
 import React, {Component} from "react"
 import Title from "../Title";
-import Icono from "../../Images/Icono.png";
-import Eth from "../../Images/eth.png";
-import Meta from "../../Images/metamask.png";
 import AdidasNike from "../../Images/adidas-nike-back.png";
 import Converse from "../../Images/converse-back.png"
 import Luxury from "../../Images/luxury-back.png"
@@ -12,6 +9,8 @@ import {
   CarouselControl,
   CarouselIndicators,
   CarouselCaption } from 'reactstrap';
+
+import { SetStorage, UpgradeVersion } from '../../services/ContractService';
 
 const items = [
   {
@@ -46,6 +45,19 @@ export default class Home extends Component {
   this.onExited = this.onExited.bind(this);
 
 }
+
+/*componentDidMount(){
+  SetStorage().then((response) => {
+    console.log(response);
+  }).catch((error)=> {
+    console.log(error);
+  });
+  UpgradeVersion().then((response) => {
+    console.log(response);
+  }).catch((error)=> {
+    console.log(error);
+  });
+}*/
 
 
   onExiting() {
