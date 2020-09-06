@@ -97,15 +97,19 @@ export const CreateNewProduct = (token, name, ean, sku, manufacturer) => {
     });
 }
 
-export const CreateDigitalProduct = (token, productAddress, metamask) => {
+export const CreateDigitalProduct = (token, idBaseProduct, productAddress, metamask, level, dna, uniqueId) => {
     var data = JSON.stringify(
-        [
             {
+                "id": idBaseProduct,
                 "address": productAddress,
                 "owner_address": metamask,
+                "level": level,
+                "dna": dna,
+                "uniqueId": uniqueId
             }
-        ]);
-
+        );
+    
+    console.log(data);
     var options = {
         method: 'post',
         url: config.baseUrl + '/product',
@@ -115,6 +119,7 @@ export const CreateDigitalProduct = (token, productAddress, metamask) => {
         },
         data: data
     };
+    console.log("Options: "+ options)
 
     return new Promise((resolve, reject) => {
         axios(options)
