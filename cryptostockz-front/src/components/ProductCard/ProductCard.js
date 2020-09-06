@@ -24,7 +24,7 @@ class ProductCard extends React.Component {
         mergeImages([
             { src: `data:image/png;base64,${this.props.productInfo.images[0]}`, x: 0, y: 0 },
             { src: `data:image/png;base64,${this.props.productInfo.images[1]}`, x: 60, y: 25 },
-            { src: `data:image/png;base64,${this.props.productInfo.images[2]}`, x: 100, y: 0 }
+            { src: `data:image/png;base64,${this.props.productInfo.images[2]}`, x: 20, y: 0 }
           ])
             .then(b64 => {
                 this.setState({mainImage: b64});

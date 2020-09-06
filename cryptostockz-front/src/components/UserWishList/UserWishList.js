@@ -27,7 +27,7 @@ class UserProductsList extends React.Component {
         .then(function(response){
             // console.log(JSON.stringify(response));
             this.setState({
-                user_products: response.data.message
+                user_products: response.data.products
             });
         }.bind(this));
     }
