@@ -491,6 +491,26 @@ paths:
           description: "Invalid sku supplied"
         "404":
           description: "Base Product not found"
+  /base/products:
+    get:
+      x-swagger-router-controller: "base_product.controller"
+      tags:
+      - "account"
+      summary: "Finds all Base Products"
+      description: ""
+      operationId: "getBaseProducts"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid status value"
 
 definitions:
   User:

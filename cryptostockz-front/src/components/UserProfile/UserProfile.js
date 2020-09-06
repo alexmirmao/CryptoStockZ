@@ -5,6 +5,7 @@ import './UserProfile.css';
 import UserProductList from '../UserProductList/UserProductsList';
 import UserWishList from '../UserWishList/UserWishList';
 import NewProduct from '../NewProduct/NewProduct';
+import NewDigitalProduct from '../NewProduct/NewDigitalProduct';
 import PendingProductList from '../PendingProductList/PendingProductList';
 
 import { withCookies } from 'react-cookie';
@@ -82,7 +83,7 @@ class UserProfile extends React.Component {
                                 {this.state.roles === "ROLE_MANUFACTURER" ? (
                                     <Tab eventKey="digital" title="New Digital Product">
                                         <div className="container">
-                                            <NewProduct />
+                                            <NewDigitalProduct />
                                         </div>
                                     </Tab>
                                 ) : null}

@@ -53,6 +53,15 @@ module.exports = function (app) {
     app.get(
         "/base/product",
         [authJwt.verifyToken],
+        controller.getBaseProductsByUser
+    );
+
+    /** 
+     * Obtener todos los productos base disponibles
+    */
+    app.get(
+        "/base/products",
+        [authJwt.verifyToken],
         controller.getBaseProducts
     );
 };

@@ -142,7 +142,7 @@ exports.getPendingBaseProducts = (req, res) => {
 /**
  * Devuelve todos los productos base de un usuario
  */
-exports.getBaseProducts = (req, res) => {
+exports.getBaseProductsByUser = (req, res) => {
     User.findOne({
         where: {
             id: req.userId
@@ -155,6 +155,18 @@ exports.getBaseProducts = (req, res) => {
         user.getBaseProducts().then(baseproducts => {
             return res.status(200).send({ products: baseproducts });
         });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+/**
+ * Devuelve todos los productos base registrados
+ */
+exports.getBaseProducts = (req, res) => {
+    BaseProduct.findAll({
+    }).then(products => {
+        return res.status(200).send({ baseProducts: products });
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });

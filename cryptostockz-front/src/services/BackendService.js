@@ -97,6 +97,36 @@ export const CreateNewProduct = (token, name, ean, sku, manufacturer) => {
     });
 }
 
+export const CreateDigitalProduct = (token, productAddress, metamask) => {
+    var data = JSON.stringify(
+        [
+            {
+                "address": productAddress,
+                "owner_address": metamask,
+            }
+        ]);
+
+    var options = {
+        method: 'post',
+        url: config.baseUrl + '/product',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        },
+        data: data
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+}
+
 export const GetPendingProducts = (token) => {
     var options = {
         method: 'get',
@@ -122,12 +152,53 @@ export const GetPendingProducts = (token) => {
 export const GetManufacturers = (token) => {
     var options = {
         method: 'get',
-        url: config.baseUrl + '/manufacturers', // Cambiar esta peticion
+        url: config.baseUrl + '/manufacturers',
         headers: {
           'Content-Type': 'application/json',
           'x-access-token': token
         }
       };
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
+export const GetBaseProductsByUser = (token) => {
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/base/product',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        }
+      };
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
+export const GetBaseProducts = (token) => {
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/base/products',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        }
+      };
+    console.log(options)
     return new Promise((resolve, reject) => {
         axios(options)
             .then(function (response) {

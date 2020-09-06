@@ -16,12 +16,11 @@ interface LogicInterface {
 @notice This contract contains the smart contract associated to the product
 */
 contract Product {
-    string ean;
-    string sku;
+    string base_id;
+    string unique_id;
     uint number_transactions;
     uint dnaProduct;
     uint8 level;
-    string name;
 
     LogicInterface productLogicContract;
     /**
@@ -40,12 +39,11 @@ contract Product {
         return productLogicContract;
     }
 
-    constructor(string memory _ean, string memory _sku, string memory _name, address _productLogic) public{
-        ean = _ean;
-        sku = _sku;
+    constructor(string memory _baseId, string memory _uniqueId, address _productLogic) public{
+        base_id = _baseId;
+        unique_id = _uniqueId;
         number_transactions = 0;
         level = 0;
-        name = _name;
         dnaProduct = 0;
         productLogicContract = LogicInterface(_productLogic);
     }
@@ -53,18 +51,18 @@ contract Product {
 
     //getters
     /**
-    @notice gets the ean of the product
-    @return ean of the product
+    @notice gets the base id of the product
+    @return base id of the product
     */
-    function getEan() public view returns(string memory){
-        return ean;
+    function getBaseId() public view returns(string memory){
+        return base_id;
     }
     /**
-    @notice gets the sku of the product
-    @return sku of the product
+    @notice gets the unique id of the product
+    @return unique id of the product
     */
-    function getSku() public view returns(string memory){
-        return sku;
+    function getUniqueId() public view returns(string memory){
+        return unique_id;
     }
     /**
     @notice gets the number of transactions that a product has participated
@@ -72,13 +70,6 @@ contract Product {
     */
     function getTransactions() public view returns(uint){
         return number_transactions;
-    }
-    /**
-    @notice gets the name of the product
-    @return name of the product
-    */
-    function getName() public view returns(string memory){
-        return name;
     }
     /**
     @notice gets the addres of a contract product

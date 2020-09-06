@@ -107,14 +107,6 @@ class NewProduct extends React.Component {
           <Form.Label>SKU</Form.Label>
           <Form.Control type="input" placeholder="Product Sku" onChange={(e) => this.handleChange(e)} value={this.state.sku}/>
         </Form.Group>
-        {/*{this.state.isManufacturer ? (
-          <Form.Group controlId="selectManu">
-            <Form.Label>Manufacturer</Form.Label>
-            <Form.Control as="select" onChange={(e) => this.handleChange(e)}>
-              {this.state.manufacturers.map((manufacturer) => <option key={manufacturer.value} value={manufacturer.value}>{manufacturer.display}</option>)}
-            </Form.Control>
-          </Form.Group>
-        ) : null}*/}
         <Form.Group controlId="selectManu">
           <Form.Label>Manufacturer</Form.Label>
           <Form.Control as="select" onChange={(e) => this.handleChange(e)}>

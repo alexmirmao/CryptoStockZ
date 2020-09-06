@@ -16,7 +16,7 @@ contract CryptoStockZ is Ownable {
     ProductToken productToken = new ProductToken();
     address productLogic = address(new ProductLogic());
 
-    event createProductEvent(address _owner, string _name, string _ean, string _sku, uint256 _numberTransactions,uint256 dna, uint8 _level);
+    event createProductEvent(address _owner, address _productAddress, string _baseId, string _uniqueId, uint256 _numberTransactions,uint256 dna, uint8 _level);
     event transferTokenEvent(address _from, address _to, address _idProduct);
 
     // StockZStorage Storage
@@ -27,10 +27,6 @@ contract CryptoStockZ is Ownable {
     */
     function setStockZStorage(address _StockZStorageAddr) public onlyOwner {
         stockZStorage = StockZStorage(address(_StockZStorageAddr));
-    }
-
-    function checkConnection() public pure returns(string memory){
-        return "HOLA";
     }
 
      // ProductToken Storage
@@ -46,17 +42,17 @@ contract CryptoStockZ is Ownable {
     /**
     @notice create a product and the token associated to this product.
     @dev emits an event in order to know that a new product has been created
-    @param _ean ean of a product
-    @param _sku of a product
-    @param _name of a product
+    @param _baseId of a product
+    @param _uniqueId of a product
     */
-    function createProduct(string memory _ean, string memory  _sku, string memory _name) public {
-        Product product = new Product(_ean,_sku,_name,productLogic);
+    // function createProduct(string memory _ean, string memory  _sku, string memory _name) public {
+    function createProduct(string memory _baseId, string memory _uniqueId) public {
+        Product product = new Product(_baseId, _uniqueId, productLogic);
         uint256 tokenId = stockZStorage.getProducts().length;
         stockZStorage.setProduct(product);
         stockZStorage.setPositionProduct(product.getAddress(), tokenId);
         productToken.mint(msg.sender, tokenId);
-        emit createProductEvent(msg.sender,_name,_ean,_sku,0,0,0);
+        emit createProductEvent(msg.sender, product.getAddress(), _baseId, _uniqueId, 0, 0, 0);
     }
     
     /**
@@ -86,9 +82,15 @@ contract CryptoStockZ is Ownable {
     @param _idProduct address of the product to show
     @return all the attributes
     */
-    function getProductFromAddress(address _idProduct) public view returns(string memory, string memory, string memory, uint, uint, uint8){
+    function getProductFromAddress(address _idProduct) public view returns(string memory, string memory, uint, uint, uint8, address){
         uint256 tokenId = stockZStorage.getProductToken(_idProduct);
-        return(stockZStorage.getProducts()[tokenId].getName(), stockZStorage.getProducts()[tokenId].getEan(),stockZStorage.getProducts()[tokenId].getSku(),stockZStorage.getProducts()[tokenId].getTransactions(),stockZStorage.getProducts()[tokenId].getDnaProduct() , stockZStorage.getProducts()[tokenId].getLevel());
+        return(stockZStorage.getProducts()[tokenId].getBaseId(), 
+               stockZStorage.getProducts()[tokenId].getUniqueId(),
+               stockZStorage.getProducts()[tokenId].getTransactions(),
+               stockZStorage.getProducts()[tokenId].getDnaProduct() , 
+               stockZStorage.getProducts()[tokenId].getLevel(),
+               productToken.getOwner(tokenId)
+            );
     }
     
     /**

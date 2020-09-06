@@ -28,7 +28,7 @@ exports.createProduct = (req, res) => {
     // Buscamos que exista el producto base en nuestra base de datos
     BaseProduct.findOne({
         where: {
-            ean: digitalProduct.ean
+            id: digitalProduct.id
         }
     }).then(base_product => {
         // Comprueba que existe el producto base en nuestra base de datos
@@ -49,9 +49,9 @@ exports.createProduct = (req, res) => {
             Product.create({
                 address: digitalProduct.address,
                 owner_address: digitalProduct.owner_address,
-                name: digitalProduct.name,
-                ean: digitalProduct.ean,
-                sku: digitalProduct.sku,
+                name: base_product.name,
+                ean: base_product.ean,
+                sku: base_product.sku,
                 numberOfTransactions: digitalProduct.numberTransactions,
                 dna: digitalProduct.dna,
                 level: digitalProduct.level

@@ -28,7 +28,7 @@ class SignUpPopup extends React.Component {
       name: "",
       email: "",
       roles: "",
-      metamask: account0
+      metamask: "0x973AEe0C82633edaf13B56536762Cbc766F44ee3" // account0
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -50,11 +50,14 @@ class SignUpPopup extends React.Component {
   }
 
   signUpUser() {
-   SignUpUser(this.state.username,this.state.email,this.state.password,this.state.name,account0)
+   SignUpUser(this.state.username,this.state.email,this.state.password,this.state.name,this.state.metamask)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         window.location = "/signin"
-      }.bind(this));
+      }.bind(this))
+      .catch(error => {
+        alert("Error, only one metamask account associated. "+error)
+      });
   }
 
   FormPage() {
