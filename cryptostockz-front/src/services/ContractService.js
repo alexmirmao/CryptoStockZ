@@ -18,16 +18,20 @@ export const CheckConnection = () => {
                 reject('No account!');
             }
             contract.methods.checkConnection().call()
-                .then(function (response) {
-                    resolve(response);
-                }).catch(function (error) {
-                    reject(error);
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
                 });
         });
     });
 };
 
-export const CreateProduct = (ean, sku, name) => {
+export const CreateProduct = (baseId, uniqueId) => {
     return new Promise((resolve, reject) => {
         const web3 = new Web3(window.ethereum);
         window.ethereum.enable();
@@ -38,20 +42,23 @@ export const CreateProduct = (ean, sku, name) => {
         const contract = new web3.eth.Contract(appContractAbi, crypto_contract_address);
         web3.eth.getAccounts().then(function (result) {
             var account = result[0];
-            console.log(account);
             if (!account) {
                 reject('No account!');
             }
-            contract.methods.createProduct(ean, sku, name).send({
+            contract.methods.createProduct(baseId, uniqueId).send({
                 from: account,
                 gasLimit: 1160000,
                 gasPrice: 0
             })
-                .then(function (response) {
-                    resolve(response);
-                }).catch(function (error) {
-                    reject(error);
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
                 })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
+                });
         });
     });
 };
@@ -78,16 +85,20 @@ export const TransferProduct = (to, productAddres) => {
                     gasLimit: 1160000,
                     gasPrice: 0
                 })
-                .then((response) => {
-                    resolve(response);
-                }).catch((error) => {
-                    reject((error));
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
                 });
         });
     });
 };
 
-export const SetStorage = (storageAddress) => {
+export const SetStorage = () => {
     return new Promise((resolve, reject) => {
         const web3 = new Web3(window.ethereum);
         window.ethereum.enable();
@@ -101,16 +112,46 @@ export const SetStorage = (storageAddress) => {
             if (!account) {
                 reject('No account!');
             }
-            contract.methods.setStockZStorage(storageAddress)
+            contract.methods.setStockZStorage(storage_contract_address)
                 .send({
                     from: account,
                     gasLimit: 1160000,
                     gasPrice: 0
                 })
-                .then((response) => {
-                    resolve(response);
-                }).catch((error) => {
-                    reject((error));
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
+                });
+        });
+    });
+};
+
+export const GetStorage = () => {
+    return new Promise((resolve, reject) => {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        if (!web3 || !web3.currentProvider.isMetaMask) {
+            reject('No web3!');
+        }
+
+        const contract = new web3.eth.Contract(appContractAbi, crypto_contract_address);
+        web3.eth.getAccounts().then(function (result) {
+            var account = result[0];
+            if (!account) {
+                reject('No account!');
+            }
+            contract.methods.getStorageAddress()
+                .call()
+                .then( function (response) {
+                    resolve(response)
+                })
+                .catch(function (error) {
+                    reject(error)
                 });
         });
     });
@@ -135,10 +176,15 @@ export const UpgradeVersion = () => {
                     from: account,
                     gasLimit: 1160000,
                     gasPrice: 0
-                }).then((response) => {
-                    resolve(response);
-                }).catch((error) => {
-                    reject((error));
+                })
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
                 });
         });
     });

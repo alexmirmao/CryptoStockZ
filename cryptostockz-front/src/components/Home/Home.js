@@ -10,7 +10,8 @@ import {
   CarouselIndicators,
   CarouselCaption } from 'reactstrap';
 
-import { SetStorage, UpgradeVersion } from '../../services/ContractService';
+
+import { GetStorage } from '../../services/ContractService';
 
 const items = [
   {
@@ -46,18 +47,13 @@ export default class Home extends Component {
 
 }
 
-/*componentDidMount(){
-  SetStorage().then((response) => {
+componentDidMount(){
+  GetStorage().then((response) => {
     console.log(response);
   }).catch((error)=> {
     console.log(error);
   });
-  UpgradeVersion().then((response) => {
-    console.log(response);
-  }).catch((error)=> {
-    console.log(error);
-  });
-}*/
+}
 
 
   onExiting() {
