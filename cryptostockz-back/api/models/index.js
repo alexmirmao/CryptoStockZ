@@ -46,7 +46,7 @@ db.user.belongsToMany(db.role, {
 });
 
 // PERMISSIONS RELATION
-db.role.belongsToMany(db.user, {
+db.permissions.belongsToMany(db.user, {
   through: "user_permissions",
   foreignKey: "permissionsId",
   otherKey: "userId"
@@ -57,6 +57,18 @@ db.user.belongsToMany(db.permissions, {
   otherKey: "permissionsId"
 });
 
+
+// WISHLIST RELATION
+db.product.belongsToMany(db.user, {
+  through: "user_wish_products",
+  foreignKey: "productId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.product, {
+  through: "user_wish_products",
+  foreignKey: "userId",
+  otherKey: "productId"
+});
 
 
 // // ILLUSTRATIONS o2m

@@ -8,6 +8,7 @@
 
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/account.controller");
+const wishlist = require("../controllers/product.wishlist");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -43,9 +44,9 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/account/products/wish",
+    "/account/:username/wishlist",
     [authJwt.verifyToken],
-    controller.getUserWishList
+    wishlist.getUserWishList
   );
 
   app.post(

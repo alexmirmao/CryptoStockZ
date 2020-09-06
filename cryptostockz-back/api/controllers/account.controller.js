@@ -149,23 +149,24 @@ exports.getUserProducts = (req, res) => {
   });
 };
 
-exports.getUserWishList = (req, res) => {
-  User.findOne({
-    where: {
-      id: req.userId
-    }
-  })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "User Not Found." });
-      }
 
-      return res.status(200).send({ message: "User wish list" });
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
-};
+// exports.getUserWishList = (req, res) => {
+//   User.findOne({
+//     where: {
+//       id: req.userId
+//     }
+//   })
+//     .then(user => {
+//       if (!user) {
+//         return res.status(404).send({ message: "User Not Found." });
+//       }
+
+//       return res.status(200).send({ message: "User wish list" });
+//     })
+//     .catch(err => {
+//       res.status(500).send({ message: err.message });
+//     });
+// };
 
 /**
  * Recibe productId y username del receiver.
