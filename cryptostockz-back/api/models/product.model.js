@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
     level: {
       type: Sequelize.BIGINT
     },
+    dna: {
+      type: Sequelize.BIGINT
+    },
     uniqueIdentificator: {
       type: Sequelize.STRING
     }
