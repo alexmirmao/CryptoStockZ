@@ -12,7 +12,19 @@ const path = require('path');
 const fs = require("fs");
 
 
+getImages = (adn,productName) => {
+    if(adn === "0"){
+        adn = "0000";
+    }
 
+    let imagesPath = config.env.PRODUCT_IMAGES;
+
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ adn.charAt(2)+'.png'),{ encoding: "base64" });
+    
+    return [fondo,producto,accesorio];
+}
 
 /**
  * Insercion de un nuevo producto en la lista de deseos de un usuario
@@ -74,8 +86,15 @@ exports.getUserWishList = (req, res) => {
         }
         user.getProducts().then((products) => {
 
+            products.forEach((product) => {
+                let productName = 'airmax';
+                let adn = product.dna.toString();
+    
+                product.dataValues.images = getImages(adn,productName);
+            });
+
             // TODO: Llamar a función con productos más imagen
-            return res.status(200).send({ message: products });
+            return res.status(200).send({ products: products });
         });
   
     }).catch(err => {
