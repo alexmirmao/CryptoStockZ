@@ -65,6 +65,30 @@ export const GetUserProducts = (token) => {
 
 };
 
+export const GetUserWishlistProducts = (token, username) => {
+    
+    
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/account/'+username+'/wishlist',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+
+};
+
 export const CreateNewProduct = (token, name, ean, sku, manufacturer) => {
     var data = JSON.stringify(
         [

@@ -66,13 +66,15 @@ exports.getUserWishList = (req, res) => {
   
     User.findOne({
         where: {
-            id: req.userId
+            username: req.params.username
         }
     }).then(user => {
         if (!user) {
             return res.status(404).send({ message: "User Not Found." });
         }
         user.getProducts().then((products) => {
+
+            // TODO: Llamar a función con productos más imagen
             return res.status(200).send({ message: products });
         });
   

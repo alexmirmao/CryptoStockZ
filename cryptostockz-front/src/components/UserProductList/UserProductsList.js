@@ -24,7 +24,7 @@ class UserProductsList extends React.Component {
     componentDidMount() {
        GetUserProducts(this.state.token)
         .then(function(response){
-            console.log(JSON.stringify(response));
+            // console.log(JSON.stringify(response));
             this.setState({
                 user_products: response.data.products
             });

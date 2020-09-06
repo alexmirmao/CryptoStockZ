@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
-import { GetUserProducts } from  '../../services/BackendService';
+import { GetUserProducts, GetUserWishlistProducts } from  '../../services/BackendService';
 
 
 
@@ -13,6 +13,7 @@ class UserProductsList extends React.Component {
     constructor(props){
         super(props);
         const {cookies} = props;
+        console.log(cookies)
         this.state = {
             user_products: [],
             token: cookies.get('x-access-token'),
@@ -22,11 +23,11 @@ class UserProductsList extends React.Component {
     }
 
     componentDidMount() {
-        GetUserProducts(this.state.token)
+        GetUserWishlistProducts(this.state.token, this.state.username)
         .then(function(response){
-            console.log(JSON.stringify(response));
+            // console.log(JSON.stringify(response));
             this.setState({
-                user_products: response.data.products
+                user_products: response.data.message
             });
         }.bind(this));
     }
