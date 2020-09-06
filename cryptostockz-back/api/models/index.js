@@ -91,12 +91,6 @@ db.base_product.belongsTo(db.user, {
 
 // PRODUCT
 
-db.user.hasMany(db.product, {
-  as : 'Products',
-  foreignKey: 'owner_id', 
-  sourceKey: 'id'
-});
-
 /*db.product.belongsTo(db.user, {
   as : 'OwnerAddress',
   foreignKey: 'owner_address', 
