@@ -25,6 +25,7 @@ const fs = require("fs");
  */
 exports.createProduct = (req, res) => {
     var digitalProduct = req.body;
+    console.log("Datos digital: "+req.body)
     // Buscamos que exista el producto base en nuestra base de datos
     BaseProduct.findOne({
         where: {
@@ -49,15 +50,13 @@ exports.createProduct = (req, res) => {
             Product.create({
                 address: digitalProduct.address,
                 owner_address: digitalProduct.owner_address,
-                name: base_product.name,
-                ean: base_product.ean,
-                sku: base_product.sku,
-                numberOfTransactions: digitalProduct.numberTransactions,
+                numberOfTransactions: 1,
                 dna: digitalProduct.dna,
-                level: digitalProduct.level
+                level: digitalProduct.level,
+                uniqueId: digitalProduct.uniqueId
             }).then(product => {
                 product.setBaseProductId(base_product);
-                owner.addProducts(product);
+                // owner.addProducts(product);
                 return res.status(200).send({ message: "Digital product " + product.address + " created." });
             });
         });

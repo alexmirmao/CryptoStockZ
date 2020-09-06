@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
 import { withCookies } from 'react-cookie';
@@ -20,12 +20,11 @@ class NewDigitalProduct extends React.Component {
     super(props);
     const { cookies } = props;
     this.state = {
-      baseProductName: "",
-      productAddress: "",
-      owner_address: "0x973AEe0C82633edaf13B56536762Cbc766F44ee1", // account0
+      idBaseProduct: "",
+      productAddress: "0x0000000000",
+      owner_address: "0x973AEe0C82633edaf13B56536762Cbc766F44ee3", // account0
       dna: "1234",
       level: 1,
-      baseProductId: "",
       uniqueId: "",
       isManufacturer: false,
       token: cookies.get('x-access-token'),
@@ -53,18 +52,20 @@ class NewDigitalProduct extends React.Component {
     event.preventDefault();
     CreateDigitalProduct(
       this.state.token,
+      this.state.idBaseProduct,
       this.state.productAddress,
-      this.state.productsName,
+      this.state.owner_address,
       this.state.level,
-      this.state.uniqueId,
-      this.state.owner_address
+      this.state.dna,
+      this.state.uniqueId
       )
       .then(function (response) {
-        this.clearFields()
+        //this.clearFields()
         alert("Successful! New product created!")
         // NotificationManager.success('New product created!', 'Successful!', 2000);
       }.bind(this))
       .catch(error => {
+        console.log(error)
         alert("Error creating a new product!")
         // NotificationManager.error('Error creating new book!', 'Error!', 2000);
       });
@@ -76,16 +77,20 @@ class NewDigitalProduct extends React.Component {
     }
   }
 
+  handleBaseProduct(e) {
+    this.setState( {idBaseProduct: e.value });
+  }
+
   render() {
     // const isEnabled = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0 && this.state.manufacturer.length > 0;
     // const isEnabledUsers = this.state.name.length > 0 && this.state.ean.length > 0 && this.state.sku.length > 0;
     const isEnabled = true;
     return (
       <div className="NewDigitalProduct">
-        <Form.Group controlId="selectManu">
+        <Form.Group controlId="selectBaseProduct">
           <Form.Label>Base Product</Form.Label>
+          <Select options={this.state.productsName} onChange={(e) => this.handleBaseProduct(e)}/>
         </Form.Group>
-        <Select options={this.state.productsName} />
         <Form.Group controlId="selectUniqueId">
           <Form.Label>Unique Id</Form.Label>
           <Form.Control type="input" placeholder="Product Unique Id" onChange={(e) => this.handleChange(e)} value={this.state.uniqueId}/>
