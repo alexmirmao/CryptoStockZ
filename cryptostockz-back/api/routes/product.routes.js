@@ -63,6 +63,12 @@ module.exports = function (app) {
      * Incluir producto a wishlist
      * Requiere comprobacion de rol y permisos.
     */
+    app.get(
+        "/product/:productId/wishlist",
+        [authJwt.verifyToken],
+        wishlist.checkProductInWish
+    );
+
     app.put(
         "/product/:productId/wishlist",
         [authJwt.verifyToken],

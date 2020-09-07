@@ -12,7 +12,6 @@ const config = require('../../config/config');
 const path = require('path');
 const fs = require("fs");
 
-
 /**
  * Insercion de un nuevo producto digital en la BD
  * 
@@ -53,7 +52,7 @@ exports.createProduct = (req, res) => {
                 numberOfTransactions: 1,
                 dna: digitalProduct.dna,
                 level: digitalProduct.level,
-                uniqueId: digitalProduct.uniqueId
+                uniqueIdentificator: digitalProduct.uniqueId
             }).then(product => {
                 product.setBaseProductId(base_product);
                 // owner.addProducts(product);
@@ -96,15 +95,9 @@ exports.getAllProducts = (req, res) => {
 
         products.forEach((product) => {
             let productName = 'airmax';
-            let adn = "9999"; //product.dna.toString();
+            let adn = product.dna.toString();
 
-            let imagesPath = config.env.PRODUCT_IMAGES;
-
-            let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
-            let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-            let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ adn.charAt(2)+'.png'),{ encoding: "base64" });
-
-            product.dataValues.images = [fondo,producto,accesorio];
+            product.dataValues.images = getImages(adn,productName);
         });
             return res.status(200).send({ products: products});
 
@@ -132,23 +125,34 @@ exports.getProduct = (req, res) => {
         }
 
         let productName = 'airmax';
+
         let adn = product.dna.toString();
 
-        let imagesPath = config.env.PRODUCT_IMAGES;
-
-        let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
-        let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-        let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ adn.charAt(2)+'.png'),{ encoding: "base64" });
+        images = getImages(adn, productName);
 
         return res.status(200).send({ 
             product: product, 
-            images: [fondo,producto,accesorio]
+            images: images
         });
 
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
 };
+
+getImages = (adn,productName) => {
+    if(adn === "0"){
+        adn = "0000";
+    }
+
+    let imagesPath = config.env.PRODUCT_IMAGES;
+
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/4.png'),{ encoding: "base64" });
+    
+    return [fondo,producto,accesorio];
+}
 
 exports.searchProduct = (req, res) => {
     // Si no envían ningún parámetro devolvemos todos los productos base
