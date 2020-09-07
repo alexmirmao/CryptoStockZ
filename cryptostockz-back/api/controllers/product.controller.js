@@ -94,7 +94,7 @@ exports.getAllProducts = (req, res) => {
     Product.findAll().then(products => {
 
         products.forEach((product) => {
-            let productName = 'airmax';
+            let productName = 'jordanlow';
             let adn = product.dna.toString();
 
             product.dataValues.images = getImages(adn,productName);
@@ -147,9 +147,11 @@ getImages = (adn,productName) => {
 
     let imagesPath = config.env.PRODUCT_IMAGES;
 
-    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
+    //'+ (parseInt(adn.charAt(1)) % 5)+'
+
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
     let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/4.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
     
     return [fondo,producto,accesorio];
 }
