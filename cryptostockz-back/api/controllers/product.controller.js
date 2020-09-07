@@ -168,17 +168,23 @@ getImages = (adn,productId) => {
 exports.searchProduct = (req, res) => {
     // TO DO: SE DEBE REVISAR POR QUÉ LLEGA VACÍO EL DATO SI DESDE EL FRONT SE RELLENA Y ENVIA BIEN. DESDE POSTMAN FUNCIONA BIEN
     // Si no envían ningún parámetro devolvemos todos los productos base
-    if (_lodash.isEmpty(req.body)) {
-        this.getAllBaseProducts(res);
+    console.log(req.query.baseProductId);
+    var query = req.query;
+    if (query.baseProductId === "" && query.manufacturerId === "") {
+        BaseProduct.findAll().then(response => {
+            return res.status(200).send({ message: response})
+        }).catch(err => {
+            return res.status(500).send({ message: err.message });
+        });
     } else {
-        if (!_lodash.isEmpty(req.body.manufacturerId) && !_lodash.isEmpty(req.body.baseProductId)) {
+        if (!_lodash.isEmpty(query.manufacturerId) && !_lodash.isEmpty(query.baseProductId)) {
             User.findAll({
                 include: {
                     model: BaseProduct,
                     as: "BaseProducts",
                 },
                 where:{
-                    id: req.body.manufacturerId,
+                    id: query.manufacturerId,
                 }
             }).then(users => {
                 if (!users) {
@@ -188,13 +194,13 @@ exports.searchProduct = (req, res) => {
                 users.forEach(user => {
                     BaseProduct.findOne({
                         where: {
-                            id: req.body.baseProductId
+                            id: query.baseProductId
                         }
-                    }).then(product => {
-                        if (!product) {
+                    }).then(response => {
+                        if (!response) {
                             return res.status(404).send({ message: "This product does not belong to this manufacturer" });
                         }
-                        return res.status(200).send({ message: product });
+                        return res.status(200).send({ message: [response] });
                     }).catch(error => {
                         return res.status(500).send({ message: error });
                     });
@@ -204,14 +210,14 @@ exports.searchProduct = (req, res) => {
                 return res.status(500).send({ message: err.message });
             });
         } else {
-            if (!_lodash.isEmpty(req.body.manufacturerId) && _lodash.isEmpty(req.body.baseProductId)) {
+            if (!_lodash.isEmpty(query.manufacturerId) && _lodash.isEmpty(query.baseProductId)) {
                 User.findAll({
                     include: {
                         model: BaseProduct,
                         as: "BaseProducts",
                     },
                     where:{
-                        id: req.body.manufacturerId,
+                        id: query.manufacturerId,
                     }
                 }).then(users => {
                     if (!users) {
@@ -223,23 +229,23 @@ exports.searchProduct = (req, res) => {
                             where: {
                                 fk_userId: user.dataValues.id
                             }
-                        }).then(products => {
-                            return res.status(200).send({ message: products });
+                        }).then(response => {
+                            return res.status(200).send({ message: response });
                         });
                     });
                 }).catch(err => {
                     return res.status(500).send({ message: err.message });
                 });
-            } else if (_lodash.isEmpty(req.body.manufacturerId) && !_lodash.isEmpty(req.body.baseProductId)) {
+            } else if (_lodash.isEmpty(query.manufacturerId) && !_lodash.isEmpty(query.baseProductId)) {
                 BaseProduct.findOne({
                     where: {
-                        id: req.body.baseProductId
+                        id: query.baseProductId
                     }
-                }).then(product => {
-                    if (!product){
+                }).then(response => {
+                    if (!response){
                         return res.status(400).send({ message: "Product not found" })
                     }
-                    return res.status(200).send({ message: product });
+                    return res.status(200).send({ message: [response] });
                 })
             } else {
                 return res.status(500).send({ message: "Something was wrong, review your parameters." });
