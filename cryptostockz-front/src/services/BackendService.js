@@ -24,7 +24,7 @@ export const GetUserInfo = (token, username) => {
 export const GetUserProducts = (token) => {
     var options = {
         method: 'get',
-        url: config.baseUrl + '/product',
+        url: config.baseUrl + '/account/products/all',
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': token
