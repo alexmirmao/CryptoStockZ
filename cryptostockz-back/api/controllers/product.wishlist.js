@@ -34,7 +34,6 @@ getImages = (adn,productId) => {
  */
 
 exports.addProductToWishtlist = (req, res) => {
-
     User.findOne({
         where: {
             id: req.userId
@@ -43,7 +42,7 @@ exports.addProductToWishtlist = (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "User Not Found." });
         }
-        var productId = req.parms.productId
+        var productId = req.params.productId
         user.addProducts([productId]).then(() => {
             return res.status(200).send({ message: "Product added to wishlist." });
         });
