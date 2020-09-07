@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Image, Button, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, ListGroup, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import './ProductView.css';
 
 import { withCookies } from 'react-cookie';
@@ -7,6 +7,7 @@ import { GetProductInfo, GetUserInfo } from '../../services/BackendService';
 
 import mergeImages from 'merge-images';
 import TransferPopUp from '../TrasferForm/TransferPopUp';
+import WishButton from '../wishButton';
 
 class ProductView extends React.Component {
 
@@ -99,15 +100,17 @@ class ProductView extends React.Component {
                 <Row>
                     <Col>
                         <div className="button_container">
-                            {this.state.user.metamaskAccount !== this.state.product.owner_address ?
-                                <Button>Add to Wish List</Button>
-                                : (
-                                    <React.Fragment>
-                                        <Button onClick={this.togglePopup.bind(this)}>Transfer</Button>
-                                        {this.state.showPopup ? <TransferPopUp show={this.state.showPopup} /> : null}
-                                    </React.Fragment>
-                                )}
-
+                            <ButtonToolbar>
+                                <ButtonGroup className="mr-2">
+                                    {this.state.imageLoaded ?
+                                        <WishButton token={this.state.token} productId={this.state.product.id}></WishButton>
+                                        : null}
+                                </ButtonGroup>
+                                <ButtonGroup className="mr-2">
+                                    <Button className="button" onClick={this.togglePopup.bind(this)}>Transfer</Button>
+                                    {this.state.showPopup ? <TransferPopUp show={this.state.showPopup} /> : null}
+                                </ButtonGroup>
+                            </ButtonToolbar>
                         </div>
                     </Col>
                 </Row>

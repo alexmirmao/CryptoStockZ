@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, FormControl, Button, InputGroup, Row, Col } from "react-bootstrap";
-import ProductCard from '../ProductCard/ProductCard';
+import BaseProductCard from '../BaseProductCard/BaseProductCard';
 import Grid from '@material-ui/core/Grid';
 import Select from 'react-select';
-import { GetManufacturers, GetBaseProducts } from "../../services/BackendService";
+import { GetManufacturers, GetBaseProducts, SearchInBack } from "../../services/BackendService";
 
 import { withCookies } from 'react-cookie';
 
@@ -18,9 +18,9 @@ class Search extends React.Component {
     const { cookies } = props;
     this.state = {
       val: '',
-      manufacturer: undefined,
+      manufacturer: "",
       manufacturers: [],
-      baseProduct: undefined,
+      baseProduct: "",
       baseProducts: [],
       products: [],
       baseUrl: config.baseUrl,
@@ -38,39 +38,17 @@ class Search extends React.Component {
   }
 
   search(event) {
-    console.log(this.state.baseProduct, this.state.manufacturer)
-    var data = JSON.stringify(
-        {
-          "baseProductId": this.state.baseProduct,
-          "manufacturerId": this.state.manufacturer
-        }
-      );
-
-    var data = JSON.stringify({"baseProductId":"1","manufacturerId":"1"});
-
-    var config = { 
-      method: 'get',
-      url: this.state.baseUrl + '/product/search',
-      headers: {
-        'x-access-token': this.state.token,
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-
-    console.log(data)
-
-    axios(config)
-      .then(function (response) {
-        console.log("Respuesta al front: "+JSON.stringify(response.data))
-        this.setState({
-          products: response.data.message
-        })
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-        alert("Something went wrong")
-      });
+  
+    SearchInBack(this.state.token,this.state.baseProduct,this.state.manufacturer)
+    .then(response => {
+      console.log(response);
+      this.setState({
+        products: response.data.message
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 
   componentDidMount() {
@@ -114,7 +92,7 @@ class Search extends React.Component {
                   <Select options={this.state.manufacturers} onChange={(e) => this.handleManufacturers(e)}/>
                 </Form.Group>
               </Col>
-              {this.state.manufacturer !== undefined ?
+              {this.state.manufacturer !== "" ?
                 <Col>
                   <Form.Text className="text-muted">
                     Choose your product
@@ -146,7 +124,7 @@ class Search extends React.Component {
                 {this.state.products.map((product) => {
                   return (
                     <Grid item xs={6} key={product.id} >
-                      <ProductCard productInfo={product} key={product.id} />
+                      <BaseProductCard productInfo={product} key={product.id}/>
                     </Grid>
                   )
                 })}

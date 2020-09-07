@@ -356,3 +356,31 @@ export const SignUpUser = (username, email, password, name, account) => {
             });
     });
 };
+
+export const SearchInBack = (token, baseProductId, manufacturerId) => {
+    var params = 
+        {
+            baseProductId: baseProductId,
+            manufacturerId: manufacturerId
+        };
+
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/product/search',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        },
+        params: params
+      };
+    console.log(options)
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};

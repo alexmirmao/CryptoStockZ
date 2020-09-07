@@ -16,6 +16,7 @@ class WishButton extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.productId);
         //Aqui comprobar si un producto esta en la wishList
         CheckProductInWish(this.props.token,this.props.productId)
         .then(response => {

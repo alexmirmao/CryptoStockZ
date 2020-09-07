@@ -7,7 +7,7 @@ import WishButton from '../wishButton';
 
 
 
-class ProductCard extends React.Component {
+class BaseProductCard extends React.Component {
 
     constructor(props) {
         super(props);
@@ -38,20 +38,21 @@ class ProductCard extends React.Component {
         return (
             <div align="center">
                 <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={this.state.mainImage} />
+                    <Card.Img variant="top" src="https://www.marshall.edu/it/files/question-mark-circle-icon.png" />
                     <Card.Body>
                         <Card.Title>{this.props.productInfo.name}</Card.Title>
                         <ListGroup>
-                            <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
-                            <ListGroup.Item>Id: {this.props.productInfo.uniqueIdentificator}</ListGroup.Item>
-                            <ListGroup.Item>Address: {this.props.productInfo.address}</ListGroup.Item>
-                            <ListGroup.Item>Owner: {this.props.productInfo.owner_address}</ListGroup.Item>
-                            <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
+                            <ListGroup.Item>Manufacturer: {this.props.productInfo.fk_manufacturer}</ListGroup.Item>
+                            <ListGroup.Item>Ean: {this.props.productInfo.ean}</ListGroup.Item>
+                            <ListGroup.Item>Sku: {this.props.productInfo.sku}</ListGroup.Item>
+                        { this.props.productInfo.original ? 
+                            <ListGroup.Item>Verified</ListGroup.Item>
+                         : (
+                            <ListGroup.Item>Not Verified</ListGroup.Item>
+                         )
+                        }
+                           
                         </ListGroup>
-                        <br></br>
-                        <Link to={`/products/${this.props.productInfo.id}`}>See</Link>
-                        <br></br>
-                        <WishButton token={this.props.token} productId={this.props.productInfo.id} />
                     </Card.Body>
                 </Card>
             </div>
@@ -59,4 +60,4 @@ class ProductCard extends React.Component {
     }
 }
 
-export default ProductCard;
+export default BaseProductCard;
