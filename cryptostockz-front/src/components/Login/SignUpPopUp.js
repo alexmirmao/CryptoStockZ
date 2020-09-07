@@ -112,16 +112,6 @@ class SignUpPopup extends React.Component {
                 <Form.Control type="password" placeholder="Password" value={password}
                   onChange={this.handleChange} />
               </Form.Group>
-              {/*
-              <Form.Group controlId="selectRole">
-                <Form.Label>Role</Form.Label>
-                <Form.Control as="select" defaultValue="Choose..." onChange={(e) => this.handleChange(e)}>
-                  <option>Choose...</option>
-                  <option value="user">Basic User</option>
-                  <option valuee="manufacturer">Manufacturer</option>
-                </Form.Control>
-              </Form.Group>
-              */}
               <Form.Group controlId="formBasicMetamask">
                 <Form.Label>Wallet Account</Form.Label>
                 <Form.Control type="input" value={this.state.metamask} disabled />

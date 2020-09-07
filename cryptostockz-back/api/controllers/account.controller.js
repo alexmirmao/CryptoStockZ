@@ -3,8 +3,14 @@ const User = db.user;
 const Role = db.role;
 const Product = db.product;
 const Permissions = db.permissions;
+const BaseProduct = db.base_product;
+
+const config = require('../../config/config');
+const path = require('path');
+const fs = require("fs");
 
 const cryptostockzService = require("../services/cryptostockz.service");
+const baseProductModel = require("../models/base.product.model");
 
 // Operaciones para la gestion de los usuarios
 exports.getUserProfile = (req, res) => {
@@ -141,7 +147,22 @@ exports.getUserProducts = (req, res) => {
       return res.status(404).send({ message: "User Not Found." });
     }
 
-    user.getProducts().then(products => {
+    Product.findAll({
+      where: {
+        owner_address: user.metamaskAccount
+      },
+      include: [
+        {
+          model: BaseProduct, as: "BaseProductId"
+        }
+      ]
+    }).then(products => {
+      products.forEach((product) => {
+        let productId = product.base_productId;
+        let adn = product.dna.toString();
+        product.dataValues.name = product.BaseProductId.dataValues.name;
+        product.dataValues.images = getImages(adn, productId);
+      });
       return res.status(200).send({ products: products });
     });
   }).catch(err => {
@@ -149,24 +170,6 @@ exports.getUserProducts = (req, res) => {
   });
 };
 
-
-// exports.getUserWishList = (req, res) => {
-//   User.findOne({
-//     where: {
-//       id: req.userId
-//     }
-//   })
-//     .then(user => {
-//       if (!user) {
-//         return res.status(404).send({ message: "User Not Found." });
-//       }
-
-//       return res.status(200).send({ message: "User wish list" });
-//     })
-//     .catch(err => {
-//       res.status(500).send({ message: err.message });
-//     });
-// };
 
 /**
  * Recibe productId y username del receiver.
@@ -230,6 +233,20 @@ exports.getManufacturers = (req, res) => {
   }).then(user => {
     return res.status(200).send({ users: user });
   }).catch(err => {
-      res.status(500).send({ message: err.message });
+    res.status(500).send({ message: err.message });
   });
+};
+
+getImages = (adn,productId) => {
+  if(adn === "0"){
+      adn = "0000";
+  }
+
+  let imagesPath = config.env.PRODUCT_IMAGES;
+
+  let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
+  let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+  let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
+  
+  return [fondo,producto,accesorio];
 }

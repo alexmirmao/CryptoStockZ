@@ -12,18 +12,18 @@ const path = require('path');
 const fs = require("fs");
 
 
-getImages = (adn, productName) => {
-    if (adn === "0") {
+getImages = (adn,productId) => {
+    if(adn === "0"){
         adn = "0000";
     }
 
     let imagesPath = config.env.PRODUCT_IMAGES;
 
-    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/' + adn.charAt(0) + '.png'), { encoding: "base64" });
-    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/' + (parseInt(adn.charAt(1)) % 5) + '.png'), { encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/' + adn.charAt(2) + '.png'), { encoding: "base64" });
-
-    return [fondo, producto, accesorio];
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
+    
+    return [fondo,producto,accesorio];
 }
 
 /**
@@ -85,10 +85,10 @@ exports.getUserWishList = (req, res) => {
         user.getProducts().then((products) => {
 
             products.forEach((product) => {
-                let productName = 'airmax';
+                let productId =  product.base_productId;
                 let adn = product.dna.toString();
 
-                product.dataValues.images = getImages(adn, productName);
+                product.dataValues.images = getImages(adn, productId);
             });
 
             // TODO: Llamar a función con productos más imagen

@@ -48,6 +48,7 @@ class ProductCard extends React.Component {
                         <Card.Title>{this.props.productInfo.name}</Card.Title>
                         <ListGroup>
                             <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
+                            <ListGroup.Item>Id: {this.props.productInfo.uniqueIdentificator}</ListGroup.Item>
                             <ListGroup.Item>Address: {this.props.productInfo.address}</ListGroup.Item>
                             <ListGroup.Item>Owner: {this.props.productInfo.owner_address}</ListGroup.Item>
                             <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
