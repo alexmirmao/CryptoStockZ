@@ -16,7 +16,7 @@ contract CryptoStockZ is Ownable {
     ProductToken productToken = new ProductToken();
     address productLogic = address(new ProductLogic());
 
-    event createProductEvent(address _owner, address _productAddress, string _baseId, string _uniqueId, uint256 _numberTransactions,uint256 dna, uint8 _level);
+    event createProductEvent(address _owner, address _productAddress, string _baseId, string _uniqueId, uint256 _numberTransactions, uint256 _dna, uint8 _level);
     event transferTokenEvent(address _from, address _to, address _idProduct);
 
     // StockZStorage Storage

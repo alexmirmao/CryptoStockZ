@@ -17,7 +17,7 @@ class ProductCard extends React.Component {
     }
 
     componentDidMount() {
-        if (false) {
+        if (this.props.loaded) {
             this.combineImages();
         }
         console.log(this.props.productInfo);

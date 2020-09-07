@@ -128,7 +128,7 @@ export const CreateDigitalProduct = (token, idBaseProduct, productAddress, metam
                 "owner_address": metamask,
                 "level": level,
                 "dna": dna,
-                "uniqueId": uniqueId
+                "uniqueIdentificator": uniqueId
             }
         );
     
@@ -226,7 +226,6 @@ export const GetBaseProducts = (token) => {
           'x-access-token': token
         }
       };
-    console.log(options)
     return new Promise((resolve, reject) => {
         axios(options)
             .then(function (response) {

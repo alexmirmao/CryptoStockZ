@@ -3,33 +3,14 @@ import Web3 from 'web3';
 const appContractAbi = require('../contracts/CryptoStockZ.json').abi;
 const storageContractAbi = require('../contracts/StockZStorage.json').abi;
 
-export const CheckConnection = () => {
-    return new Promise((resolve, reject) => {
-        const web3 = new Web3(window.ethereum);
-        if (!web3 || !web3.currentProvider.isMetaMask) {
-            reject('No web3!');
-        }
 
-        const contract = new web3.eth.Contract(appContractAbi, crypto_contract_address);
-        web3.eth.getAccounts().then(function (result) {
-            var account = result[0];
-            console.log(account);
-            if (!account) {
-                reject('No account!');
-            }
-            contract.methods.checkConnection().call()
-                .on('confirmation', function (confirmationNumber, receipt) {
-                    resolve(confirmationNumber, receipt)
-                })
-                .on('receipt', function (receipt) {
-                    resolve(receipt);
-                })
-                .on('error', function (error) {
-                    reject(error)
-                });
-        });
-    });
-};
+/**
+ * Funciones para subir de nivel un producto?¿?¿
+ * Añadir al producto digital (en smart contract) un campo de wishNum
+ * De manera que cuando supera ciertas barrerass va incrementando el nivel.
+ * 
+ * Aplicacion -> seleccionar algun elemeento de visualizacion distinto
+ */
 
 export const CreateProduct = (baseId, uniqueId) => {
     return new Promise((resolve, reject) => {

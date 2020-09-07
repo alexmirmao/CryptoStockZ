@@ -3,17 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/App';
 import { BrowserRouter as Router } from "react-router-dom";
-import { ProductProvider } from "./context";
 import * as serviceWorker from './serviceWorker';
 import { CookiesProvider } from "react-cookie";
 
 ReactDOM.render(
   <CookiesProvider>
-    <ProductProvider>
       <Router>
         <App />
       </Router>
-    </ProductProvider>
   </CookiesProvider>,
   document.getElementById('root')
 );

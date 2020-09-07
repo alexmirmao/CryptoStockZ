@@ -45,25 +45,26 @@ class NewDigitalProduct extends React.Component {
   }
 
   createDigitalProduct(event) {
+
+// TODO -> poner _dna en vez de dna cuando recompiles el contrato
+
     event.preventDefault();
-    console.log(this.state.idBaseProduct);
-    /*CreateProduct(this.state.idBaseProduct, this.state.uniqueId)
+    CreateProduct(this.state.idBaseProduct.toString(), this.state.uniqueId.toString())
       .then((response) => {
-        console.log(response);
         let newProduct = response.events.createProductEvent.returnValues;
         console.log(newProduct);
-        console.log(this.state.idBaseProduct);
         CreateDigitalProduct(
           this.state.token,
           newProduct._baseId,
           newProduct._productAddress,
-          newProduct._owner_address,
+          newProduct._owner,
           newProduct._level,
           newProduct._dna,
           newProduct._uniqueId
         )
           .then(function (response) {
             //this.clearFields()
+            console.log(response);
             alert("Successful! New product created!");
           }.bind(this))
           .catch(error => {
@@ -74,24 +75,7 @@ class NewDigitalProduct extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-      });*/
-      CreateDigitalProduct(
-        this.state.token,
-        "1",
-        "0x12e1e32rio23r23r0r",
-        "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b",
-        "1",
-        "0",
-        "1"
-      )
-        .then(function (response) {
-          //this.clearFields()
-          alert("Successful! New product created!");
-        }.bind(this))
-        .catch(error => {
-          console.log(error)
-          alert("Error creating a new product!");
-        });
+      });
   }
 
   handleChange(e) {
