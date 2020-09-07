@@ -6,6 +6,7 @@ import { withCookies } from 'react-cookie';
 import { GetProductInfo, GetUserInfo } from '../../services/BackendService';
 
 import mergeImages from 'merge-images';
+import TransferPopUp from '../TrasferForm/TransferPopUp';
 
 class ProductView extends React.Component {
 
@@ -24,7 +25,8 @@ class ProductView extends React.Component {
             username: cookies.get('username'),
             images: [],
             mainImage: "",
-            imageLoaded: false
+            imageLoaded: false,
+            showPopup: false
         };
     }
 
@@ -62,6 +64,12 @@ class ProductView extends React.Component {
             });
     }
 
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
 
     render() {
         return (
@@ -94,7 +102,10 @@ class ProductView extends React.Component {
                             {this.state.user.metamaskAccount !== this.state.product.owner_address ?
                                 <Button>Add to Wish List</Button>
                                 : (
-                                    <Button>Transfer</Button>
+                                    <React.Fragment>
+                                        <Button onClick={this.togglePopup.bind(this)}>Transfer</Button>
+                                        {this.state.showPopup ? <TransferPopUp show={this.state.showPopup} /> : null}
+                                    </React.Fragment>
                                 )}
 
                         </div>

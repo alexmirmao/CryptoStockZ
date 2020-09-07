@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
 import { withCookies } from 'react-cookie';
-import { CreateDigitalProduct, GetBaseProducts, GetBaseProductsByUser, GetManufacturers } from "../../services/BackendService";
 import Select from 'react-select';
 
 import Web3 from 'web3';
 
-var web3 = new Web3(window.ethereum);
-var account0;
-window.ethereum.enable();
-web3.eth.getAccounts().then(function (result) {
-  account0 = result[0];
-})
+import { CreateDigitalProduct, GetBaseProducts, GetBaseProductsByUser, GetManufacturers } from "../../services/BackendService";
+import { CreateProduct } from '../../services/ContractService';
+
 
 class NewDigitalProduct extends React.Component {
 
@@ -40,34 +36,44 @@ class NewDigitalProduct extends React.Component {
     }
 
     GetBaseProducts(this.state.token)
-      .then(function (response) {       
+      .then(function (response) {
         response.data.baseProducts.map(baseProductName => {
-          this.state.productsName.push({label: baseProductName.name, value: baseProductName.id})
+          this.state.productsName.push({ label: baseProductName.name, value: baseProductName.id })
         });
-        this.setState({productsName: this.state.productsName})
+        this.setState({ productsName: this.state.productsName })
       }.bind(this));
   }
 
   createDigitalProduct(event) {
     event.preventDefault();
-    CreateDigitalProduct(
-      this.state.token,
-      this.state.idBaseProduct,
-      this.state.productAddress,
-      this.state.owner_address,
-      this.state.level,
-      this.state.dna,
-      this.state.uniqueId
-      )
-      .then(function (response) {
-        //this.clearFields()
-        alert("Successful! New product created!")
-        // NotificationManager.success('New product created!', 'Successful!', 2000);
-      }.bind(this))
-      .catch(error => {
-        console.log(error)
-        alert("Error creating a new product!")
-        // NotificationManager.error('Error creating new book!', 'Error!', 2000);
+    console.log(this.state.idBaseProduct);
+    CreateProduct(this.state.idBaseProduct, this.state.uniqueId)
+      .then((response) => {
+        console.log(response);
+        let newProduct = response.events.createProductEvent.returnValues;
+        console.log(newProduct);
+        console.log(this.state.idBaseProduct);
+        CreateDigitalProduct(
+          this.state.token,
+          newProduct._baseId,
+          newProduct._productAddress,
+          newProduct._owner_address,
+          newProduct._level,
+          newProduct._dna,
+          newProduct._uniqueId
+        )
+          .then(function (response) {
+            //this.clearFields()
+            alert("Successful! New product created!");
+          }.bind(this))
+          .catch(error => {
+            console.log(error)
+            alert("Error creating a new product!")
+            //revert
+          });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -78,7 +84,7 @@ class NewDigitalProduct extends React.Component {
   }
 
   handleBaseProduct(e) {
-    this.setState( {idBaseProduct: e.value });
+    this.setState({ idBaseProduct: e.value });
   }
 
   render() {
@@ -89,14 +95,14 @@ class NewDigitalProduct extends React.Component {
       <div className="NewDigitalProduct">
         <Form.Group controlId="selectBaseProduct">
           <Form.Label>Base Product</Form.Label>
-          <Select options={this.state.productsName} onChange={(e) => this.handleBaseProduct(e)}/>
+          <Select options={this.state.productsName} onChange={(e) => this.handleBaseProduct(e)} />
         </Form.Group>
         <Form.Group controlId="selectUniqueId">
           <Form.Label>Unique Id</Form.Label>
-          <Form.Control type="input" placeholder="Product Unique Id" onChange={(e) => this.handleChange(e)} value={this.state.uniqueId}/>
+          <Form.Control type="input" placeholder="Product Unique Id" onChange={(e) => this.handleChange(e)} value={this.state.uniqueId} />
         </Form.Group>
         {this.state.isManufacturer ?
-          <Button variant="primary" type="submit" onClick={e => this.createDigitalProduct(e)} disabled={!isEnabled}>Register</Button> 
+          <Button variant="primary" type="submit" onClick={e => this.createDigitalProduct(e)} disabled={!isEnabled}>Register</Button>
           :
           <Button variant="primary" type="submit" onClick={e => this.createDigitalProduct(e)} disabled={!isEnabled}>Apply register</Button>
         }

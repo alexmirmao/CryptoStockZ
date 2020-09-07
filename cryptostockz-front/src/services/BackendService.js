@@ -21,28 +21,6 @@ export const GetUserInfo = (token, username) => {
     });
 };
 
-
-export const GetProductInfo = (token, productId) => {
-    var options = {
-        method: 'get',
-        url: config.baseUrl + '/product/' + productId,
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token
-        }
-    };
-
-    return new Promise((resolve, reject) => {
-        axios(options)
-            .then(function (response) {
-                resolve(response);
-            })
-            .catch(function (error) {
-                reject(error);
-            });
-    });
-};
-
 export const GetUserProducts = (token) => {
     var options = {
         method: 'get',
@@ -63,6 +41,27 @@ export const GetUserProducts = (token) => {
             });
     });
 
+};
+
+export const GetProductInfo = (token, productId) => {
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/product/' + productId,
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
 };
 
 export const GetUserWishlistProducts = (token, username) => {
@@ -228,6 +227,69 @@ export const GetBaseProducts = (token) => {
         }
       };
     console.log(options)
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
+export const AddProductToWishList = (token,productId) => {
+    var options = {
+        method: 'put',
+        url: config.baseUrl + '/product/'+productId+'/wishlist',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
+export const DeleteProductFromWishList = (token,productId) => {
+    var options = {
+        method: 'delete',
+        url: config.baseUrl + '/product/'+productId+'/wishlist',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
+export const CheckProductInWish = (token,productId) => {
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/product/'+productId+'/wishlist',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
     return new Promise((resolve, reject) => {
         axios(options)
             .then(function (response) {

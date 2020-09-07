@@ -11,7 +11,6 @@ import {
   CarouselCaption } from 'reactstrap';
 
 
-import { GetStorage } from '../../services/ContractService';
 
 const items = [
   {
@@ -45,15 +44,7 @@ export default class Home extends Component {
   this.onExiting = this.onExiting.bind(this);
   this.onExited = this.onExited.bind(this);
 
-}
-
-componentDidMount(){
-  GetStorage().then((response) => {
-    console.log(response);
-  }).catch((error)=> {
-    console.log(error);
-  });
-}
+  }
 
 
   onExiting() {

@@ -27,7 +27,7 @@ class UserProductsList extends React.Component {
         .then(function(response){
             // console.log(JSON.stringify(response));
             this.setState({
-                user_products: response.data.message
+                user_products: response.data.products
             });
         }.bind(this));
     }
@@ -46,7 +46,7 @@ class UserProductsList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} digital={true} />
+                                        <ProductCard productInfo={product} token={this.state.token} digital={true} />
                                     </Grid>
                                 )
                             })}
