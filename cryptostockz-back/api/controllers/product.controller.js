@@ -91,13 +91,18 @@ exports.updateProductWithForm = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-    Product.findAll().then(products => {
+    Product.findAll({
+        include: [
+          {
+            model: BaseProduct, as: "BaseProductId"
+          }
+        ]}).then(products => {
 
         products.forEach((product) => {
-            let productName = 'airmax';
+            let productId = product.base_productId;
             let adn = product.dna.toString();
-
-            product.dataValues.images = getImages(adn,productName);
+            product.dataValues.name = product.BaseProductId.dataValues.name;
+            product.dataValues.images = getImages(adn,productId);
         });
             return res.status(200).send({ products: products});
 
@@ -118,17 +123,23 @@ exports.getProduct = (req, res) => {
     Product.findOne({
         where: {
             id: req.params.productId
-        }
+        },
+        include: [
+            {
+              model: BaseProduct, as: "BaseProductId"
+            }
+          ]
     }).then(product => {
         if (!product) {
             return res.status(404).send({ message: "Product Not Found" });
         }
 
-        let productName = 'airmax';
+        let productId = product.base_productId;
 
         let adn = product.dna.toString();
+        product.dataValues.name = product.BaseProductId.dataValues.name;
 
-        images = getImages(adn, productName);
+        images = getImages(adn, productId);
 
         return res.status(200).send({ 
             product: product, 
@@ -140,16 +151,16 @@ exports.getProduct = (req, res) => {
     });
 };
 
-getImages = (adn,productName) => {
+getImages = (adn,productId) => {
     if(adn === "0"){
         adn = "0000";
     }
 
     let imagesPath = config.env.PRODUCT_IMAGES;
 
-    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
-    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/4.png'),{ encoding: "base64" });
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
     
     return [fondo,producto,accesorio];
 }
