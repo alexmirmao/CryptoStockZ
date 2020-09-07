@@ -149,7 +149,7 @@ getImages = (adn,productName) => {
 
     let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0)+'.png'),{ encoding: "base64" });
     let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productName + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/2.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/4.png'),{ encoding: "base64" });
     
     return [fondo,producto,accesorio];
 }
