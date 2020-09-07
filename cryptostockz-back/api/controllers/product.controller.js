@@ -33,7 +33,7 @@ exports.createProduct = (req, res) => {
     }).then(base_product => {
         // Comprueba que existe el producto base en nuestra base de datos
         if (!base_product) {
-            return res.status(200).send({ message: "Base Product does not exist." });
+            return res.status(401).send({ message: "Base Product does not exist." });
         }
         // Buscamos que el owner_address sea igual al valor de la cuenta de metamask guardada.
         User.findOne({
@@ -43,7 +43,7 @@ exports.createProduct = (req, res) => {
         }).then(owner => {
             // Comprueba que existe la cuenta en nuestra base de datos
             if (!owner) {
-                return res.status(200).send({ message: "Metamask account not match." });
+                return res.status(401).send({ message: "Metamask account not match." });
             }
 
             Product.create({
@@ -52,7 +52,7 @@ exports.createProduct = (req, res) => {
                 numberOfTransactions: 1,
                 dna: digitalProduct.dna,
                 level: digitalProduct.level,
-                uniqueIdentificator: digitalProduct.uniqueId
+                uniqueIdentificator: digitalProduct.uniqueIdentificator
             }).then(product => {
                 product.setBaseProductId(base_product);
                 // owner.addProducts(product);
@@ -177,7 +177,7 @@ exports.searchProduct = (req, res) => {
             return res.status(500).send({ message: err.message });
         });
     } else {
-        if (!_lodash.isEmpty(query.manufacturerId) && !_lodash.isEmpty(query.baseProductId)) {
+        if (query.manufacturerId !== "" && query.baseProductId !== "") {
             User.findAll({
                 include: {
                     model: BaseProduct,
@@ -206,11 +206,10 @@ exports.searchProduct = (req, res) => {
                     });
                 });
             }).catch(err => {
-                console.log("NOOOO Aqui"+err)
                 return res.status(500).send({ message: err.message });
             });
         } else {
-            if (!_lodash.isEmpty(query.manufacturerId) && _lodash.isEmpty(query.baseProductId)) {
+            if (query.manufacturerId !== "" && query.baseProductId === "") {
                 User.findAll({
                     include: {
                         model: BaseProduct,
@@ -236,7 +235,7 @@ exports.searchProduct = (req, res) => {
                 }).catch(err => {
                     return res.status(500).send({ message: err.message });
                 });
-            } else if (_lodash.isEmpty(query.manufacturerId) && !_lodash.isEmpty(query.baseProductId)) {
+            } else if (query.manufacturerId === "" && query.baseProductId !== "") {
                 BaseProduct.findOne({
                     where: {
                         id: query.baseProductId
