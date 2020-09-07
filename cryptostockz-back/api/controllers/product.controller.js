@@ -104,7 +104,7 @@ exports.getAllProducts = (req, res) => {
             product.dataValues.name = product.BaseProductId.dataValues.name;
             product.dataValues.images = getImages(adn,productId);
         });
-            return res.status(200).send({ products: products});
+            return res.status(200).send({ message: products});
 
     }).catch(err => {
         res.status(500).send({ message: err.message });
@@ -113,9 +113,9 @@ exports.getAllProducts = (req, res) => {
 
 exports.getAllBaseProducts = (res) => {
     BaseProduct.findAll().then(products => {
-        return res.status(200).send({ products: products})
+        return res.status(200).send({ message: products})
     }).catch(err => {
-        res.status(500).send({ message: err.message });
+        return res.status(500).send({ message: err.message });
     });
 }
 
@@ -166,18 +166,19 @@ getImages = (adn,productId) => {
 }
 
 exports.searchProduct = (req, res) => {
+    // TO DO: SE DEBE REVISAR POR QUÉ LLEGA VACÍO EL DATO SI DESDE EL FRONT SE RELLENA Y ENVIA BIEN. DESDE POSTMAN FUNCIONA BIEN
     // Si no envían ningún parámetro devolvemos todos los productos base
     if (_lodash.isEmpty(req.body)) {
-        this.getAllProducts(req, res);
+        this.getAllBaseProducts(res);
     } else {
-        if (!_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)) {
+        if (!_lodash.isEmpty(req.body.manufacturerId) && !_lodash.isEmpty(req.body.baseProductId)) {
             User.findAll({
                 include: {
                     model: BaseProduct,
-                    as: "BaseProducts"
+                    as: "BaseProducts",
                 },
-                where: {
-                    name: req.body.manufacturerName,
+                where:{
+                    id: req.body.manufacturerId,
                 }
             }).then(users => {
                 if (!users) {
@@ -187,28 +188,30 @@ exports.searchProduct = (req, res) => {
                 users.forEach(user => {
                     BaseProduct.findOne({
                         where: {
-                            fk_userId: user.dataValues.id,
-                            name: req.body.productName
+                            id: req.body.baseProductId
                         }
                     }).then(product => {
                         if (!product) {
                             return res.status(404).send({ message: "This product does not belong to this manufacturer" });
                         }
                         return res.status(200).send({ message: product });
+                    }).catch(error => {
+                        return res.status(500).send({ message: error });
                     });
                 });
             }).catch(err => {
+                console.log("NOOOO Aqui"+err)
                 return res.status(500).send({ message: err.message });
             });
         } else {
-            if (!_lodash.isEmpty(req.body.manufacturerName) && _lodash.isEmpty(req.body.productName)) {
+            if (!_lodash.isEmpty(req.body.manufacturerId) && _lodash.isEmpty(req.body.baseProductId)) {
                 User.findAll({
                     include: {
                         model: BaseProduct,
-                        as: "BaseProducts"
+                        as: "BaseProducts",
                     },
-                    where: {
-                        name: req.body.manufacturerName,
+                    where:{
+                        id: req.body.manufacturerId,
                     }
                 }).then(users => {
                     if (!users) {
@@ -221,19 +224,22 @@ exports.searchProduct = (req, res) => {
                                 fk_userId: user.dataValues.id
                             }
                         }).then(products => {
-                            return res.status(200).send({ BaseProduct: products });
+                            return res.status(200).send({ message: products });
                         });
                     });
                 }).catch(err => {
                     return res.status(500).send({ message: err.message });
                 });
-            } else if (_lodash.isEmpty(req.body.manufacturerName) && !_lodash.isEmpty(req.body.productName)) {
-                Product.findOne({
+            } else if (_lodash.isEmpty(req.body.manufacturerId) && !_lodash.isEmpty(req.body.baseProductId)) {
+                BaseProduct.findOne({
                     where: {
-                        name: req.body.productName
+                        id: req.body.baseProductId
                     }
                 }).then(product => {
-                    return res.status(200).send({ product: product });
+                    if (!product){
+                        return res.status(400).send({ message: "Product not found" })
+                    }
+                    return res.status(200).send({ message: product });
                 })
             } else {
                 return res.status(500).send({ message: "Something was wrong, review your parameters." });
