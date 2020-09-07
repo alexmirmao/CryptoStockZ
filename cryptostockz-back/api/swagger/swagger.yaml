@@ -173,7 +173,7 @@ paths:
         description: "Name of product to return"
         required: false
         type: "string"
-      - name: "manufacturerName"
+      - name: "manufacturerId"
         in: "query"
         description: "Name of manufacturer to return"
         required: false

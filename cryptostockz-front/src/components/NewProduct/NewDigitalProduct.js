@@ -60,14 +60,10 @@ class NewDigitalProduct extends React.Component {
       this.state.uniqueId
       )
       .then(function (response) {
-        //this.clearFields()
         alert("Successful! New product created!")
-        // NotificationManager.success('New product created!', 'Successful!', 2000);
       }.bind(this))
       .catch(error => {
-        console.log(error)
         alert("Error creating a new product!")
-        // NotificationManager.error('Error creating new book!', 'Error!', 2000);
       });
   }
 
