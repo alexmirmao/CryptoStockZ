@@ -89,7 +89,7 @@ class ProductView extends React.Component {
                                 <ListGroup.Item>Address: {this.state.product.address}</ListGroup.Item>
                                 <ListGroup.Item>DNA: {this.state.product.dna}</ListGroup.Item>
                                 <ListGroup.Item>Owner: {this.state.product.owner_address}</ListGroup.Item>
-                                <ListGroup.Item>Transactions: {this.state.product.numberOfTransactions}</ListGroup.Item>
+                                <ListGroup.Item>Identificator: {this.state.product.uniqueIdentificator}</ListGroup.Item>
                                 <ListGroup.Item>Level: {this.state.product.level}</ListGroup.Item>
                                 <ListGroup.Item>Created at: {this.state.product.createdAt}</ListGroup.Item>
                             </ListGroup>
