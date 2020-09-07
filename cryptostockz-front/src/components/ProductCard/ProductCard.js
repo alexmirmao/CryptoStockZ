@@ -1,7 +1,9 @@
 import React from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import mergeImages from 'merge-images';
+
+import WishButton from '../wishButton';
 
 
 
@@ -46,12 +48,14 @@ class ProductCard extends React.Component {
                         <Card.Title>{this.props.productInfo.name}</Card.Title>
                         <ListGroup>
                             <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
-                            <ListGroup.Item>ean: {this.props.productInfo.ean}</ListGroup.Item>
-                            <ListGroup.Item>sku: {this.props.productInfo.sku}</ListGroup.Item>
+                            <ListGroup.Item>Address: {this.props.productInfo.address}</ListGroup.Item>
+                            <ListGroup.Item>Owner: {this.props.productInfo.owner_address}</ListGroup.Item>
                             <ListGroup.Item>Level: {this.props.productInfo.level}</ListGroup.Item>
                         </ListGroup>
                         <br></br>
                         <Link to={`/products/${this.props.productInfo.id}`}>See</Link>
+                        <br></br>
+                        <WishButton token={this.props.token} productId={this.props.productInfo.id}/>
                     </Card.Body>
                 </Card>
             </div>

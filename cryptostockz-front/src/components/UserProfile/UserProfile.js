@@ -19,7 +19,6 @@ class UserProfile extends React.Component {
         this.state = {
             user: {
             },
-            user_products: [],
             token: cookies.get('x-access-token'),
             roles: cookies.get('roles'),
             username: cookies.get('username')
@@ -60,7 +59,7 @@ class UserProfile extends React.Component {
                             <Tabs defaultActiveKey="products" unmountOnExit id="noanim-tab-example">
                                 <Tab eventKey="products" title="Products">
                                     <div className="container">
-                                        <UserProductList userProducts={this.state.products} />
+                                        <UserProductList />
                                     </div>
                                 </Tab>
                                 <Tab eventKey="wish" title="Wish List">
@@ -71,7 +70,7 @@ class UserProfile extends React.Component {
                                 {this.state.roles === "ROLE_MANUFACTURER" ? (
                                     <Tab eventKey="pending" title="Pending Products">
                                         <div className="container">
-                                            <PendingProductList userProducts={this.state.products} />
+                                            <PendingProductList  />
                                         </div>
                                     </Tab>
                                 ) : null}

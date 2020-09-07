@@ -31,8 +31,8 @@ exports.addProductToWishtlist = (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "User Not Found." });
         }
-        var digitalProduct = req.body;
-        user.addProducts([parseInt(digitalProduct.productId)]).then(() => {
+        var productId = req.parms.productId
+        user.addProducts([productId]).then(() => {
             return res.status(200).send({ message: "Product added to wishlist." });
         });
 

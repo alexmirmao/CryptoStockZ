@@ -46,7 +46,7 @@ class UserProductsList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} digital={true} />
+                                        <ProductCard productInfo={product} token={this.state.token} digital={true} />
                                     </Grid>
                                 )
                             })}
