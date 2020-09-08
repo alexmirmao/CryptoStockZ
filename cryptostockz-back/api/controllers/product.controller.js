@@ -12,6 +12,22 @@ const config = require('../../config/config');
 const path = require('path');
 const fs = require("fs");
 
+getImages = (adn,level,productId) => {
+    if(adn === "0"){
+        adn = "0000";
+    }
+
+    let imagesPath = config.env.PRODUCT_IMAGES;
+
+
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ level +'.png'),{ encoding: "base64" });
+    let emoji = fs.readFileSync(path.resolve(imagesPath + '/emojis/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
+    
+    return [fondo,producto,accesorio,emoji];
+}
+
 /**
  * Insercion de un nuevo producto digital en la BD
  * 
@@ -101,8 +117,10 @@ exports.getAllProducts = (req, res) => {
         products.forEach((product) => {
             let productId = product.base_productId;
             let adn = product.dna.toString();
+            let level = product.level;
+
             product.dataValues.name = product.BaseProductId.dataValues.name;
-            product.dataValues.images = getImages(adn,productId);
+            product.dataValues.images = getImages(adn, level, productId);
         });
             return res.status(200).send({ message: products});
 
@@ -137,9 +155,10 @@ exports.getProduct = (req, res) => {
         let productId = product.base_productId;
 
         let adn = product.dna.toString();
+        let level =  product.level;
         product.dataValues.name = product.BaseProductId.dataValues.name;
 
-        images = getImages(adn, productId);
+        images = getImages(adn, level, productId);
 
         return res.status(200).send({ 
             product: product, 
@@ -150,20 +169,6 @@ exports.getProduct = (req, res) => {
         res.status(500).send({ message: err.message });
     });
 };
-
-getImages = (adn,productId) => {
-    if(adn === "0"){
-        adn = "0000";
-    }
-
-    let imagesPath = config.env.PRODUCT_IMAGES;
-
-    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
-    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
-    
-    return [fondo,producto,accesorio];
-}
 
 exports.searchProduct = (req, res) => {
     // TO DO: SE DEBE REVISAR POR QUÉ LLEGA VACÍO EL DATO SI DESDE EL FRONT SE RELLENA Y ENVIA BIEN. DESDE POSTMAN FUNCIONA BIEN
