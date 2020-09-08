@@ -125,4 +125,20 @@ contract Product {
         productLogicContract.mixDna(this,_user);
     }
 
+
+   //####### Programado para que  cada vez que es añadido a la wishlist suba de nivel
+   //####### La idea es marcar unos rangos de "me gusta" que hagan las subidas
+   //####### Ej: cada 10, 50, 100 etc
+    function increaseLevel() public {
+        if(level < 9){
+            level++;
+        }
+    }
+
+    function decreaseLevel() public {
+        if(level > 0){
+            level--;
+        }
+    }
+
 }
