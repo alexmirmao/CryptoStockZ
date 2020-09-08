@@ -1,7 +1,6 @@
 var _lodash = require('lodash');
 
 const db = require("../models");
-const { product } = require("../models");
 
 const Product = db.product;
 const BaseProduct = db.base_product;
@@ -118,6 +117,8 @@ exports.getAllProducts = (req, res) => {
             let productId = product.base_productId;
             let adn = product.dna.toString();
             let level = product.level;
+
+            console.log("---->" + productId);
 
             product.dataValues.name = product.BaseProductId.dataValues.name;
             product.dataValues.images = getImages(adn, level, productId);
