@@ -93,9 +93,11 @@ exports.updateProductWithForm = (req, res) => {
         }
         var digitalProduct = req.body;
 
+        console.log(digitalProduct);
+
         Product.update(digitalProduct, {
             where: {
-                id: digitalProduct.productId
+                id: req.params.productId
             }
         }).then(() => {
             return res.status(200).send({ message: "Digital product updated." });
@@ -172,13 +174,22 @@ exports.getProduct = (req, res) => {
 };
 
 exports.searchProduct = (req, res) => {
-    // TO DO: SE DEBE REVISAR POR QUÉ LLEGA VACÍO EL DATO SI DESDE EL FRONT SE RELLENA Y ENVIA BIEN. DESDE POSTMAN FUNCIONA BIEN
-    // Si no envían ningún parámetro devolvemos todos los productos base
     console.log(req.query.baseProductId);
     var query = req.query;
     if (query.baseProductId === "" && query.manufacturerId === "") {
         BaseProduct.findAll().then(response => {
-            return res.status(200).send({ message: response})
+            response.forEach(base_product => {
+                Product.findAll({
+                    where: {
+                        base_productId: base_product.id
+                    }
+                }).then(products => {
+                    return res.status(200).send({ message: {
+                        response,
+                        products
+                    }});
+                });
+            });
         }).catch(err => {
             return res.status(500).send({ message: err.message });
         });
