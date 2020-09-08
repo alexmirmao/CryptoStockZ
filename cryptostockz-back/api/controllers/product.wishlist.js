@@ -1,7 +1,7 @@
 var _lodash = require('lodash');
 
 const db = require("../models");
-const { product } = require("../models");
+const { product, Sequelize } = require("../models");
 
 const Product = db.product;
 const User = db.user;
@@ -12,20 +12,20 @@ const path = require('path');
 const fs = require("fs");
 
 
-getImages = (adn,level,productId) => {
-    if(adn === "0"){
+getImages = (adn, level, productId) => {
+    if (adn === "0") {
         adn = "0000";
     }
 
     let imagesPath = config.env.PRODUCT_IMAGES;
 
 
-    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/'+ level +'.png'),{ encoding: "base64" });
-    let emoji = fs.readFileSync(path.resolve(imagesPath + '/emojis/'+ adn.charAt(0) +'.png'),{ encoding: "base64" });
-    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/'+ (parseInt(adn.charAt(1)) % 5)+'.png'),{ encoding: "base64" });
-    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/'+ (parseInt(adn.charAt(2)+''+ adn.charAt(3))%20)+'.png'),{ encoding: "base64" });
-    
-    return [fondo,producto,accesorio,emoji];
+    let fondo = fs.readFileSync(path.resolve(imagesPath + '/fondos/' + level + '.png'), { encoding: "base64" });
+    let emoji = fs.readFileSync(path.resolve(imagesPath + '/emojis/' + adn.charAt(0) + '.png'), { encoding: "base64" });
+    let producto = fs.readFileSync(path.resolve(imagesPath + '/productos/' + productId + '/' + (parseInt(adn.charAt(1)) % 5) + '.png'), { encoding: "base64" });
+    let accesorio = fs.readFileSync(path.resolve(imagesPath + '/accesorios/' + (parseInt(adn.charAt(2) + '' + adn.charAt(3)) % 20) + '.png'), { encoding: "base64" });
+
+    return [fondo, producto, accesorio, emoji];
 }
 
 /**
@@ -47,12 +47,7 @@ exports.addProductToWishtlist = (req, res) => {
 
         var productId = req.params.productId
 
-        const product = await Product.findOne({where: {id: productId}});
-        console.log(product.level);
-        product.level++;
-        product.save();
-
-        console.log(product.level);
+        increaseLevel(productId);
 
         user.addProducts([productId]).then(() => {
             return res.status(200).send({ message: "Product added to wishlist." });
@@ -74,18 +69,38 @@ exports.delProductToWishtlist = (req, res) => {
         }
         var productId = req.params.productId;
 
-        const product = await Product.findOne({where: {id: productId}});
-        console.log(product.level);
-        product.level--;
-        product.save();
 
-        console.log(product.level);
+        decreaseLevel(productId);
 
         user.removeProducts([productId]).then(() => {
             return res.status(200).send({ message: "Product deleted from wishlist." });
         });
     }).catch(err => {
         res.status(500).send({ message: err.message });
+    });
+};
+
+increaseLevel = (productId) => {
+    Product.findOne({
+        where: {
+            id: productId
+        }
+    }).then(product => {
+        if (product.level < 9) {
+            product.update({ level: Sequelize.literal('level +1') })
+        }
+    });
+};
+
+decreaseLevel = (productId) => {
+    Product.findOne({
+        where: {
+            id: productId
+        }
+    }).then(product => {
+        if (product.level > 0) {
+            product.update({ level: Sequelize.literal('level -1') })
+        }
     });
 };
 
@@ -103,7 +118,7 @@ exports.getUserWishList = (req, res) => {
         user.getProducts().then((products) => {
 
             products.forEach((product) => {
-                let productId =  product.base_productId;
+                let productId = product.base_productId;
                 let adn = product.dna.toString();
                 let level = product.level;
 
@@ -117,7 +132,7 @@ exports.getUserWishList = (req, res) => {
     });
 };
 
-exports.checkProductInWish = (req,res) => {
+exports.checkProductInWish = (req, res) => {
     User.findOne({
         where: {
             id: req.userId
