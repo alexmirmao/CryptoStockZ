@@ -184,10 +184,7 @@ exports.searchProduct = (req, res) => {
                         base_productId: base_product.id
                     }
                 }).then(products => {
-                    return res.status(200).send({ message: {
-                        response,
-                        products
-                    }});
+                    return res.status(200).send({ message: response});
                 });
             });
         }).catch(err => {
