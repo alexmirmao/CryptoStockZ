@@ -1,10 +1,11 @@
 var _lodash = require('lodash');
 
 const db = require("../models");
-const { product, Sequelize } = require("../models");
+const {  Sequelize, base_product } = require("../models");
 
 const Product = db.product;
 const User = db.user;
+const BaseProduct = db.base_product;
 
 const config = require('../../config/config');
 
@@ -115,13 +116,25 @@ exports.getUserWishList = (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "User Not Found." });
         }
-        user.getProducts().then((products) => {
+        user.getProducts({
+            where: {
+               
+            },
+            include: [
+                {
+                  model: BaseProduct, as: "BaseProductId"
+                }
+              ]
+        }).then((products) => {
 
             products.forEach((product) => {
+                
+
                 let productId = product.base_productId;
                 let adn = product.dna.toString();
                 let level = product.level;
 
+                product.dataValues.name = product.BaseProductId.dataValues.name;
                 product.dataValues.images = getImages(adn, level, productId);
             });
             return res.status(200).send({ products: products });
