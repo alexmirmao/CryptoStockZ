@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 import { AddProductToWishList, DeleteProductFromWishList, CheckProductInWish } from '../services/BackendService';
-import { Checkbox } from '@material-ui/core';
 
 class WishButton extends React.Component {
 
@@ -22,10 +21,8 @@ class WishButton extends React.Component {
         .then(response => {
             console.log(response.data.products);
             if(response.data.products.length === 0){
-                console.log("empty");
                 this.setState({inwish: false});
             }else{
-                console.log("not empty");
                 this.setState({inwish: true});
             }
         })
@@ -38,6 +35,7 @@ class WishButton extends React.Component {
         AddProductToWishList(this.props.token, this.props.productId)
             .then((response) => {
                 this.setState({ inwish: true });
+                window.location.reload(true);
             })
             .catch((error) => {
                 console.log(error);
