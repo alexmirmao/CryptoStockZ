@@ -6,10 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import { Image } from "react-bootstrap";
 import Meta from "../../Images/metamask.png";
 import SignUpPopUp from './SignUpPopUp';
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
-import config from '../../config';
 import { SigninUser } from '../../services/BackendService';
 
 class SignInPopup extends React.Component {
@@ -21,8 +19,7 @@ class SignInPopup extends React.Component {
             showSignUpPopup: false,
             showSignInPopup: true,
             username: "",
-            password: "",
-            baseUrl: config.baseUrl
+            password: ""
         };
     }
 

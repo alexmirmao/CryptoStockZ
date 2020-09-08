@@ -2,9 +2,8 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
 
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
-import { GetUserProducts, GetUserWishlistProducts } from  '../../services/BackendService';
+import { GetUserWishlistProducts } from  '../../services/BackendService';
 
 
 
@@ -25,7 +24,7 @@ class UserProductsList extends React.Component {
     componentDidMount() {
         GetUserWishlistProducts(this.state.token, this.state.username)
         .then(function(response){
-            // console.log(JSON.stringify(response));
+            console.log("wish" + JSON.stringify(response));
             this.setState({
                 user_products: response.data.products
             });

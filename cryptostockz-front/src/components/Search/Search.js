@@ -1,15 +1,11 @@
 import React from "react";
-import { Form, FormControl, Button, InputGroup, Row, Col } from "react-bootstrap";
+import { Form, Button, InputGroup, Row, Col } from "react-bootstrap";
 import BaseProductCard from '../BaseProductCard/BaseProductCard';
 import Grid from '@material-ui/core/Grid';
 import Select from 'react-select';
 import { GetManufacturers, GetBaseProducts, SearchInBack } from "../../services/BackendService";
 
 import { withCookies } from 'react-cookie';
-
-import config from '../../config';
-
-import axios from 'axios';
 
 class Search extends React.Component {
 
@@ -23,7 +19,6 @@ class Search extends React.Component {
       baseProduct: "",
       baseProducts: [],
       products: [],
-      baseUrl: config.baseUrl,
       token: cookies.get('x-access-token'),
       roles: cookies.get('roles'),
       username: cookies.get('username')

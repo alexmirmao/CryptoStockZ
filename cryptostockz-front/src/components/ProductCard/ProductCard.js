@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, ListGroup, Button } from 'react-bootstrap';
+import { Card, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import mergeImages from 'merge-images';
 
@@ -41,7 +41,7 @@ class ProductCard extends React.Component {
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={this.state.mainImage} />
                     <Card.Body>
-                        <Card.Title>{this.props.productInfo.name}</Card.Title>
+                        <Card.Title>{this.props.productInfo.name} - Digital </Card.Title>
                         <ListGroup>
                             <ListGroup.Item>Dna: {this.props.productInfo.dna}</ListGroup.Item>
                             <ListGroup.Item>Id: {this.props.productInfo.uniqueIdentificator}</ListGroup.Item>
@@ -52,7 +52,7 @@ class ProductCard extends React.Component {
                         <br></br>
                         <Link to={`/products/${this.props.productInfo.id}`}>See</Link>
                         <br></br>
-                        <WishButton token={this.props.token} productId={this.props.productInfo.id} />
+                        <WishButton token={this.props.token} productId={this.props.productInfo.id} productAddress={this.props.productInfo.address} />
                     </Card.Body>
                 </Card>
             </div>

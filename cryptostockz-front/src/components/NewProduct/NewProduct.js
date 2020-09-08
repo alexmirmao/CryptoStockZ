@@ -75,7 +75,9 @@ class NewProduct extends React.Component {
 
   componentDidMount() {
     if (this.state.roles === "ROLE_MANUFACTURER") {
-      this.state.isManufacturer = true
+      this.setState({
+        isManufacturer: true
+      });
     }
 
     // TODO: Debemos crear una petición en el back que devuelva todos los manufacturers

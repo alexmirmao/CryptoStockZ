@@ -118,6 +118,35 @@ export const CreateNewProduct = (token, name, ean, sku, manufacturer) => {
                 reject(error);
             });
     });
+};
+
+export const UpdateProduct = (token, receiver, newDna, productId) => {
+    var data = JSON.stringify(
+            {
+                "owner_address": receiver,
+                "dna": newDna
+            }
+        );
+
+    var options = {
+        method: 'put',
+        url: config.baseUrl + '/product/'+productId,
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        },
+        data: data
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
 }
 
 export const CreateDigitalProduct = (token, idBaseProduct, productAddress, metamask, level, dna, uniqueId) => {

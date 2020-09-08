@@ -56,10 +56,10 @@ class ProductView extends React.Component {
     //https://resizeimage.net/
     combineImages() {
         mergeImages([
-            { src: `data:image/png;base64,${this.state.images[0]}`, x: 0, y: 0 },
+            { src: `data:image/png;base64,${this.state.images[0]}`, x: 0, y: 10 },
             { src: `data:image/png;base64,${this.state.images[1]}`, x: 60, y: 25 },
-            { src: `data:image/png;base64,${this.state.images[2]}`, x: 100, y: 0 },
-            { src: `data:image/png;base64,${this.state.images[3]}`, x: 10, y: 200 }
+            { src: `data:image/png;base64,${this.state.images[2]}`, x: 20, y: 20 },
+            { src: `data:image/png;base64,${this.state.images[3]}`, x: 360, y: 200 }
         ])
             .then(b64 => {
                 this.setState({ mainImage: b64 });
@@ -71,7 +71,6 @@ class ProductView extends React.Component {
             showPopup: !this.state.showPopup
         });
     }
-
 
     render() {
         return (
@@ -104,12 +103,16 @@ class ProductView extends React.Component {
                             <ButtonToolbar>
                                 <ButtonGroup className="mr-2">
                                     {this.state.imageLoaded ?
-                                        <WishButton token={this.state.token} productId={this.state.product.id}></WishButton>
+                                        <WishButton token={this.state.token} productId={this.state.product.id} productAddress={this.state.product.address}></WishButton>
                                         : null}
                                 </ButtonGroup>
                                 <ButtonGroup className="mr-2">
                                     <Button className="button" onClick={this.togglePopup.bind(this)}>Transfer</Button>
-                                    {this.state.showPopup ? <TransferPopUp show={this.state.showPopup} /> : null}
+                                    {this.state.showPopup ? <TransferPopUp show={this.state.showPopup} 
+                                    address={this.state.product.address} 
+                                    id={this.state.product.id}
+                                    token={this.state.token}
+                                    closePopup={this.togglePopup.bind(this)}/> : null}
                                 </ButtonGroup>
                             </ButtonToolbar>
                         </div>

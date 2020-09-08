@@ -1,9 +1,6 @@
 import React from 'react';
-import { Card, ListGroup, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card, ListGroup } from 'react-bootstrap';
 import mergeImages from 'merge-images';
-
-import WishButton from '../wishButton';
 
 
 
@@ -40,7 +37,7 @@ class BaseProductCard extends React.Component {
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src="https://www.marshall.edu/it/files/question-mark-circle-icon.png" />
                     <Card.Body>
-                        <Card.Title>{this.props.productInfo.name}</Card.Title>
+                        <Card.Title>{this.props.productInfo.name} - Base</Card.Title>
                         <ListGroup>
                             <ListGroup.Item>Manufacturer: {this.props.productInfo.fk_manufacturer}</ListGroup.Item>
                             <ListGroup.Item>Ean: {this.props.productInfo.ean}</ListGroup.Item>

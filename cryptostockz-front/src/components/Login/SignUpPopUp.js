@@ -28,7 +28,7 @@ class SignUpPopup extends React.Component {
       name: "",
       email: "",
       roles: "",
-      metamask: "0x973AEe0C82633edaf13B56536762Cbc766F44ee3" // account0
+      metamask: account0
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -54,7 +54,7 @@ class SignUpPopup extends React.Component {
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         window.location = "/signin"
-      }.bind(this))
+      })
       .catch(error => {
         alert("Error, only one metamask account associated. "+error)
       });

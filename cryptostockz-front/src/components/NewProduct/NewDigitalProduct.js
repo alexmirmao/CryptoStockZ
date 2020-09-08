@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 import "./NewProduct.css";
 import { withCookies } from 'react-cookie';
 import Select from 'react-select';
 
-import Web3 from 'web3';
-
-import { CreateDigitalProduct, GetBaseProducts, GetBaseProductsByUser, GetManufacturers } from "../../services/BackendService";
+import { CreateDigitalProduct, GetBaseProducts } from "../../services/BackendService";
 import { CreateProduct } from '../../services/ContractService';
 
 
@@ -32,7 +30,9 @@ class NewDigitalProduct extends React.Component {
 
   componentDidMount() {
     if (this.state.roles === "ROLE_MANUFACTURER") {
-      this.state.isManufacturer = true
+      this.setState({
+        isManufacturer: true
+      });
     }
 
     GetBaseProducts(this.state.token)
@@ -66,7 +66,7 @@ class NewDigitalProduct extends React.Component {
             //this.clearFields()
             console.log(response);
             alert("Successful! New product created!");
-          }.bind(this))
+          })
           .catch(error => {
             console.log(error)
             alert("Error creating a new product!")

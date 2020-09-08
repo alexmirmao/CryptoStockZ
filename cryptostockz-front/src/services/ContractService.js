@@ -44,6 +44,70 @@ export const CreateProduct = (baseId, uniqueId) => {
     });
 };
 
+export const IncreaseProductLevel = (productAddress) => {
+    return new Promise((resolve, reject) => {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        if (!web3 || !web3.currentProvider.isMetaMask) {
+            reject('No web3!');
+        }
+
+        const contract = new web3.eth.Contract(appContractAbi, crypto_contract_address);
+        web3.eth.getAccounts().then(function (result) {
+            var account = result[0];
+            if (!account) {
+                reject('No account!');
+            }
+            contract.methods.updateProductLevel(productAddress,true).send({
+                from: account,
+                gasLimit: 1160000,
+                gasPrice: 0
+            })
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
+                });
+        });
+    });
+};
+
+export const DecreaseProductLevel = (productId) => {
+    return new Promise((resolve, reject) => {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        if (!web3 || !web3.currentProvider.isMetaMask) {
+            reject('No web3!');
+        }
+
+        const contract = new web3.eth.Contract(appContractAbi, crypto_contract_address);
+        web3.eth.getAccounts().then(function (result) {
+            var account = result[0];
+            if (!account) {
+                reject('No account!');
+            }
+            contract.methods.updateProductLevel(productId, false).send({
+                from: account,
+                gasLimit: 1160000,
+                gasPrice: 0
+            })
+                .on('confirmation', function (confirmationNumber, receipt) {
+                    resolve(confirmationNumber, receipt)
+                })
+                .on('receipt', function (receipt) {
+                    resolve(receipt);
+                })
+                .on('error', function (error) {
+                    reject(error)
+                });
+        });
+    });
+};
+
 export const TransferProduct = (to, productAddres) => {
     return new Promise((resolve, reject) => {
 
@@ -128,7 +192,7 @@ export const GetStorage = () => {
             }
             contract.methods.getStorageAddress()
                 .call()
-                .then( function (response) {
+                .then(function (response) {
                     resolve(response)
                 })
                 .catch(function (error) {
@@ -169,4 +233,4 @@ export const UpgradeVersion = () => {
                 });
         });
     });
-}
+};

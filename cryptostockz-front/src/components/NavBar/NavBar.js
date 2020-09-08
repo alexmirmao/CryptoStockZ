@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Navbar, Nav } from 'react-bootstrap';
-import SignInPopUp from '../Login/SignInPopUp';
-import { Button } from "react-bootstrap";
-// import {Link} from "react-router-dom";
-
+import { Navbar, Nav, Button} from 'react-bootstrap';
 import { withCookies } from 'react-cookie';
-import { Label } from "reactstrap";
+
+import SignInPopUp from '../Login/SignInPopUp';
 
 class NavBar extends Component {
 

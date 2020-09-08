@@ -1,8 +1,6 @@
 import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
-
-import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
 import { GetUserProducts } from  '../../services/BackendService';
