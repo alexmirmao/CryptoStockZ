@@ -120,12 +120,10 @@ exports.getAllProducts = (req, res) => {
             let adn = product.dna.toString();
             let level = product.level;
 
-            console.log("---->" + productId);
-
             product.dataValues.name = product.BaseProductId.dataValues.name;
             product.dataValues.images = getImages(adn, level, productId);
         });
-            return res.status(200).send({ message: products});
+            return res.status(200).send({ products: products});
 
     }).catch(err => {
         res.status(500).send({ message: err.message });
