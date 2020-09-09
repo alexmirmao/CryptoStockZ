@@ -43,6 +43,27 @@ export const GetUserProducts = (token) => {
 
 };
 
+export const GetAllProducts = (token) => {
+    var options = {
+        method: 'get',
+        url: config.baseUrl + '/product',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        axios(options)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+
 export const GetProductInfo = (token, productId) => {
     var options = {
         method: 'get',
