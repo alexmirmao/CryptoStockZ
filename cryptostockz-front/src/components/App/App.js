@@ -11,6 +11,7 @@ import ProductView from '../ProductView/ProductView';
 import Login from '../Login/SignInPopUp';
 import SignUp from '../Login/SignUpPopUp';
 import Search from '../Search/Search';
+import Catalog from '../Catalog/Catalog';
 
 class App extends React.Component {
 
@@ -30,6 +31,7 @@ class App extends React.Component {
             <Route path="/home" component={Home} />
             <Route path="/profile" component={UserProfile} />
             <Route path='/products/:productId' component={ProductView} />
+            <Route path="/products" component={Catalog}></Route>
             <Route path='/search' component={Search} />
           </Switch>
         </BrowserRouter>
