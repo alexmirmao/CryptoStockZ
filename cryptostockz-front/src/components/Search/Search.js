@@ -21,9 +21,7 @@ class Search extends React.Component {
       products: [],
       token: cookies.get('x-access-token'),
       roles: cookies.get('roles'),
-      username: cookies.get('username'),
-      checked: true,
-      productAddress: ""
+      username: cookies.get('username')
     };
   }
 
@@ -74,14 +72,6 @@ class Search extends React.Component {
     this.setState({ baseProduct: e.value });
   }
 
-  handleChange(e) {
-    if(e.target.id === 'checkbox'){
-    this.setState({ checked: e.target.checked });
-    }else if(e.target.id === 'selectProductAddress'){
-      this.setState({productAddress: e.target.value});
-    }
-  }
-
   render() {
     return (
       <div>
@@ -89,54 +79,29 @@ class Search extends React.Component {
           <h3 className="mx-auto text-center">Search</h3>
           <div>
             <Form.Group as={Row}>
-              <Col sm={2}>
-                <Form.Check
-                  type='checkbox'
-                  id='checkbox'
-                  label='Digital Products'
-                  checked={this.state.checked}
-                  onChange={(e) => this.handleChange(e)}
-                />
+              <Col>
+                <Form.Text className="text-muted">
+                  Choose your manufacturer
+                </Form.Text>
+                <Form.Group controlId="selectManufacturer">
+                  <Select options={this.state.manufacturers} onChange={(e) => this.handleManufacturers(e)} />
+                </Form.Group>
               </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              {this.state.checked ?
+                  {this.state.manufacturer !== "" ?
                 <Col>
                   <Form.Text className="text-muted">
-                    Enter product address
+                    Choose your product
                   </Form.Text>
-                  <Form.Group controlId="selectProductAddress">
-                    <Form.Control 
-                    placeholder="0x1dF62f291b2E969fB0849d99D9Ce41e2F137006e" 
-                    pattern="0x[A-za-z0-9]{40}" 
-                    onChange={(e) => this.handleChange(e)}/>
+                  <Form.Group controlId="selectBaseProduct">
+                    <Select options={this.state.baseProducts} onChange={(e) => this.handleBaseProducts(e)} />
                   </Form.Group>
                 </Col>
-                : [
-                  (<Col>
-                    <Form.Text className="text-muted">
-                      Choose your manufacturer
-                </Form.Text>
-                    <Form.Group controlId="selectManufacturer">
-                      <Select options={this.state.manufacturers} onChange={(e) => this.handleManufacturers(e)} />
-                    </Form.Group>
-                  </Col>)
-                  ,(this.state.manufacturer !== "" ?
+                : (
                   <Col>
-                    <Form.Text className="text-muted">
-                      Choose your product
-                  </Form.Text>
-                    <Form.Group controlId="selectBaseProduct">
-                      <Select options={this.state.baseProducts} onChange={(e) => this.handleBaseProducts(e)} />
-                    </Form.Group>
+                    <Form.Text className="text-muted">&nbsp;</Form.Text>
+                    <Form.Group controlId="selectBaseProduct">&nbsp;</Form.Group>
                   </Col>
-                  : (
-                    <Col>
-                      <Form.Text className="text-muted">&nbsp;</Form.Text>
-                      <Form.Group controlId="selectBaseProduct">&nbsp;</Form.Group>
-                    </Col>
-                  )
-                )]
+                )
               }
               <Col>
                 <Form.Text className="text-muted">&nbsp;</Form.Text>
