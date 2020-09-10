@@ -176,15 +176,7 @@ exports.searchProduct = (req, res) => {
     var query = req.query;
     if (query.baseProductId === "" && query.manufacturerId === "") {
         BaseProduct.findAll().then(response => {
-            response.forEach(base_product => {
-                Product.findAll({
-                    where: {
-                        base_productId: base_product.id
-                    }
-                }).then(products => {
-                    return res.status(200).send({ message: response});
-                });
-            });
+            return res.status(200).send({ message: response});
         }).catch(err => {
             return res.status(500).send({ message: err.message });
         });

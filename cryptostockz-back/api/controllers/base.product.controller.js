@@ -70,10 +70,11 @@ exports.createBaseProduct = (req, res) => {
                 // el producto queda pendiente de verificacion
                 /// SE DEBERIA CREAR UN MECANISMO QUE AVISE AL MANUFACTURER
                 /// DE QUE TIENE UN PRODUCTO PENDIENTE DE VERIFICAR
+                console.log(req.body[0]);
 
                 User.findOne({
                     where: {
-                        username: req.body.manufacturer
+                        id: req.body[0].manufacturer
                     }
                 }).then(manufacturer => {
                     if (!manufacturer) {
@@ -81,13 +82,13 @@ exports.createBaseProduct = (req, res) => {
                     }
 
                     BaseProduct.create({
-                        name: req.body.name,
-                        ean: req.body.ean,
-                        sku: req.body.sku,
+                        name: req.body[0].name,
+                        ean: req.body[0].ean,
+                        sku: req.body[0].sku,
                         original: false
                     }).then(baseproduct => {
                         baseproduct.setManufacturer(manufacturer);
-                        user.addBaseProducts(baseproduct);
+                        manufacturer.addBaseProducts(baseproduct);
                         return res.status(200).send({ message: "Base product created. Needs confirmation from manufacrurer." });
                     });
                 });
