@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductCard from '../ProductCard/ProductCard';
+import BaseProductCard from '../BaseProductCard/BaseProductCard';
 import Grid from '@material-ui/core/Grid';
 
 import { withCookies } from 'react-cookie';
@@ -41,7 +41,7 @@ class PendingProductsList extends React.Component {
                             {this.state.user_products.map((product) => {
                                 return (
                                     <Grid item xs={6} key={product.id}>
-                                        <ProductCard productInfo={product} digital={false} />
+                                        <BaseProductCard productInfo={product} key={product.id} token={this.state.token} />
                                     </Grid>
                                 )
                             })}

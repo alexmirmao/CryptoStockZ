@@ -1,35 +1,25 @@
 import React from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
-import mergeImages from 'merge-images';
-
+import { Card, ListGroup, Button } from 'react-bootstrap';
+import { VerifyProduct } from '../../services/BackendService';
 
 
 class BaseProductCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            mainImage: ""
-        }
     }
 
-    componentDidMount() {
-        if (false) {
-            this.combineImages();
-        }
-        console.log(this.props.productInfo);
+    verifyProduct(e){
+        VerifyProduct(this.props.token,this.props.productInfo.id)
+        .then(response => {
+            alert(response.data);
+            window.location.reload(true);
+        })
+        .catch(error => {
+            console.log(error);
+        })
     }
 
-    combineImages() {
-        mergeImages([
-            { src: `data:image/png;base64,${this.props.productInfo.images[0]}`, x: 0, y: 0 },
-            { src: `data:image/png;base64,${this.props.productInfo.images[1]}`, x: 60, y: 25 },
-            { src: `data:image/png;base64,${this.props.productInfo.images[2]}`, x: 20, y: 0 }
-        ])
-            .then(b64 => {
-                this.setState({ mainImage: b64 });
-            });
-    }
 
     render() {
         return (
@@ -42,14 +32,20 @@ class BaseProductCard extends React.Component {
                             <ListGroup.Item>Manufacturer: {this.props.productInfo.fk_manufacturer}</ListGroup.Item>
                             <ListGroup.Item>Ean: {this.props.productInfo.ean}</ListGroup.Item>
                             <ListGroup.Item>Sku: {this.props.productInfo.sku}</ListGroup.Item>
-                        { this.props.productInfo.original ? 
-                            <ListGroup.Item>Verified</ListGroup.Item>
-                         : (
-                            <ListGroup.Item>Not Verified</ListGroup.Item>
-                         )
-                        }
-                           
+                            {this.props.productInfo.original ?
+                                <ListGroup.Item>Verified</ListGroup.Item>
+                                : (
+                                    <ListGroup.Item>Not Verified</ListGroup.Item>
+                                )
+                            }
                         </ListGroup>
+                        {!this.props.productInfo.original ?
+                            <div>
+                                <br></br>
+                                <Button variant="success" onClick={(e) => this.verifyProduct(e)}>Verify</Button>
+                            </div>
+                            : null
+                        }
                     </Card.Body>
                 </Card>
             </div>
