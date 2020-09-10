@@ -21,7 +21,9 @@ class Search extends React.Component {
       products: [],
       token: cookies.get('x-access-token'),
       roles: cookies.get('roles'),
-      username: cookies.get('username')
+      username: cookies.get('username'),
+      checked: true,
+      productAddress: ""
     };
   }
 
@@ -33,43 +35,51 @@ class Search extends React.Component {
   }
 
   search(event) {
-  
-    SearchInBack(this.state.token,this.state.baseProduct,this.state.manufacturer)
-    .then(response => {
-      console.log(response);
-      this.setState({
-        products: response.data.message
+
+    SearchInBack(this.state.token, this.state.baseProduct, this.state.manufacturer)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          products: response.data.message
+        })
       })
-    })
-    .catch(error => {
-      console.log(error);
-    })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   componentDidMount() {
     GetManufacturers(this.state.token)
       .then(function (response) {
         response.data.users.map(manufacturer => {
-          this.state.manufacturers.push({label: manufacturer.name, value: manufacturer.id})
+          this.state.manufacturers.push({ label: manufacturer.name, value: manufacturer.id })
         });
-        this.setState({manufacturers: this.state.manufacturers})
+        this.setState({ manufacturers: this.state.manufacturers })
       }.bind(this));
-    
+
     GetBaseProducts(this.state.token)
-      .then(function (response) {       
+      .then(function (response) {
         response.data.baseProducts.map(baseProduct => {
-          this.state.baseProducts.push({label: baseProduct.name, value: baseProduct.id})
+          this.state.baseProducts.push({ label: baseProduct.name, value: baseProduct.id })
         });
-        this.setState({baseProducts: this.state.baseProducts})
+        this.setState({ baseProducts: this.state.baseProducts })
       }.bind(this));
   }
 
   handleManufacturers(e) {
-    this.setState({manufacturer: e.value });
+    this.setState({ manufacturer: e.value });
   }
 
   handleBaseProducts(e) {
-    this.setState({baseProduct: e.value });
+    this.setState({ baseProduct: e.value });
+  }
+
+  handleChange(e) {
+    if(e.target.id === 'checkbox'){
+    this.setState({ checked: e.target.checked });
+    }else if(e.target.id === 'selectProductAddress'){
+      this.setState({productAddress: e.target.value});
+    }
   }
 
   render() {
@@ -77,37 +87,65 @@ class Search extends React.Component {
       <div>
         <div className="container">
           <h3 className="mx-auto text-center">Search</h3>
-          <Form>
-            <Row>
-              <Col>
-                <Form.Text className="text-muted">
-                  Choose your manufacturer
-                </Form.Text>
-                <Form.Group controlId="selectManufacturer">
-                  <Select options={this.state.manufacturers} onChange={(e) => this.handleManufacturers(e)}/>
-                </Form.Group>
+          <div>
+            <Form.Group as={Row}>
+              <Col sm={2}>
+                <Form.Check
+                  type='checkbox'
+                  id='checkbox'
+                  label='Digital Products'
+                  checked={this.state.checked}
+                  onChange={(e) => this.handleChange(e)}
+                />
               </Col>
-              {this.state.manufacturer !== "" ?
+            </Form.Group>
+            <Form.Group as={Row}>
+              {this.state.checked ?
                 <Col>
                   <Form.Text className="text-muted">
-                    Choose your product
+                    Enter product address
                   </Form.Text>
-                  <Form.Group controlId="selectBaseProduct">
-                    <Select options={this.state.baseProducts} onChange={(e) => this.handleBaseProducts(e)}/>
+                  <Form.Group controlId="selectProductAddress">
+                    <Form.Control 
+                    placeholder="0x1dF62f291b2E969fB0849d99D9Ce41e2F137006e" 
+                    pattern="0x[A-za-z0-9]{40}" 
+                    onChange={(e) => this.handleChange(e)}/>
                   </Form.Group>
                 </Col>
-              : <Col>
-                  <Form.Text className="text-muted">&nbsp;</Form.Text>
-                  <Form.Group controlId="selectBaseProduct">&nbsp;</Form.Group>
-                </Col>}
+                : [
+                  (<Col>
+                    <Form.Text className="text-muted">
+                      Choose your manufacturer
+                </Form.Text>
+                    <Form.Group controlId="selectManufacturer">
+                      <Select options={this.state.manufacturers} onChange={(e) => this.handleManufacturers(e)} />
+                    </Form.Group>
+                  </Col>)
+                  ,(this.state.manufacturer !== "" ?
+                  <Col>
+                    <Form.Text className="text-muted">
+                      Choose your product
+                  </Form.Text>
+                    <Form.Group controlId="selectBaseProduct">
+                      <Select options={this.state.baseProducts} onChange={(e) => this.handleBaseProducts(e)} />
+                    </Form.Group>
+                  </Col>
+                  : (
+                    <Col>
+                      <Form.Text className="text-muted">&nbsp;</Form.Text>
+                      <Form.Group controlId="selectBaseProduct">&nbsp;</Form.Group>
+                    </Col>
+                  )
+                )]
+              }
               <Col>
                 <Form.Text className="text-muted">&nbsp;</Form.Text>
                 <InputGroup.Append>
-                  <Button variant="outline-secondary" onClick={e => this.search(e)}>Browse</Button>
+                  <Button variant="secondary" onClick={e => this.search(e)}>Browse</Button>
                 </InputGroup.Append>
               </Col>
-            </Row>    
-          </Form>
+            </Form.Group>
+          </div>
         </div>
         <div className="container">
           {this.state.products.length === 0 ? (
@@ -119,7 +157,7 @@ class Search extends React.Component {
                 {this.state.products.map((product) => {
                   return (
                     <Grid item xs={6} key={product.id} >
-                      <BaseProductCard productInfo={product} key={product.id}/>
+                      <BaseProductCard productInfo={product} key={product.id} />
                     </Grid>
                   )
                 })}

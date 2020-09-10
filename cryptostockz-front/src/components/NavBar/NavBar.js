@@ -52,7 +52,7 @@ class NavBar extends Component {
             {this.state.token !== undefined ? (
               <React.Fragment>
                 <Nav.Link href="/profile">Profile</Nav.Link>
-                <Nav.Link href="/products">Catalog</Nav.Link>
+                <Nav.Link href="/products">Catalogue</Nav.Link>
                 <Nav.Link href="/search">Search</Nav.Link>
               </React.Fragment>
             ) : null}
