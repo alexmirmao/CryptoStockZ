@@ -1,4 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Frontend
+
+## Description
+
+The Frontend makes all the functionalities of our application available to users, from their registration in the system to the creation and transfer of products (depending on their permissions).
+ 
+This visual component consists of a web application developed using the Javascript React library, which makes a series of elements available to the developer for the development of web interfaces. The basic philosophy of React is to create encapsulated components that manage their own state to turn them into complex user interfaces.
+Thus, the basic components for the actual operation of our system have been developed, whose translation in views can be seen in detail in section c. System operation.
+ 
+Apart from the components, the necessary calls have been developed for the interaction with both the Backend (BackendService.js) and the Smart Contracts (ContractService.js), specifically with the CryptoStockZ.sol contract.
+In this way, while the axios library has provided us with the necessary functions to launch queries to the Backend, the web3js library has provided us with operations related to the blockchain. Among them are the verification of having a web3 provider in the browser, the acquisition of the account in use in the installed wallet (in this case Metamask) and the execution of the functions available in the aforementioned Smart Contract.
+ 
+To conclude, Metamask has provided us with the necessary account management to be able to send transactions to the blockchain, in this case, our local Ganache network. For which the accounts available in said network have been imported in order to simulate the real operation of several users.
 
 ## Available Scripts
 
@@ -15,7 +27,6 @@ You will also see any lint errors in the console.
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -25,44 +36,4 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
