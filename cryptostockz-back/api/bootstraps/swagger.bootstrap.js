@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 
 var corsOptions = {
-  origin: config.env.WEBAPP_URL+":"+config.env.WEBAPP_PORT
+  origin: config.env.WEBAPP_URL+":3000"
+  // origin: config.env.WEBAPP_URL+":"+config.env.WEBAPP_PORT
 };
 
 
@@ -18,11 +19,6 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-// routes
-require('../routes/auth.routes')(app);
-require('../routes/user.routes')(app);
 
 
 // WEB API

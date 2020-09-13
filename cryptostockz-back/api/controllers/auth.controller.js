@@ -1,5 +1,6 @@
 const db = require("../models");
 const config = require("../../config/auth.config");
+const { session } = require("../middleware");
 const User = db.user;
 const Role = db.role;
 
@@ -8,12 +9,18 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+
 exports.signup = (req, res) => {
   // Save User to Database
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    name: req.body.name,
+    purchases: 0,
+    sales: 0,
+    level: 0,
+    password: bcrypt.hashSync(req.body.password, 8),
+    metamaskAccount: req.body.metamaskAccount, //Habrá que cogerla directamente desde el front con web3
   })
     .then(user => {
       if (req.body.roles) {
@@ -24,14 +31,18 @@ exports.signup = (req, res) => {
             }
           }
         }).then(roles => {
-          user.setRoles(roles).then(() => {
-            res.send({ message: "User was registered successfully!" });
+          //Seteo de los roles recibidos en el body
+          //y publico por defecto
+          user.setRoles(roles)
+          user.setPermissions([1]).then(() => {
+            res.status(200).send({ message: "User was registered successfully!" });
           });
         });
       } else {
-        // user role = 1
-        user.setRoles([1]).then(() => {
-          res.send({ message: "User was registered successfully!" });
+        //Rol de usuario base y perfil publico, ambos por defecto
+        user.setRoles([1])
+        user.setPermissions([1]).then(() => {
+          res.status(200).send({ message: "User was registered successfully!" });
         });
       }
     })
@@ -72,11 +83,12 @@ exports.signin = (req, res) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
+
+        // GENERATE COOKIE
+        session.sendUserIdCookie(user.id, res) 
         res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
           roles: authorities,
+          username: user.username,  
           accessToken: token
         });
       });
@@ -84,4 +96,11 @@ exports.signin = (req, res) => {
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
+};
+
+exports.signout = (req, res) => {
+  req.logout();
+  res.clearCookie('');
+  req.session.destroy();
+  res.redirect('/');
 };
