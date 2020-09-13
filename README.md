@@ -16,16 +16,22 @@ As can be seen, the project is divided into three parts:
 - Backend
 - Frontend
 
+### Smart Contracts
+
 Smart Contracts contain all the logic necessary for the generation, transfer and modification of digital products represented by [ERC721 tokens](https://docs.openzeppelin.com/contracts/2.x/api/token/erc721), that is, non-fungible assets (collectibles). In short, they contain the main logic of the Dapp.
 These functions, developed in the aforementioned Smart contracts, are translated into transactions within the chain of blocks where they have been deployed, giving rise to a record of the activities carried out and serving as storage for the corresponding digital products.
- 
-On the other hand, the backend is in charge of storing all the necessary information of the system, that is, both the information that does not have a place in the blockchain, such as user data, product templates and lists wishes, such as the data of digital products that have been previously generated through Smart contracts.
+
+### Backend
+
+The backend is in charge of storing all the necessary information of the system, that is, both the information that does not have a place in the blockchain, such as user data, product templates and lists wishes, such as the data of digital products that have been previously generated through Smart contracts.
 This redundancy of information on digital products between the database and the blockchain has been designed with the following objectives:
  
 - Provide a more agile data service to the frontend.
 - Allow users to save gas when making onchain data queries (in the blockchain).
  
 This design requires coordination between the database and the blockchain, which has been possible thanks to the events encoded in the Smart contracts. So when an interaction with the blockchain takes place, the resulting event is captured by the frontend to carry out the pertinent changes in the database.
- 
+
+### Frontend
+
 Finally, the frontend is the visual part of the system. Provides users with the ability to interact with the application and, thus, carry out all the operations that it makes available to them, such as viewing the products they own, the transfer of those products as appropriate or the generation of new products if they have the necessary permits.
 This component interacts, as has already been mentioned, both with the backend for the consultation and insertion of the data, as well as the Smart contracts deployed in the Blockchain for the creation, transfer and modification of the products.
