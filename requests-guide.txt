@@ -1,9 +1,0 @@
-.....................................................................
-createUser
-.....................................................................
-curl --location --request POST 'http://localhost:10010/user/' \
---header 'Content-Type: application/json' \
---data-raw '{
-    'userName': 'Usuario de prueba',
-    'userPass': 'password123',
-}'
