@@ -29,17 +29,17 @@ The main deployment script is located in the 'migrations' folder under the name 
 
 In this way, it is enough to carry out the following steps to put the testnet and contracts into operation:
 
-1- Start Ganache
+### Start Ganache
 ```bash
 ganache-cli --accounts 10 --defaultBalanceEther 100 --deterministic cryptostockz --port 8545 --allowUnlimitedContractSize
 ```
 
-2- Compile the contracts
+### Compile the contracts
 ```bash
 truffle compile
 ```
 
-3- Migrate contracts
+### Migrate contracts
 ```bash
 truffle migrate
 ```
